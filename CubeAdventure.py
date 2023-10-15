@@ -1,0 +1,44 @@
+import time
+import pygame
+
+from Game import Game
+from Levels.Level1 import Level1
+from Levels.Level2 import Level2
+from Levels.Level3 import Level3
+from Player import Player
+
+
+class CubeAdventure:
+    def start_game(self):
+        pygame.init()
+
+        level1 = Level3()
+        Game.curr_level = level1
+
+        player1 = Player(0, 0, 50, 50, (0, 0, 0), Player.CONTROL_TYPE_KEYBOARD, pygame.K_UP, pygame.K_LEFT, pygame.K_RIGHT)
+        player2 = Player(0, 0, 50, 50, (0, 0, 200), Player.CONTROL_TYPE_MOUSE, pygame.K_w, pygame.K_a, pygame.K_d)
+        #player3 = Player(0, 0, 50, 50, (200, 0, 0), pygame.K_u, pygame.K_h, pygame.K_k)
+        Game.players = [player1, player2]
+
+        frames = 0
+        surface = pygame.display.set_mode([Game.SCREEN_WIDTH, Game.SCREEN_HEIGHT])
+        while True:
+            surface.fill(Game.BACKGROUND_COLOR)
+
+            # Draw players
+            for p in Game.players:
+                p.draw_player(surface)
+
+            # Draw bars
+            for b in Game.curr_level.bar_list:
+                pygame.draw.rect(surface, b.bar_color, pygame.Rect((b.bar_x, b.bar_y), (b.bar_width, b.bar_height)))
+
+            # Update players
+            events = pygame.event.get()
+            for p in Game.players:
+                p.process_key_events(events)
+                p.update_player_position()
+
+            pygame.display.flip()
+            time.sleep(1 / 60)
+            frames = frames + 1
