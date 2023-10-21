@@ -74,6 +74,7 @@ class Player:
             for event in events:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     self.change_gravity()
+
     def process_hit(self):
         self.player_y_speed = self.player_y_speed - 2
         self.player_y_speed = -self.player_y_speed
@@ -102,16 +103,7 @@ class Player:
                     self.player_x = b1.bar_x - self.player_width
                 if delta_x < 0:
                     self.player_x = b1.bar_x + b1.bar_width
-                if b1.bar_type == Bar.TYPE_DANGER:
-                    Game.curr_level.restart(self)
-                if b1.bar_type == Bar.TYPE_SPHERE:
-                    self.player_y_speed = self.player_y_speed * 1.5
-                    if self.player_y_speed > 10:
-                        self.player_y_speed = 10
-                    if self.player_y_speed < -10:
-                        self.player_y_speed = -10
-                if b1.bar_type == Bar.TYPE_BLUE_SPHERE:
-                    self.change_gravity()
+                self.process_bar_collision(b1)
 
         self.player_y = self.player_y + delta_y
         for b1 in Game.curr_level.bar_list:
@@ -123,16 +115,7 @@ class Player:
                 if delta_y < 0:
                     self.player_y = b1.bar_y + b1.bar_height
                     self.process_hit()
-                if b1.bar_type == Bar.TYPE_DANGER:
-                    Game.curr_level.restart(self)
-                if b1.bar_type == Bar.TYPE_SPHERE:
-                    self.player_y_speed = self.player_y_speed * 1.5
-                    if self.player_y_speed > 10:
-                        self.player_y_speed = 10
-                    if self.player_y_speed < -10:
-                        self.player_y_speed = -10
-                if b1.bar_type == Bar.TYPE_BLUE_SPHERE:
-                    self.change_gravity()
+                self.process_bar_collision(b1)
 
         self.player_y_speed = self.player_y_speed + self.ACCELERATION
 
@@ -159,3 +142,18 @@ class Player:
         if self.player_y == 550 and self.player_x == 750:
             Game.curr_level = Game.curr_level.get_next_level()
             Game.curr_level.restartAll()
+
+    def process_bar_collision(self, bar):
+        if bar.bar_type == Bar.TYPE_DANGER:
+            Game.curr_level.restart(self)
+        if bar.bar_type == Bar.TYPE_SPHERE:
+            self.player_y_speed = self.player_y_speed * 1.5
+            if self.player_y_speed > 10:
+                self.player_y_speed = 10
+            if self.player_y_speed < -10:
+                self.player_y_speed = -10
+        if bar.bar_type == Bar.TYPE_BLUE_SPHERE:
+            self.change_gravity()
+        if bar.bar_type == Bar.TYPE_PORTAL_1:
+            self.player_x = bar.teleport_to.bar_x
+            self.player_y = bar.teleport_to.bar_y

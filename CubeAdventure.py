@@ -12,7 +12,7 @@ class CubeAdventure:
     def start_game(self):
         pygame.init()
 
-        level1 = Level3()
+        level1 = Level1()
         Game.curr_level = level1
 
         player1 = Player(0, 0, 50, 50, (0, 0, 0), Player.CONTROL_TYPE_KEYBOARD, pygame.K_UP, pygame.K_LEFT, pygame.K_RIGHT)
