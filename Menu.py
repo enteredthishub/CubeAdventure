@@ -1,4 +1,5 @@
 import pygame
+import socket
 
 from CubeAdventure import CubeAdventure
 from Game import Game
@@ -7,6 +8,8 @@ SINGLE_PLAYER_BUTTON_WIDTH = 270
 
 
 pygame.init()
+
+server = True
 
 screen = pygame.display.set_mode((Game.SCREEN_WIDTH, Game.SCREEN_HEIGHT))
 
@@ -30,8 +33,28 @@ while True:
 
         if ev.type == pygame.MOUSEBUTTONDOWN:
             if Game.SCREEN_WIDTH / 2-SINGLE_PLAYER_BUTTON_WIDTH/2 <= mouse[0] <= Game.SCREEN_WIDTH / 2 + SINGLE_PLAYER_BUTTON_WIDTH-SINGLE_PLAYER_BUTTON_WIDTH/2 and Game.SCREEN_HEIGHT / 2 <= mouse[1] <= Game.SCREEN_HEIGHT / 2 + 40:
-                cubeAdventure = CubeAdventure()
-                cubeAdventure.start_game()
+                if server:
+                    # create server
+                    # listen for connection
+                    # receive data
+                    # print data
+                    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                    s.bind(("192.168.50.2", 45001))
+                    s.listen()
+                    conn, addr = s.accept()
+                    print("New client from " + addr[0])
+                    data = conn.recv(1024)
+                    print("New data from client " + str(data))
+                else:
+                    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                    s.connect(("93.182.6.25", 45001))
+                    s.sendall(b"hello")
+                    # connect to server
+                    # send data
+
+
+                #cubeAdventure = CubeAdventure()
+                #cubeAdventure.start_game()
  
     screen.fill(color_background)
 
