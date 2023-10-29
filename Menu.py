@@ -1,29 +1,51 @@
 import pygame
 import socket
 
+from Button import Button
 from CubeAdventure import CubeAdventure
 from Game import Game
 
-SINGLE_PLAYER_BUTTON_WIDTH = 270
-
-
 pygame.init()
 
-server = True
+
+def quit_game():
+    pygame.quit()
+
+
+def create_server():
+    # create server
+    # listen for connection
+    # receive data
+    # print data
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.bind(("192.168.50.2", 45001))
+    s.listen()
+    conn, addr = s.accept()
+    print("New client from " + addr[0])
+    data = conn.recv(1024)
+    print("New data from client " + str(data))
+
+
+def create_client():
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.connect(("93.182.6.25", 45001))
+    s.sendall(b"hello")
+    # connect to server
+    # send data
+
+
+def start_single_game():
+    cubeAdventure = CubeAdventure()
+    cubeAdventure.start_game()
+
+
+buttons_list = [Button('Single player', 400, 300, 270, start_single_game),
+                Button('Multiplayer', 400, 400, 270, None),
+                Button('Quit', 400, 500, 270, quit_game)]
 
 screen = pygame.display.set_mode((Game.SCREEN_WIDTH, Game.SCREEN_HEIGHT))
 
-text_color = (0, 0, 0)
-color_light = (170, 170, 170)
-color_dark = (100, 100, 100)
 color_background = (255, 255, 255)
-
-
-
-# defining a font
-smallfont = pygame.font.SysFont('dejavuserif', 30)
-print(pygame.font.get_fonts())
-text = smallfont.render('Single player', True, text_color)
 
 while True:
     mouse = pygame.mouse.get_pos()
@@ -32,37 +54,19 @@ while True:
             pygame.quit()
 
         if ev.type == pygame.MOUSEBUTTONDOWN:
-            if Game.SCREEN_WIDTH / 2-SINGLE_PLAYER_BUTTON_WIDTH/2 <= mouse[0] <= Game.SCREEN_WIDTH / 2 + SINGLE_PLAYER_BUTTON_WIDTH-SINGLE_PLAYER_BUTTON_WIDTH/2 and Game.SCREEN_HEIGHT / 2 <= mouse[1] <= Game.SCREEN_HEIGHT / 2 + 40:
-                if server:
-                    # create server
-                    # listen for connection
-                    # receive data
-                    # print data
-                    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                    s.bind(("192.168.50.2", 45001))
-                    s.listen()
-                    conn, addr = s.accept()
-                    print("New client from " + addr[0])
-                    data = conn.recv(1024)
-                    print("New data from client " + str(data))
-                else:
-                    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                    s.connect(("93.182.6.25", 45001))
-                    s.sendall(b"hello")
-                    # connect to server
-                    # send data
+            for button in buttons_list:
+                if button.button_x <= mouse[0] <= button.button_x + button.button_width and button.button_y <= mouse[1] <= button.button_y + button.button_height:
+                    button.press_function()
 
-
-                #cubeAdventure = CubeAdventure()
-                #cubeAdventure.start_game()
- 
     screen.fill(color_background)
 
-    if Game.SCREEN_WIDTH / 2-SINGLE_PLAYER_BUTTON_WIDTH/2 <= mouse[0] <= Game.SCREEN_WIDTH / 2 + SINGLE_PLAYER_BUTTON_WIDTH and Game.SCREEN_HEIGHT / 2 <= mouse[1] <= Game.SCREEN_HEIGHT / 2 + 40:
-        pygame.draw.rect(screen, color_light, [Game.SCREEN_WIDTH / 2-SINGLE_PLAYER_BUTTON_WIDTH/2, Game.SCREEN_HEIGHT / 2, SINGLE_PLAYER_BUTTON_WIDTH, 40])
-    else:
-        pygame.draw.rect(screen, color_dark, [Game.SCREEN_WIDTH / 2-SINGLE_PLAYER_BUTTON_WIDTH/2, Game.SCREEN_HEIGHT / 2, SINGLE_PLAYER_BUTTON_WIDTH, 40])
-
-    screen.blit(text, (Game.SCREEN_WIDTH / 2 + 40-SINGLE_PLAYER_BUTTON_WIDTH/2, Game.SCREEN_HEIGHT / 2))
+    for button in buttons_list:
+        if button.button_x <= mouse[0] <= button.button_x + button.button_width and button.button_y <= mouse[1] <= button.button_y + button.button_height:
+            pygame.draw.rect(screen, button.color_light, [button.button_x, button.button_y, button.button_width, button.button_height])
+        else:
+            pygame.draw.rect(screen, button.color_dark, [button.button_x, button.button_y, button.button_width, button.button_height])
+        smallfont = pygame.font.SysFont(button.font_name, button.font_size)
+        text = smallfont.render(button.text, True, button.text_color)
+        screen.blit(text, (button.button_x, button.button_y))
 
     pygame.display.update()
