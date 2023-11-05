@@ -1,4 +1,7 @@
-class Button:
+from Menus.MenuItems.MenuItem import MenuItem
+
+
+class Button(MenuItem):
     button_width = 270
     button_height = 50
     button_x = 0
