@@ -11,6 +11,11 @@ pygame.init()
 
 class MenuMultiplayer(Menu):
 
+    def __init__(self):
+        self.menu_item_list = [Button('Create server', 245, 200, 310, self.create_server),
+                          Button('Connect to server', 245, 300, 310, self.open_connect_to_server_menu),
+                          Button('Back', 245, 400, 310, self.close_menu)]
+
     def create_server(self):
         # create server
         # listen for connection
@@ -28,8 +33,7 @@ class MenuMultiplayer(Menu):
         ConnectToServer = MenuConnectToServer()
         ConnectToServer.draw_menu()
 
+
+
     def get_menu_items_list(self):
-        menu_item_list = [Button('Create server', 245, 200, 310, self.create_server),
-                        Button('Connect to server', 245, 300, 310, self.open_connect_to_server_menu),
-                        Button('Back', 245, 400, 310, self.close_menu)]
-        return menu_item_list
+        return self.menu_item_list

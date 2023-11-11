@@ -10,6 +10,12 @@ pygame.init()
 
 
 class MainMenu(Menu):
+
+    def __init__(self):
+        self.menu_items_list = [Button('Single player', 265, 200, 270, self.start_single_game),
+                           Button('Multiplayer', 265, 300, 270, self.open_multiplayer_menu),
+                           Button('Quit', 265, 400, 270, self.quit_game)]
+
     def quit_game(self):
         pygame.quit()
 
@@ -29,11 +35,9 @@ class MainMenu(Menu):
         menumultiplayer = MenuMultiplayer()
         menumultiplayer.draw_menu()
 
+
     def get_menu_items_list(self):
-        menu_items_list = [Button('Single player', 265, 200, 270, self.start_single_game),
-                        Button('Multiplayer', 265, 300, 270, self.open_multiplayer_menu),
-                        Button('Quit', 265, 400, 270, self.quit_game)]
-        return menu_items_list
+        return self.menu_items_list
 
 mainMenu = MainMenu()
 mainMenu.draw_menu()

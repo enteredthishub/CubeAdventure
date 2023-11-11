@@ -1,3 +1,6 @@
 class MenuItem:
-    pass
+    def draw(self, screen):
+        pass
 
+    def handle_input(self, ev):
+        pass
