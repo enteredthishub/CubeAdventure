@@ -40,7 +40,10 @@ class Button(MenuItem):
         screen.blit(textRender, (self.button_x + (self.button_width - textRender.get_width()) / 2, self.button_y + (self.button_height - textRender.get_height()) / 2))
 
     def handle_input(self, ev):
+        input_handled = False
         if ev.type == pygame.MOUSEBUTTONDOWN:
             if self.button_x <= mouse.get_pos()[0] <= self.button_x + self.button_width and self.button_y <= mouse.get_pos()[1] <= self.button_y + self.button_height:
                 self.press_function()
+                input_handled = True
+        return input_handled
     

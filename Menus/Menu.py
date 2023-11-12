@@ -23,7 +23,9 @@ class Menu:
                     pygame.quit()
 
                 for menu_item in self.get_menu_items_list():
-                    menu_item.handle_input(ev)
+                    input_handled = menu_item.handle_input(ev)
+                    if input_handled:
+                        break
 
             self.screen.fill(self.color_background)
 
