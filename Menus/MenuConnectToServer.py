@@ -13,7 +13,7 @@ pygame.init()
 class MenuConnectToServer(Menu):
     def __init__(self):
         self.menu_items_list = [TextField('Enter IP address of the server', 180, 100),
-                           InputBox(200, 200, 250, 70, "93.182.6.25"),
+                           InputBox(265, 200, 270, 45, "93.182.6.25"),
                            Button('Connect', 265, 300, 270, self.create_client),
                            Button('Back', 265, 400, 270, self.close_menu)]
 
