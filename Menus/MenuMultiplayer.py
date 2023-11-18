@@ -30,7 +30,7 @@ class MenuMultiplayer(Menu):
         s.listen()
         conn, addr = s.accept()
         print("New client from " + addr[0])
-        conn.sendall(Game.curr_level.levelNumber)
+        conn.sendall(Game.curr_level.levelNumber.to_bytes(2, 'big'))
         #data = conn.recv(1024)
         #print("New data from client " + str(data))
 
@@ -40,8 +40,8 @@ class MenuMultiplayer(Menu):
 
     def start_game_as_server(self):
         cubeAdventure = CubeAdventure()
-        cubeAdventure.start_game()
         self.create_server_thread()
+        cubeAdventure.start_game()
 
     def open_connect_to_server_menu(self):
         ConnectToServer = MenuConnectToServer()
