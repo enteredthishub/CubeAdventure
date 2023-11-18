@@ -3,6 +3,8 @@ from Levels.Level import Level
 
 
 class Level3(Level):
+    levelNumber = 2
+
     teleport_to1 = Bar(750, 400, 50, 50, (100, 75, 255), Bar.TYPE_PORTAL_2)
     bar_list = [Bar(0, 300, 150, 50, (200, 155, 200)),
                 Bar(0, 550, 700, 50, (200, 0, 0), Bar.TYPE_DANGER),

@@ -2,6 +2,7 @@ from Game import Game
 
 
 class Level:
+    levelNumber = None
     bar_list = []
 
     def restartAll(self):

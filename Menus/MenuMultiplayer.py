@@ -3,6 +3,7 @@ from threading import Thread
 
 import pygame
 
+from CubeAdventure import CubeAdventure
 from Game import Game
 from Menus.MenuItems.Button import Button
 from Menus.Menu import Menu
@@ -14,7 +15,7 @@ pygame.init()
 class MenuMultiplayer(Menu):
 
     def __init__(self):
-        self.menu_item_list = [Button('Create server', 245, 200, 310, self.create_server_thread),
+        self.menu_item_list = [Button('Create server', 245, 200, 310, self.start_game_as_server),
                           Button('Connect to server', 245, 300, 310, self.open_connect_to_server_menu),
                           Button('Back', 245, 400, 310, self.close_menu)]
 
@@ -29,13 +30,18 @@ class MenuMultiplayer(Menu):
         s.listen()
         conn, addr = s.accept()
         print("New client from " + addr[0])
-        conn.sendall(Game.curr_level)
+        conn.sendall(Game.curr_level.levelNumber)
         #data = conn.recv(1024)
         #print("New data from client " + str(data))
 
     def create_server_thread(self):
         thread = Thread(target=self.create_server, args=[])
         thread.start()
+
+    def start_game_as_server(self):
+        cubeAdventure = CubeAdventure()
+        cubeAdventure.start_game()
+        self.create_server_thread()
 
     def open_connect_to_server_menu(self):
         ConnectToServer = MenuConnectToServer()

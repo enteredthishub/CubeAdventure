@@ -4,6 +4,8 @@ from Levels.Level2 import Level2
 
 
 class Level1(Level):
+    levelNumber = 0
+
     bar_list = [Bar(0, 300, 150, 50, (200, 155, 0)),
                 Bar(100, 100, 50, 200, (0, 200, 0)),
                 Bar(200, 0, 50, 50, (0, 200, 0)),
