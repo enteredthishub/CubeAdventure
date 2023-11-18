@@ -3,6 +3,7 @@ from threading import Thread
 
 import pygame
 
+from Game import Game
 from Menus.MenuItems.Button import Button
 from Menus.Menu import Menu
 from Menus.MenuConnectToServer import MenuConnectToServer
@@ -28,11 +29,12 @@ class MenuMultiplayer(Menu):
         s.listen()
         conn, addr = s.accept()
         print("New client from " + addr[0])
-        data = conn.recv(1024)
-        print("New data from client " + str(data))
+        conn.sendall(Game.curr_level)
+        #data = conn.recv(1024)
+        #print("New data from client " + str(data))
 
     def create_server_thread(self):
-        thread = Thread(target=self.create_server(), args=[])
+        thread = Thread(target=self.create_server, args=[])
         thread.start()
 
     def open_connect_to_server_menu(self):
