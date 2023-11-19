@@ -1,3 +1,4 @@
+
 class Game:
     # Screen: 1920x1200
     SCREEN_WIDTH = 800

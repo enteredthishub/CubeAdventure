@@ -9,11 +9,11 @@ from Player import Player
 
 
 class CubeAdventure:
+    levels = [Level1(), Level2(), Level3()]
     def start_game(self):
         pygame.init()
 
-        level1 = Level1()
-        Game.curr_level = level1
+        Game.curr_level = self.levels[1]
 
         player1 = Player(0, 0, 50, 50, (0, 0, 0), Player.CONTROL_TYPE_KEYBOARD, pygame.K_UP, pygame.K_LEFT, pygame.K_RIGHT)
         player2 = Player(0, 0, 50, 50, (0, 0, 200), Player.CONTROL_TYPE_MOUSE, pygame.K_w, pygame.K_a, pygame.K_d)
