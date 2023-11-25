@@ -9,6 +9,7 @@ from Game import Game
 class Player:
     CONTROL_TYPE_KEYBOARD = 0
     CONTROL_TYPE_MOUSE = 1
+    CONTROL_TYPE_INTERNET = 2
     ACCELERATION = 0.2
     X_SPEED = 5
 
