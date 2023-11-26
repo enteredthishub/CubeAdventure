@@ -26,8 +26,8 @@ class Server:
         while True:
             conn.sendall(len(Game.players).to_bytes(2, 'big'))
             for p in Game.players:
-                conn.sendall((p.player_x).to_bytes(2, 'big'))
-                conn.sendall((p.player_y).to_bytes(2, 'big'))
+                conn.sendall(int(p.player_x).to_bytes(2, 'big'))
+                conn.sendall(int(p.player_y).to_bytes(2, 'big'))
             time.sleep(0.01)
 
     def __init__(self):
