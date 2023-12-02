@@ -15,12 +15,12 @@ class Client:
         data = s.recv(2)
         print("Current level: " + str(data))
         Game.curr_level = CubeAdventure.levels[int.from_bytes(data, "big")]
-        self.receive_player_coords(s)
+        self.send_and_receive_player_coords(s)
         #s.sendall(b"hello")
 
     initialized = False
     internet_players = []
-    def receive_player_coords(self, s):
+    def send_and_receive_player_coords(self, s):
         while True:
             data = s.recv(2)
             number_of_players = int.from_bytes(data, "big")
@@ -41,6 +41,12 @@ class Client:
                 player_y = int.from_bytes(data, "big")
                 ip.player_y = player_y
                 print("player_y: " + str(player_y))
+            self.send_player_coords(s)
+
+    def send_player_coords(self, s):
+        p = Game.players[0]
+        s.sendall(int(p.player_x).to_bytes(2, 'big'))
+        s.sendall(int(p.player_y).to_bytes(2, 'big'))
 
     def __init__(self):
         thread = Thread(target=self.create_client, args=[])
