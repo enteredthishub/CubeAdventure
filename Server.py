@@ -33,7 +33,7 @@ class Server:
                 conn.sendall(int(p.player_x).to_bytes(2, 'big'))
                 conn.sendall(int(p.player_y).to_bytes(2, 'big'))
             self.receive_player_coords(conn)
-            time.sleep(0.01)
+            #time.sleep(0.001)
 
     def receive_player_coords(self, s):
         data = s.recv(2)

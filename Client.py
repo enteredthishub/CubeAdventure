@@ -24,7 +24,6 @@ class Client:
         while True:
             data = s.recv(2)
             number_of_players = int.from_bytes(data, "big")
-            print("Number of players: " + str(number_of_players))
             if not self.initialized:
                 for n in range(0, number_of_players):
                     player = Player(0, 0, 50, 50, (0, 0, 0), Player.CONTROL_TYPE_INTERNET, None, None, None)
