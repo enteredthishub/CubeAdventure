@@ -16,9 +16,9 @@ class CubeAdventure:
         Game.curr_level = self.levels[0]
 
         player1 = Player(0, 0, 50, 50, (0, 0, 0), Player.CONTROL_TYPE_KEYBOARD, pygame.K_UP, pygame.K_LEFT, pygame.K_RIGHT)
-        player2 = Player(0, 0, 50, 50, (0, 0, 200), Player.CONTROL_TYPE_MOUSE, pygame.K_w, pygame.K_a, pygame.K_d)
+        #player2 = Player(0, 0, 50, 50, (0, 0, 200), Player.CONTROL_TYPE_MOUSE, pygame.K_w, pygame.K_a, pygame.K_d)
         #player3 = Player(0, 0, 50, 50, (200, 0, 0), pygame.K_u, pygame.K_h, pygame.K_k)
-        Game.players = [player1, player2]
+        Game.players = [player1]
 
         frames = 0
         surface = pygame.display.set_mode([Game.SCREEN_WIDTH, Game.SCREEN_HEIGHT])

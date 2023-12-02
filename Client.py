@@ -36,11 +36,9 @@ class Client:
                 data = s.recv(2)
                 player_x = int.from_bytes(data, "big")
                 ip.player_x = player_x
-                print("player_x: " + str(player_x))
                 data = s.recv(2)
                 player_y = int.from_bytes(data, "big")
                 ip.player_y = player_y
-                print("player_y: " + str(player_y))
             self.send_player_coords(s)
 
     def send_player_coords(self, s):
