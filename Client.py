@@ -1,4 +1,5 @@
 import socket
+import time
 from threading import Thread
 
 
@@ -15,6 +16,7 @@ class Client:
         data = s.recv(2)
         print("Current level: " + str(data))
         Game.curr_level = CubeAdventure.levels[int.from_bytes(data, "big")]
+        self.send_player_coords_thread(s)
         self.send_and_receive_player_coords(s)
         #s.sendall(b"hello")
 
@@ -38,15 +40,20 @@ class Client:
                 data = s.recv(2)
                 player_y = int.from_bytes(data, "big")
                 ip.player_y = player_y
-            self.send_player_coords(s)
 
     def send_player_coords(self, s):
         p = Game.players[0]
-        s.sendall(int(p.player_x).to_bytes(2, 'big'))
-        s.sendall(int(p.player_y).to_bytes(2, 'big'))
+        while True:
+            s.sendall(int(p.player_x).to_bytes(2, 'big'))
+            s.sendall(int(p.player_y).to_bytes(2, 'big'))
+            time.sleep(0.01)
 
     def __init__(self):
         thread = Thread(target=self.create_client, args=[])
+        thread.start()
+
+    def send_player_coords_thread(self, s):
+        thread = Thread(target=self.send_player_coords, args=[s])
         thread.start()
 
 
