@@ -84,6 +84,8 @@ class Player:
         pygame.draw.rect(draw_surface, self.player_color, pygame.Rect((self.player_x, self.player_y), (self.player_width, self.player_height)))
 
     def update_player_position(self):
+        if self.control_type == Player.CONTROL_TYPE_INTERNET:
+            return
         delta_x = 0
         delta_y = 0
         if self.player_moving_left:

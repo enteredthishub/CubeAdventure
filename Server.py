@@ -44,6 +44,7 @@ class Server:
             data = s.recv(2)
             player_y = int.from_bytes(data, "big")
             self.client_player.player_y = player_y
+            #print(str(time.time()) + ": " + str(player_x) + ", " + str(player_y))
 
     def __init__(self):
         thread = Thread(target=self.create_server, args=[])
