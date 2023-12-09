@@ -4,6 +4,7 @@ from Game import Game
 class Level:
     levelNumber = None
     bar_list = []
+    bullet_list = []
 
     def restartAll(self):
         for p in Game.players:
