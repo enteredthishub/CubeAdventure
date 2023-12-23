@@ -3,6 +3,7 @@ import time
 import pygame
 
 from Bar import Bar
+from Bullet import Bullet
 from Game import Game
 
 
@@ -64,6 +65,10 @@ class Player:
                         self.player_moving_left = False
                     if event.key == self.button_right:
                         self.player_moving_right = False
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    mouse = pygame.mouse.get_pos()
+                    bullet = Bullet(bullet_x=self.player_x, bullet_y=self.player_y, bullet_target_x=mouse[0], bullet_target_y=mouse[0], bullet_speed=2, bullet_color=self.player_color)
+                    Game.curr_level.bullet_list = Game.curr_level.bullet_list + [bullet]
         elif self.control_type == Player.CONTROL_TYPE_MOUSE:
             mouse = pygame.mouse.get_pos()
             if mouse[0] > self.player_x + 25:
