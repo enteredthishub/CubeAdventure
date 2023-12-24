@@ -1,7 +1,7 @@
 class Bullet:
     BULLET_ACTION_GRAVITY = 0
-    bullet_x = 0
-    bullet_y = 0
+    bullet_x = 0.0
+    bullet_y = 0.0
     bullet_radius = 0
     bullet_color = (200, 0, 0)
     bullet_action = 0
@@ -19,5 +19,11 @@ class Bullet:
         self.bullet_target_y = bullet_target_y
         self.bullet_speed = bullet_speed
 
+    x_diff = 1.0
+    y_diff = -1.0
     def draw_bullet(self, pygame, surface):
+        if self.y_diff == -1.0:
+            self.y_diff = (self.bullet_target_y - self.bullet_y)/(self.bullet_target_x - self.bullet_x)
+        self.bullet_x += self.x_diff
+        self.bullet_y += self.y_diff
         pygame.draw.circle(surface, self.bullet_color, (self.bullet_x, self.bullet_y), self.bullet_radius)
