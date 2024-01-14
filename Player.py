@@ -67,7 +67,8 @@ class Player:
                         self.player_moving_right = False
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     mouse = pygame.mouse.get_pos()
-                    bullet = Bullet(bullet_x=self.player_x, bullet_y=self.player_y, bullet_target_x=mouse[0], bullet_target_y=mouse[1], bullet_speed=10, bullet_color=self.player_color)
+                    bullet = Bullet(bullet_originator=self, bullet_x=self.player_x, bullet_y=self.player_y, bullet_target_x=mouse[0], bullet_target_y=mouse[1], bullet_speed=10, bullet_color=self.player_color)
+                    # TODO: Create Weapon class that will be responsible for shooting time delay, number of bullets and reloading
                     Game.curr_level.bullet_list.append(bullet)
         elif self.control_type == Player.CONTROL_TYPE_MOUSE:
             mouse = pygame.mouse.get_pos()

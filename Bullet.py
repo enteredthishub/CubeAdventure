@@ -1,8 +1,11 @@
 import math
 
+from Game import Game
+
 
 class Bullet:
     BULLET_ACTION_GRAVITY = 0
+    bullet_originator = None
     bullet_x = 0.0
     bullet_y = 0.0
     bullet_radius = 0
@@ -12,7 +15,8 @@ class Bullet:
     bullet_target_y = 0
     bullet_speed = 20
 
-    def __init__(self, bullet_x, bullet_y, bullet_target_x, bullet_target_y, bullet_speed, bullet_color, bullet_radius=5, bullet_action=BULLET_ACTION_GRAVITY):
+    def __init__(self, bullet_originator, bullet_x, bullet_y, bullet_target_x, bullet_target_y, bullet_speed, bullet_color, bullet_radius=5, bullet_action=BULLET_ACTION_GRAVITY):
+        self.bullet_originator = bullet_originator
         self.bullet_x = bullet_x
         self.bullet_y = bullet_y
         self.bullet_color = bullet_color
@@ -27,6 +31,8 @@ class Bullet:
     def draw_bullet(self, pygame, surface):
         if self.y_diff == -1.0:
             self.y_diff = (self.bullet_target_y - self.bullet_y)/(self.bullet_target_x - self.bullet_x)
+            # FIXME: self.y_diff = (self.bullet_target_y - self.bullet_y)/(self.bullet_target_x - self.bullet_x)
+            # ZeroDivisionError: division by zero
             c = math.sqrt(self.x_diff*self.x_diff + self.y_diff*self.y_diff)
             proportion = self.bullet_speed/c
             self.x_diff *= proportion
@@ -37,3 +43,15 @@ class Bullet:
         self.bullet_x += self.x_diff
         self.bullet_y += self.y_diff
         pygame.draw.circle(surface, self.bullet_color, (self.bullet_x, self.bullet_y), self.bullet_radius)
+        self.process_collisions()
+
+
+    def process_collisions(self):
+        for p in Game.players:
+            if p == self.bullet_originator:
+                continue
+            is_collided = p.player_x - (self.bullet_radius *2) < self.bullet_x < p.player_x + p.player_width and p.player_y - (self.bullet_radius * 2) < self.bullet_y < p.player_y + p.player_height
+            if is_collided:
+                print('Get ' + str(p.player_color))
+                Game.curr_level.bullet_list.remove(self)
+                p.change_gravity()
