@@ -39,8 +39,8 @@ class Server:
                         conn.sendall(int(1).to_bytes(2, 'big'))
                         conn.sendall(int(bullet.bullet_x).to_bytes(2, 'big'))
                         conn.sendall(int(bullet.bullet_y).to_bytes(2, 'big'))
-                        conn.sendall(int(bullet.target_x).to_bytes(2, 'big'))
-                        conn.sendall(int(bullet.target_y).to_bytes(2, 'big'))
+                        conn.sendall(int(bullet.bullet_target_x).to_bytes(2, 'big'))
+                        conn.sendall(int(bullet.bullet_target_y).to_bytes(2, 'big'))
                         conn.sendall(int(bullet.bullet_speed).to_bytes(2, 'big'))
                     else:
                         conn.sendall(int(0).to_bytes(2, 'big'))
