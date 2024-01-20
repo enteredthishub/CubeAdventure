@@ -83,14 +83,14 @@ class Player:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     self.change_gravity()
 
-    def shoot(self, player_x, player_y, x, y, bullet_speed):
+    def shoot_from_position(self, player_x, player_y, x, y, bullet_speed):
         bullet = Bullet(bullet_originator=self, bullet_x=player_x, bullet_y=player_y, bullet_target_x=x, bullet_target_y=y, bullet_speed=bullet_speed, bullet_color=self.player_color)
         # TODO: Create Weapon class that will be responsible for shooting time delay, number of bullets and reloading
         Game.curr_level.bullet_list.append(bullet)
         self.bullet_list.append(bullet)
 
     def shoot(self, x, y):
-        self.shoot(self.player_x, self.player_y, x, y, 10)
+        self.shoot_from_position(self.player_x, self.player_y, x, y, 10)
 
     def process_hit(self):
         self.player_y_speed = self.player_y_speed - 2
