@@ -48,7 +48,7 @@ class Server:
 
     prev_bullet = None
     def get_last_bullet(self, p):
-        if p.bullet_list[-1] != self.prev_bullet:
+        if len(p.bullet_list) > 0 and p.bullet_list[-1] != self.prev_bullet:
             self.prev_bullet = p.bullet_list[-1]
             return p.bullet_list[-1]
         else:
