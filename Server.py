@@ -34,7 +34,26 @@ class Server:
                 if p.control_type != Player.CONTROL_TYPE_INTERNET:
                     conn.sendall(int(p.player_x).to_bytes(2, 'big'))
                     conn.sendall(int(p.player_y).to_bytes(2, 'big'))
+                    bullet = self.get_last_bullet(p)
+                    if bullet != None:
+                        conn.sendall(int(1).to_bytes(2, 'big'))
+                        conn.sendall(int(bullet.bullet_x).to_bytes(2, 'big'))
+                        conn.sendall(int(bullet.bullet_y).to_bytes(2, 'big'))
+                        conn.sendall(int(bullet.target_x).to_bytes(2, 'big'))
+                        conn.sendall(int(bullet.target_y).to_bytes(2, 'big'))
+                        conn.sendall(int(bullet.bullet_speed).to_bytes(2, 'big'))
+                    else:
+                        conn.sendall(int(0).to_bytes(2, 'big'))
             time.sleep(0.01)
+
+    prev_bullet = None
+    def get_last_bullet(self, p):
+        if p.bullet_list[-1] != self.prev_bullet:
+            self.prev_bullet = p.bullet_list[-1]
+            return p.bullet_list[-1]
+        else:
+            return None
+
 
     def receive_player_coords(self, s):
         while True:

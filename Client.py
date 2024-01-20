@@ -40,6 +40,14 @@ class Client:
                 data = s.recv(2)
                 player_y = int.from_bytes(data, "big")
                 ip.player_y = player_y
+                data = s.recv(2)
+                flag = int.from_bytes(data, "big")
+                if flag == 1:
+                    ip.shoot(self.get_int(s), self.get_int(s), self.get_int(s), self.get_int(s), self.get_int(s))
+
+    def get_int(self, s):
+        data = s.recv(2)
+        return int.from_bytes(data, "big")
 
     def send_player_coords(self, s):
         p = Game.players[0]
