@@ -35,7 +35,8 @@ class Server:
                     conn.sendall(int(p.player_x).to_bytes(2, 'big'))
                     conn.sendall(int(p.player_y).to_bytes(2, 'big'))
                     bullet = self.get_last_bullet(p)
-                    if bullet != None:
+                    if bullet != None and bullet.bullet_x > 0 and bullet.bullet_y > 0:
+                        #print("x: " + str(bullet.bullet_x) + " y: " + str(bullet.bullet_y))
                         conn.sendall(int(1).to_bytes(2, 'big'))
                         conn.sendall(int(bullet.bullet_x).to_bytes(2, 'big'))
                         conn.sendall(int(bullet.bullet_y).to_bytes(2, 'big'))

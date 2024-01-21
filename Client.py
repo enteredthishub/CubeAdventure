@@ -43,7 +43,7 @@ class Client:
                 data = s.recv(2)
                 flag = int.from_bytes(data, "big")
                 if flag == 1:
-                    ip.shoot(self.get_int(s), self.get_int(s), self.get_int(s), self.get_int(s), self.get_int(s))
+                    ip.shoot_from_position(self.get_int(s), self.get_int(s), self.get_int(s), self.get_int(s), self.get_int(s))
 
     def get_int(self, s):
         data = s.recv(2)
