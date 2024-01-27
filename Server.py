@@ -78,3 +78,7 @@ class Server:
     def receive_player_coords_thread(self, s):
         thread = Thread(target=self.receive_player_coords, args=[s])
         thread.start()
+
+    def get_int(self, s):
+        data = s.recv(2)
+        return int.from_bytes(data, "big")
