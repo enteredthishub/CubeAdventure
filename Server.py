@@ -35,7 +35,7 @@ class Server:
                     conn.sendall(int(p.player_x).to_bytes(2, 'big'))
                     conn.sendall(int(p.player_y).to_bytes(2, 'big'))
                     bullet = self.get_last_bullet(p)
-                    if bullet != None and bullet.bullet_x > 0 and bullet.bullet_y > 0:
+                    if bullet != None and bullet.bullet_x > 0 and bullet.bullet_y > 0: # FIXME
                         #print("x: " + str(bullet.bullet_x) + " y: " + str(bullet.bullet_y))
                         conn.sendall(int(1).to_bytes(2, 'big'))
                         conn.sendall(int(bullet.bullet_x).to_bytes(2, 'big'))
@@ -64,6 +64,11 @@ class Server:
             data = s.recv(2)
             player_y = int.from_bytes(data, "big")
             self.client_player.player_y = player_y
+            data = s.recv(2)
+            flag = int.from_bytes(data, "big")
+            if flag == 1:
+                self.client_player.shoot_from_position(self.get_int(s), self.get_int(s), self.get_int(s), self.get_int(s), self.get_int(s))
+
             #print(str(time.time()) + ": " + str(player_x) + ", " + str(player_y))
 
     def __init__(self):

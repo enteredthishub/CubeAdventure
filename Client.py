@@ -54,7 +54,26 @@ class Client:
         while True:
             s.sendall(int(p.player_x).to_bytes(2, 'big'))
             s.sendall(int(p.player_y).to_bytes(2, 'big'))
+            bullet = self.get_last_bullet(p)
+            if bullet != None and bullet.bullet_x > 0 and bullet.bullet_y > 0:  # FIXME
+                # print("x: " + str(bullet.bullet_x) + " y: " + str(bullet.bullet_y))
+                s.sendall(int(1).to_bytes(2, 'big'))
+                s.sendall(int(bullet.bullet_x).to_bytes(2, 'big'))
+                s.sendall(int(bullet.bullet_y).to_bytes(2, 'big'))
+                s.sendall(int(bullet.bullet_target_x).to_bytes(2, 'big'))
+                s.sendall(int(bullet.bullet_target_y).to_bytes(2, 'big'))
+                s.sendall(int(bullet.bullet_speed).to_bytes(2, 'big'))
+            else:
+                s.sendall(int(0).to_bytes(2, 'big'))
             time.sleep(0.01)
+
+    prev_bullet = None
+    def get_last_bullet(self, p):
+        if len(p.bullet_list) > 0 and p.bullet_list[-1] != self.prev_bullet:
+            self.prev_bullet = p.bullet_list[-1]
+            return p.bullet_list[-1]
+        else:
+            return None
 
     def __init__(self):
         thread = Thread(target=self.create_client, args=[])
