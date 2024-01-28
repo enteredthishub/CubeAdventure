@@ -30,7 +30,10 @@ class Bullet:
     y_diff = -1.0
     def draw_bullet(self, pygame, surface):
         if self.y_diff == -1.0:
-            self.y_diff = (self.bullet_target_y - self.bullet_y)/(self.bullet_target_x - self.bullet_x)
+            bullet_x_diff = self.bullet_target_x - self.bullet_x
+            if bullet_x_diff == 0:
+                return
+            self.y_diff = (self.bullet_target_y - self.bullet_y)/bullet_x_diff
             # FIXME: self.y_diff = (self.bullet_target_y - self.bullet_y)/(self.bullet_target_x - self.bullet_x)
             # ZeroDivisionError: division by zero
             c = math.sqrt(self.x_diff*self.x_diff + self.y_diff*self.y_diff)

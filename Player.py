@@ -32,7 +32,7 @@ class Player:
     player_moving_right = False
     player_gravity = False
 
-    bullet_list = []
+    bullet_list = None
 
     def __init__(self, player_x, player_y, player_width, player_height, player_color, control_type, button_gravity, button_left, button_right):
         self.player_x = player_x
@@ -44,6 +44,7 @@ class Player:
         self.button_gravity = button_gravity
         self.button_left = button_left
         self.button_right = button_right
+        self.bullet_list = []
 
     prev_gravity_change_time = 0
 
