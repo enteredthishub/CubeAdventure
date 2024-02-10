@@ -16,12 +16,13 @@ class Weapon:
     weapon_shoot_delay = 0
     weapon_type = 0
 
-    def __init__(self, weapon_target_x, weapon_target_y, weapon_bullet_speed, weapon_action, weapon_shoot_delay, weapon_type):
-        self.weapon_target_x = weapon_target_x
-        self.weapon_target_y = weapon_target_y
+    def __init__(self, weapon_bullet_speed, weapon_action, weapon_shoot_delay, weapon_type):
         self.weapon_bullet_speed = weapon_bullet_speed
         self.weapon_action = weapon_action
         self.weapon_shoot_delay = weapon_shoot_delay
         self.weapon_type = weapon_type
+
+    def shoot(self, weapon_target_x, weapon_target_y):
+        pass
 
 
