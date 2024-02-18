@@ -33,6 +33,8 @@ class Player:
     player_gravity = False
 
     bullet_list = None
+    weapon_list = None
+    selected_weapon = 0
 
     def __init__(self, player_x, player_y, player_width, player_height, player_color, control_type, button_gravity, button_left, button_right):
         self.player_x = player_x
@@ -45,6 +47,8 @@ class Player:
         self.button_left = button_left
         self.button_right = button_right
         self.bullet_list = []
+        self.weapon_list = []
+        self.selected_weapon = 0
 
     prev_gravity_change_time = 0
 
@@ -91,7 +95,10 @@ class Player:
         self.bullet_list.append(bullet)
 
     def shoot(self, x, y):
-        self.shoot_from_position(self.player_x, self.player_y, x, y, 10)
+        weapon = self.weapon_list[self.selected_weapon]
+        weapon.shoot(x, y)
+        #self.shoot_from_position(self.player_x, self.player_y, x, y, 10)
+
 
     def process_hit(self):
         self.player_y_speed = self.player_y_speed - 2
@@ -177,3 +184,6 @@ class Player:
         if bar.bar_type == Bar.TYPE_PORTAL_1:
             self.player_x = bar.teleport_to.bar_x
             self.player_y = bar.teleport_to.bar_y
+
+
+

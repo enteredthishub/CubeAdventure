@@ -9,14 +9,14 @@ class Weapon:
     RPG = 2
     SHOTGUN = 3
 
-    weapon_target_x = 0
-    weapon_target_y = 0
+    player = None
     weapon_bullet_speed = 20
     weapon_action = 0
     weapon_shoot_delay = 0
     weapon_type = 0
 
-    def __init__(self, weapon_bullet_speed, weapon_action, weapon_shoot_delay, weapon_type):
+    def __init__(self, player, weapon_bullet_speed, weapon_action, weapon_shoot_delay, weapon_type):
+        self.player = player
         self.weapon_bullet_speed = weapon_bullet_speed
         self.weapon_action = weapon_action
         self.weapon_shoot_delay = weapon_shoot_delay
