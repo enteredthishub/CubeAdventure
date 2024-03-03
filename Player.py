@@ -70,7 +70,15 @@ class Player:
                     if event.key == pygame.K_1:
                         self.selected_weapon = 0
                     if event.key == pygame.K_2:
-                        self.selected_weapon = 1
+                        if len(self.weapon_list) >= 2:
+                            self.selected_weapon = 1
+                    if event.key == pygame.K_3:
+                        if len(self.weapon_list) >= 3:
+                            self.selected_weapon = 2
+                    if event.key == pygame.K_4:
+                        if len(self.weapon_list) >= 4:
+                            self.selected_weapon = 3
+
                 if event.type == pygame.KEYUP:
                     if event.key == pygame.K_a:
                         self.player_moving_left = False

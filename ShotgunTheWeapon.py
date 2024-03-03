@@ -7,8 +7,8 @@ from Bullet import Bullet
 from Game import Game
 from Weapon import Weapon
 
-#His name is MachineGun
-class MachineGunTheWeapon(Weapon):
+#His name is Shotgun
+class ShotgunTheWeapon(Weapon):
 
     weapon_last_shoot_time = 0
 
