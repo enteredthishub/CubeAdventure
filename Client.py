@@ -2,8 +2,7 @@ import socket
 import time
 from threading import Thread
 
-
-
+from Bullet import Bullet
 from CubeAdventure import CubeAdventure
 from Game import Game
 from Player import Player
@@ -43,7 +42,10 @@ class Client:
                 data = s.recv(2)
                 flag = int.from_bytes(data, "big")
                 if flag == 1:
-                    ip.shoot_from_position(self.get_int(s), self.get_int(s), self.get_int(s), self.get_int(s), self.get_int(s))
+                    bullet = Bullet(bullet_originator=ip, bullet_x=self.get_int(s), bullet_y=self.get_int(s), bullet_target_x=self.get_int(s),
+                                    bullet_target_y=self.get_int(s), bullet_speed=self.get_int(s), bullet_color=(self.get_int(s), self.get_int(s), self.get_int(s)), bullet_radius=self.get_int(s))
+                    Game.curr_level.bullet_list.append(bullet)
+                    ip.bullet_list.append(bullet)
 
     def get_int(self, s):
         data = s.recv(2)
@@ -63,6 +65,10 @@ class Client:
                 s.sendall(int(bullet.bullet_target_x).to_bytes(2, 'big'))
                 s.sendall(int(bullet.bullet_target_y).to_bytes(2, 'big'))
                 s.sendall(int(bullet.bullet_speed).to_bytes(2, 'big'))
+                s.sendall(int(bullet.bullet_color[0]).to_bytes(2, 'big'))
+                s.sendall(int(bullet.bullet_color[1]).to_bytes(2, 'big'))
+                s.sendall(int(bullet.bullet_color[2]).to_bytes(2, 'big'))
+                s.sendall(int(bullet.bullet_radius).to_bytes(2, 'big'))
             else:
                 s.sendall(int(0).to_bytes(2, 'big'))
             time.sleep(0.01)
