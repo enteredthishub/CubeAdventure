@@ -26,6 +26,15 @@ class Bullet:
         self.bullet_target_y = bullet_target_y
         self.bullet_speed = bullet_speed
 
+        if self.bullet_x < 0:
+            self.bullet_x = 0
+        if self.bullet_y < 0:
+            self.bullet_y = 0
+        if self.bullet_target_x < 0:
+            self.bullet_target_x = 0
+        if self.bullet_target_y < 0:
+            self.bullet_target_y = 0
+
     x_diff = 1.0
     y_diff = -1.0
     def draw_bullet(self, pygame, surface):

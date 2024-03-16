@@ -40,12 +40,13 @@ class Client:
                 player_y = int.from_bytes(data, "big")
                 ip.player_y = player_y
                 data = s.recv(2)
-                flag = int.from_bytes(data, "big")
-                if flag == 1:
-                    bullet = Bullet(bullet_originator=ip, bullet_x=self.get_int(s), bullet_y=self.get_int(s), bullet_target_x=self.get_int(s),
-                                    bullet_target_y=self.get_int(s), bullet_speed=self.get_int(s), bullet_color=(self.get_int(s), self.get_int(s), self.get_int(s)), bullet_radius=self.get_int(s))
-                    Game.curr_level.bullet_list.append(bullet)
-                    ip.bullet_list.append(bullet)
+                bullets_amount = int.from_bytes(data, "big")
+                if bullets_amount > 0:
+                    for i in range(0, bullets_amount):
+                        bullet = Bullet(bullet_originator=ip, bullet_x=self.get_int(s), bullet_y=self.get_int(s), bullet_target_x=self.get_int(s),
+                                        bullet_target_y=self.get_int(s), bullet_speed=self.get_int(s), bullet_color=(self.get_int(s), self.get_int(s), self.get_int(s)), bullet_radius=self.get_int(s))
+                        Game.curr_level.bullet_list.append(bullet)
+                        ip.bullet_list.append(bullet)
 
     def get_int(self, s):
         data = s.recv(2)
@@ -56,20 +57,20 @@ class Client:
         while True:
             s.sendall(int(p.player_x).to_bytes(2, 'big'))
             s.sendall(int(p.player_y).to_bytes(2, 'big'))
-            bullet = self.get_last_bullet(p)
-            if bullet != None and bullet.bullet_x > 0 and bullet.bullet_y > 0\
-                    and bullet.bullet_target_x > 0 and bullet.bullet_target_y > 0: # FIXME
+            bullets = self.get_unsent_bullets(p)
+            if bullets != None:
                 # print("x: " + str(bullet.bullet_x) + " y: " + str(bullet.bullet_y))
-                s.sendall(int(1).to_bytes(2, 'big'))
-                s.sendall(int(bullet.bullet_x).to_bytes(2, 'big'))
-                s.sendall(int(bullet.bullet_y).to_bytes(2, 'big'))
-                s.sendall(int(bullet.bullet_target_x).to_bytes(2, 'big'))
-                s.sendall(int(bullet.bullet_target_y).to_bytes(2, 'big'))
-                s.sendall(int(bullet.bullet_speed).to_bytes(2, 'big'))
-                s.sendall(int(bullet.bullet_color[0]).to_bytes(2, 'big'))
-                s.sendall(int(bullet.bullet_color[1]).to_bytes(2, 'big'))
-                s.sendall(int(bullet.bullet_color[2]).to_bytes(2, 'big'))
-                s.sendall(int(bullet.bullet_radius).to_bytes(2, 'big'))
+                s.sendall(int(len(bullets)).to_bytes(2, 'big'))
+                for bullet in bullets:
+                    s.sendall(int(bullet.bullet_x).to_bytes(2, 'big'))
+                    s.sendall(int(bullet.bullet_y).to_bytes(2, 'big'))
+                    s.sendall(int(bullet.bullet_target_x).to_bytes(2, 'big'))
+                    s.sendall(int(bullet.bullet_target_y).to_bytes(2, 'big'))
+                    s.sendall(int(bullet.bullet_speed).to_bytes(2, 'big'))
+                    s.sendall(int(bullet.bullet_color[0]).to_bytes(2, 'big'))
+                    s.sendall(int(bullet.bullet_color[1]).to_bytes(2, 'big'))
+                    s.sendall(int(bullet.bullet_color[2]).to_bytes(2, 'big'))
+                    s.sendall(int(bullet.bullet_radius).to_bytes(2, 'big'))
             else:
                 s.sendall(int(0).to_bytes(2, 'big'))
             time.sleep(0.01)
@@ -79,6 +80,20 @@ class Client:
         if len(p.bullet_list) > 0 and p.bullet_list[-1] != self.prev_bullet:
             self.prev_bullet = p.bullet_list[-1]
             return p.bullet_list[-1]
+        else:
+            return None
+
+    def get_unsent_bullets(self, p):
+        if len(p.bullet_list) > 0 and p.bullet_list[-1] != self.prev_bullet:
+            i = -1
+            bullet_list_to_send = []
+            while True:
+                if p.bullet_list[i] == self.prev_bullet:
+                    break
+                else:
+                    bullet_list_to_send.append(p.bullet_list[i])
+                i -= 1
+            return bullet_list_to_send
         else:
             return None
 
