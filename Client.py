@@ -87,12 +87,16 @@ class Client:
         if len(p.bullet_list) > 0 and p.bullet_list[-1] != self.prev_bullet:
             i = -1
             bullet_list_to_send = []
+            if self.prev_bullet is None:
+                self.prev_bullet = p.bullet_list[-1]
+                return p.bullet_list
             while True:
                 if p.bullet_list[i] == self.prev_bullet:
                     break
                 else:
                     bullet_list_to_send.append(p.bullet_list[i])
                 i -= 1
+            self.prev_bullet = p.bullet_list[-1]
             return bullet_list_to_send
         else:
             return None
