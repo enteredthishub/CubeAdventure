@@ -64,7 +64,7 @@ class Bullet:
                 continue
             is_collided = p.player_x - (self.bullet_radius *2) < self.bullet_x < p.player_x + p.player_width and p.player_y - (self.bullet_radius * 2) < self.bullet_y < p.player_y + p.player_height
             if is_collided:
-                print('Get ' + str(p.player_color))
-                Game.curr_level.bullet_list.remove(self)
-                self.bullet_originator.bullet_list.remove(self)
+                #print('Get ' + str(p.player_color))
+                #Game.curr_level.bullet_list.remove(self)
+                #self.bullet_originator.bullet_list.remove(self)
                 p.change_gravity()
