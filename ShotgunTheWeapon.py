@@ -17,9 +17,18 @@ class ShotgunTheWeapon(Weapon):
         self.weapon_action = None
         self.weapon_shoot_delay = 1
         self.weapon_type = Weapon.SHOTGUN
+        self.ammo = 7
+        self.reload_time = 5
         super().__init__(player, self.weapon_bullet_speed, self.weapon_action, self.weapon_shoot_delay, self.weapon_type)
 
     def shoot(self, weapon_target_x, weapon_target_y):
+        if self.weapon_state != Weapon.STATE_READY:
+            if self.weapon_state == Weapon.STATE_RELOADING:
+                if time.time() - self.weapon_reload_start_time > self.reload_time:
+                    self.ammo = 7
+                    self.weapon_state = Weapon.STATE_READY
+                else:
+                    return
         if time.time() - self.weapon_last_shoot_time < self.weapon_shoot_delay:
             return
         self.weapon_last_shoot_time = time.time()
@@ -37,6 +46,10 @@ class ShotgunTheWeapon(Weapon):
         self.spawn_bullet(bullet)
         bullet = Bullet(bullet_originator=self.player, bullet_x=self.player.player_x, bullet_y=self.player.player_y, bullet_target_x=weapon_target_x - 90, bullet_target_y=weapon_target_y - 90,bullet_speed=self.weapon_bullet_speed, bullet_color=(10, 0, 255), bullet_radius=3)
         self.spawn_bullet(bullet)
+        self.ammo -= 1
+        if self.ammo == 0:
+            self.weapon_state = Weapon.STATE_RELOADING
+            self.weapon_reload_start_time = time.time()
 
     def spawn_bullet(self, bullet):
         Game.curr_level.bullet_list.append(bullet)
