@@ -78,6 +78,9 @@ class Player:
                     if event.key == pygame.K_4:
                         if len(self.weapon_list) >= 4:
                             self.selected_weapon = 3
+                    if event.key == pygame.K_5:
+                        if len(self.weapon_list) >= 5:
+                            self.selected_weapon = 4
 
                 if event.type == pygame.KEYUP:
                     if event.key == pygame.K_a:
