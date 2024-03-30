@@ -90,7 +90,6 @@ class Player:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     mouse = pygame.mouse.get_pos()
                     self.shoot(mouse[0], mouse[1])
-
         elif self.control_type == Player.CONTROL_TYPE_MOUSE:
             mouse = pygame.mouse.get_pos()
             if mouse[0] > self.player_x + 25:
@@ -102,6 +101,7 @@ class Player:
             for event in events:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     self.change_gravity()
+        print(pygame.mouse.get_pos())
 
     def shoot(self, x, y):
         weapon = self.weapon_list[self.selected_weapon]
