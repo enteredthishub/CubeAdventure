@@ -109,8 +109,9 @@ class Player:
 
 
     def process_hit(self):
-        self.player_y_speed = self.player_y_speed - 2
-        self.player_y_speed = -self.player_y_speed
+        #self.player_y_speed = self.player_y_speed - 2
+        #self.player_y_speed = -self.player_y_speed
+        self.player_y_speed = 0
 
     def draw_player(self, draw_surface):
         pygame.draw.rect(draw_surface, self.player_color, pygame.Rect((self.player_x, self.player_y), (self.player_width, self.player_height)))
