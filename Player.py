@@ -11,8 +11,9 @@ class Player:
     CONTROL_TYPE_KEYBOARD = 0
     CONTROL_TYPE_MOUSE = 1
     CONTROL_TYPE_INTERNET = 2
-    ACCELERATION = 0.2
+    ACCELERATION =0.8
     X_SPEED = 5
+    JUMP_SPEED = 15
 
     player_color = (0, 0, 0)
     player_width = 0
@@ -67,6 +68,8 @@ class Player:
                         self.player_moving_left = True
                     if event.key == pygame.K_d:
                         self.player_moving_right = True
+                    if event.key == pygame.K_SPACE:
+                        self.jump()
                     if event.key == pygame.K_1:
                         self.selected_weapon = 0
                     if event.key == pygame.K_2:
@@ -81,6 +84,7 @@ class Player:
                     if event.key == pygame.K_5:
                         if len(self.weapon_list) >= 5:
                             self.selected_weapon = 4
+
 
                 if event.type == pygame.KEYUP:
                     if event.key == pygame.K_a:
@@ -106,6 +110,12 @@ class Player:
     def shoot(self, x, y):
         weapon = self.weapon_list[self.selected_weapon]
         weapon.shoot(x, y)
+
+    def jump(self):
+        if self.player_gravity:
+            self.player_y_speed = -Player.JUMP_SPEED
+        else:
+            self.player_y_speed = -Player.JUMP_SPEED
 
 
     def process_hit(self):
