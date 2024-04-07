@@ -11,7 +11,7 @@ class Player:
     CONTROL_TYPE_KEYBOARD = 0
     CONTROL_TYPE_MOUSE = 1
     CONTROL_TYPE_INTERNET = 2
-    ACCELERATION =0.8
+    ACCELERATION = 0.8
     X_SPEED = 5
     JUMP_SPEED = 15
 
@@ -36,6 +36,8 @@ class Player:
     bullet_list = None
     weapon_list = None
     selected_weapon = 0
+    is_collided_x = False
+    is_collided_y = False
 
     def __init__(self, player_x, player_y, player_width, player_height, player_color, control_type, button_gravity, button_left, button_right):
         self.player_x = player_x
@@ -112,10 +114,7 @@ class Player:
         weapon.shoot(x, y)
 
     def jump(self):
-        if self.player_gravity:
-            self.player_y_speed = -Player.JUMP_SPEED
-        else:
-            self.player_y_speed = -Player.JUMP_SPEED
+        self.player_y_speed = -Player.JUMP_SPEED
 
 
     def process_hit(self):
@@ -143,8 +142,8 @@ class Player:
 
         self.player_x = self.player_x + delta_x
         for b1 in Game.curr_level.bar_list:
-            is_collided = b1.bar_x - self.player_width < self.player_x < b1.bar_x + b1.bar_width and b1.bar_y - self.player_height < self.player_y < b1.bar_y + b1.bar_height
-            if is_collided:
+            self.is_collided_x = b1.bar_x - self.player_width < self.player_x < b1.bar_x + b1.bar_width and b1.bar_y - self.player_height < self.player_y < b1.bar_y + b1.bar_height
+            if self.is_collided_x:
                 if delta_x > 0:
                     self.player_x = b1.bar_x - self.player_width
                 if delta_x < 0:
@@ -153,8 +152,8 @@ class Player:
 
         self.player_y = self.player_y + delta_y
         for b1 in Game.curr_level.bar_list:
-            is_collided = b1.bar_x - self.player_width < self.player_x < b1.bar_x + b1.bar_width and b1.bar_y - self.player_height < self.player_y < b1.bar_y + b1.bar_height
-            if is_collided:
+            self.is_collided_y = b1.bar_x - self.player_width < self.player_x < b1.bar_x + b1.bar_width and b1.bar_y - self.player_height < self.player_y < b1.bar_y + b1.bar_height
+            if self.is_collided_y:
                 if delta_y > 0:
                     self.player_y = b1.bar_y - self.player_height
                     self.process_hit()
