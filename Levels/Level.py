@@ -1,4 +1,5 @@
 from Game import Game
+from Player import Player
 
 
 class Level:
@@ -12,7 +13,7 @@ class Level:
             self.restart(p)
 
     def restart(self, player):
-        pass
+        player.health_now = Player.HEALTH_POINTS
 
     def get_next_level(self):
         pass

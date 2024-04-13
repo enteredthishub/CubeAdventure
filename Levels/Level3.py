@@ -19,6 +19,7 @@ class Level3(Level):
                 ]
 
     def restart(self, player):
+        super().restart(player)
         player.player_x = 0
         player.player_y = 0
         player.player_gravity = False

@@ -67,4 +67,4 @@ class Bullet:
                 #print('Get ' + str(p.player_color))
                 #Game.curr_level.bullet_list.remove(self)
                 #self.bullet_originator.bullet_list.remove(self)
-                p.change_gravity()
+                p.damage(10)

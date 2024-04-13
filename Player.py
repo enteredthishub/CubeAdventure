@@ -3,7 +3,6 @@ import time
 import pygame
 
 from Bar import Bar
-from Bullet import Bullet
 from Game import Game
 
 
@@ -14,6 +13,7 @@ class Player:
     ACCELERATION = 0.8
     X_SPEED = 5
     JUMP_SPEED = 15
+    HEALTH_POINTS = 100
 
     player_color = (0, 0, 0)
     player_width = 0
@@ -38,6 +38,7 @@ class Player:
     selected_weapon = 0
     is_collided_x = False
     is_collided_y = False
+    health_now = HEALTH_POINTS
 
     def __init__(self, player_x, player_y, player_width, player_height, player_color, control_type, button_gravity, button_left, button_right):
         self.player_x = player_x
@@ -203,5 +204,8 @@ class Player:
             self.player_x = bar.teleport_to.bar_x
             self.player_y = bar.teleport_to.bar_y
 
-
+    def damage(self, damage_points):
+        self.health_now -= damage_points
+        if self.health_now <= 0:
+            Game.curr_level.restart(self)
 

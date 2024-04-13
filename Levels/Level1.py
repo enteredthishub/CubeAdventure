@@ -30,6 +30,7 @@ class Level1(Level):
                 ]
 
     def restart(self, player):
+        super().restart(player)
         spawns_list = self.get_spawns_list()
         spawn_index = random.randint(0, len(spawns_list) - 1)
         spawn = spawns_list[spawn_index]  # [700, 0]
