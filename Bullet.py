@@ -14,8 +14,9 @@ class Bullet:
     bullet_target_x = 0
     bullet_target_y = 0
     bullet_speed = 20
+    bullet_damage = 0
 
-    def __init__(self, bullet_originator, bullet_x, bullet_y, bullet_target_x, bullet_target_y, bullet_speed, bullet_color, bullet_radius=5, bullet_action=BULLET_ACTION_GRAVITY):
+    def __init__(self, bullet_originator, bullet_x, bullet_y, bullet_target_x, bullet_target_y, bullet_speed, bullet_color, bullet_radius=5, bullet_action=BULLET_ACTION_GRAVITY, bullet_damage=10):
         self.bullet_originator = bullet_originator
         self.bullet_x = bullet_x
         self.bullet_y = bullet_y
@@ -25,6 +26,7 @@ class Bullet:
         self.bullet_target_x = bullet_target_x
         self.bullet_target_y = bullet_target_y
         self.bullet_speed = bullet_speed
+        self.bullet_damage = bullet_damage
 
         if self.bullet_x < 0:
             self.bullet_x = 0
@@ -65,6 +67,6 @@ class Bullet:
             is_collided = p.player_x - (self.bullet_radius *2) < self.bullet_x < p.player_x + p.player_width and p.player_y - (self.bullet_radius * 2) < self.bullet_y < p.player_y + p.player_height
             if is_collided:
                 #print('Get ' + str(p.player_color))
-                #Game.curr_level.bullet_list.remove(self)
+                Game.curr_level.bullet_list.remove(self)
                 #self.bullet_originator.bullet_list.remove(self)
-                p.damage(10)
+                p.damage(self.bullet_damage)
