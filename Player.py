@@ -108,7 +108,7 @@ class Player:
             for event in events:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     self.change_gravity()
-        print(pygame.mouse.get_pos())
+        #print(pygame.mouse.get_pos())
 
     def shoot(self, x, y):
         weapon = self.weapon_list[self.selected_weapon]
@@ -208,4 +208,5 @@ class Player:
         self.health_now -= damage_points
         if self.health_now <= 0:
             Game.curr_level.restart(self)
+        print("Player " + str(self.control_type) + " health: " + str(self.health_now))
 

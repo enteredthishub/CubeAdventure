@@ -49,6 +49,7 @@ class Server:
                             conn.sendall(int(bullet.bullet_color[1]).to_bytes(2, 'big'))
                             conn.sendall(int(bullet.bullet_color[2]).to_bytes(2, 'big'))
                             conn.sendall(int(bullet.bullet_radius).to_bytes(2, 'big'))
+                            conn.sendall(int(bullet.bullet_damage).to_bytes(2, 'big'))
                     else:
                         conn.sendall(int(0).to_bytes(2, 'big'))
             time.sleep(0.01)
@@ -92,8 +93,15 @@ class Server:
             bullets_amount = int.from_bytes(data, "big")
             if bullets_amount > 0:
                 for i in range(0, bullets_amount):
-                    bullet = Bullet(bullet_originator=self.client_player, bullet_x=self.get_int(s), bullet_y=self.get_int(s), bullet_target_x=self.get_int(s),
-                                    bullet_target_y=self.get_int(s), bullet_speed=self.get_int(s), bullet_color=(self.get_int(s), self.get_int(s), self.get_int(s)), bullet_radius=self.get_int(s))
+                    bullet = Bullet(bullet_originator=self.client_player,
+                                    bullet_x=self.get_int(s),
+                                    bullet_y=self.get_int(s),
+                                    bullet_target_x=self.get_int(s),
+                                    bullet_target_y=self.get_int(s),
+                                    bullet_speed=self.get_int(s),
+                                    bullet_color=(self.get_int(s), self.get_int(s), self.get_int(s)),
+                                    bullet_radius=self.get_int(s),
+                                    bullet_damage=self.get_int(s))
                     Game.curr_level.bullet_list.append(bullet)
                     self.client_player.bullet_list.append(bullet)
 
