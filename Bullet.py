@@ -70,3 +70,8 @@ class Bullet:
                 Game.curr_level.bullet_list.remove(self)
                 #self.bullet_originator.bullet_list.remove(self)
                 p.damage(self.bullet_damage)
+        for b in Game.curr_level.bar_list:
+            is_collided = b.bar_x - (self.bullet_radius * 2) < self.bullet_x < b.bar_x + b.bar_width and b.bar_y - (self.bullet_radius * 2) < self.bullet_y < b.bar_y + b.bar_height
+            if is_collided:
+                if self in Game.curr_level.bullet_list:
+                    Game.curr_level.bullet_list.remove(self)
