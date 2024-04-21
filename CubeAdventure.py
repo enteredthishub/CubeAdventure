@@ -5,6 +5,7 @@ from Game import Game
 from Levels.Level1 import Level1
 from Levels.Level2 import Level2
 from Levels.Level3 import Level3
+from Levels.Level4 import Level4
 from MachineGunTheWeapon import MachineGunTheWeapon
 from PistolTheWeapon import PistolTheWeapon
 from Player import Player
@@ -13,13 +14,13 @@ from ShotgunTheWeapon import ShotgunTheWeapon
 
 
 class CubeAdventure:
-    levels = [Level1(), Level2(), Level3()]
+    levels = [Level1(), Level2(), Level3(), Level4()]
     def start_game(self):
         pygame.init()
 
-        Game.curr_level = self.levels[0]
+        Game.curr_level = self.levels[3]
 
-        player1 = Player(0, 0, 50, 50, (0, 0, 0), Player.CONTROL_TYPE_KEYBOARD, pygame.K_UP, pygame.K_LEFT, pygame.K_RIGHT)
+        player1 = Player(0, 0, 40, 40, (0, 0, 0), Player.CONTROL_TYPE_KEYBOARD, pygame.K_UP, pygame.K_LEFT, pygame.K_RIGHT)
         player1.weapon_list.append(PistolTheWeapon(player1))
         player1.weapon_list.append(MachineGunTheWeapon(player1))
         player1.weapon_list.append(ShotgunTheWeapon(player1))

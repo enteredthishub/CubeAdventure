@@ -12,9 +12,9 @@ pygame.init()
 class MainMenu(Menu):
 
     def __init__(self):
-        self.menu_items_list = [Button('Single player', 265, 200, 270, self.start_single_game),
-                           Button('Multiplayer', 265, 300, 270, self.open_multiplayer_menu),
-                           Button('Quit', 265, 400, 270, self.quit_game)]
+        self.menu_items_list = [Button('Single player', 465, 300, 270, self.start_single_game),
+                           Button('Multiplayer', 465, 400, 270, self.open_multiplayer_menu),
+                           Button('Quit', 465, 500, 270, self.quit_game)]
 
     def quit_game(self):
         pygame.quit()

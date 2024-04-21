@@ -10,9 +10,9 @@ class Player:
     CONTROL_TYPE_KEYBOARD = 0
     CONTROL_TYPE_MOUSE = 1
     CONTROL_TYPE_INTERNET = 2
-    ACCELERATION = 0.8
-    X_SPEED = 5
-    JUMP_SPEED = 15
+    ACCELERATION = 0.5
+    X_SPEED = 3
+    JUMP_SPEED = 10
     HEALTH_POINTS = 100
 
     player_color = (0, 0, 0)
