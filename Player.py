@@ -185,9 +185,6 @@ class Player:
 
         # print(str(time.time()) + ": " + str(int(self.player_x)) + ", " + str(int(self.player_y)) + ", " + str(int(self.player_y_speed)))
 
-        if self.player_y == 550 and self.player_x == 750:
-            Game.curr_level = Game.curr_level.get_next_level()
-            Game.curr_level.restartAll()
 
     def process_bar_collision(self, bar):
         if bar.bar_type == Bar.TYPE_DANGER:
@@ -203,10 +200,17 @@ class Player:
         if bar.bar_type == Bar.TYPE_PORTAL_1:
             self.player_x = bar.teleport_to.bar_x
             self.player_y = bar.teleport_to.bar_y
+        if bar.bar_type == Bar.TYPE_FINISH:
+            Game.curr_level = Game.curr_level.get_next_level()
+            Game.curr_level.restartAll()
 
     def damage(self, damage_points):
         self.health_now -= damage_points
         if self.health_now <= 0:
             Game.curr_level.restart(self)
         print("Player " + str(self.control_type) + " health: " + str(self.health_now))
+
+    def set_spawn_index(self, player_spawn_index):
+        pass
+        #TODO: finish spawn indexing
 

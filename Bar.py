@@ -5,6 +5,9 @@ class Bar:
     TYPE_BLUE_SPHERE = 3
     TYPE_PORTAL_1 = 4
     TYPE_PORTAL_2 = 5
+    TYPE_FINISH = 6
+    TYPE_SPAWN_0 = 7
+    TYPE_SPAWN_1 = 8
     bar_x = 0
     bar_y = 0
     bar_width = 0
