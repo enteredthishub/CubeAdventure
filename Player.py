@@ -10,8 +10,8 @@ class Player:
     CONTROL_TYPE_KEYBOARD = 0
     CONTROL_TYPE_MOUSE = 1
     CONTROL_TYPE_INTERNET = 2
-    ACCELERATION = 0.5
-    X_SPEED = 3
+    ACCELERATION = 0.8
+    X_SPEED = 6
     JUMP_SPEED = 10
     HEALTH_POINTS = 100
 
@@ -39,6 +39,7 @@ class Player:
     is_collided_x = False
     is_collided_y = False
     health_now = HEALTH_POINTS
+    spawn_index = -1                            #WTF
 
     def __init__(self, player_x, player_y, player_width, player_height, player_color, control_type, button_gravity, button_left, button_right):
         self.player_x = player_x
@@ -145,23 +146,23 @@ class Player:
         for b1 in Game.curr_level.bar_list:
             self.is_collided_x = b1.bar_x - self.player_width < self.player_x < b1.bar_x + b1.bar_width and b1.bar_y - self.player_height < self.player_y < b1.bar_y + b1.bar_height
             if self.is_collided_x:
-                if delta_x > 0:
-                    self.player_x = b1.bar_x - self.player_width
-                if delta_x < 0:
-                    self.player_x = b1.bar_x + b1.bar_width
-                self.process_bar_collision(b1)
+                if self.process_bar_collision(b1):
+                    if delta_x > 0:
+                        self.player_x = b1.bar_x - self.player_width
+                    if delta_x < 0:
+                        self.player_x = b1.bar_x + b1.bar_width
 
         self.player_y = self.player_y + delta_y
         for b1 in Game.curr_level.bar_list:
             self.is_collided_y = b1.bar_x - self.player_width < self.player_x < b1.bar_x + b1.bar_width and b1.bar_y - self.player_height < self.player_y < b1.bar_y + b1.bar_height
             if self.is_collided_y:
-                if delta_y > 0:
-                    self.player_y = b1.bar_y - self.player_height
-                    self.process_hit()
-                if delta_y < 0:
-                    self.player_y = b1.bar_y + b1.bar_height
-                    self.process_hit()
-                self.process_bar_collision(b1)
+                if self.process_bar_collision(b1):
+                    if delta_y > 0:
+                        self.player_y = b1.bar_y - self.player_height
+                        self.process_hit()
+                    if delta_y < 0:
+                        self.player_y = b1.bar_y + b1.bar_height
+                        self.process_hit()
 
         self.player_y_speed = self.player_y_speed + self.ACCELERATION
 
@@ -189,20 +190,30 @@ class Player:
     def process_bar_collision(self, bar):
         if bar.bar_type == Bar.TYPE_DANGER:
             Game.curr_level.restart(self)
+            return False
         if bar.bar_type == Bar.TYPE_SPHERE:
             self.player_y_speed = self.player_y_speed * 1.5
             if self.player_y_speed > 10:
                 self.player_y_speed = 10
             if self.player_y_speed < -10:
                 self.player_y_speed = -10
+            return True
         if bar.bar_type == Bar.TYPE_BLUE_SPHERE:
             self.change_gravity()
+            return True
         if bar.bar_type == Bar.TYPE_PORTAL_1:
             self.player_x = bar.teleport_to.bar_x
             self.player_y = bar.teleport_to.bar_y
+            return False
         if bar.bar_type == Bar.TYPE_FINISH:
             Game.curr_level = Game.curr_level.get_next_level()
             Game.curr_level.restartAll()
+            return False
+        if bar.bar_type == Bar.TYPE_SPAWN_0 and self.spawn_index == 0:
+            return False
+        if bar.bar_type == Bar.TYPE_SPAWN_1 and self.spawn_index == 1:
+            return False
+        return True
 
     def damage(self, damage_points):
         self.health_now -= damage_points
@@ -211,6 +222,4 @@ class Player:
         print("Player " + str(self.control_type) + " health: " + str(self.health_now))
 
     def set_spawn_index(self, player_spawn_index):
-        pass
-        #TODO: finish spawn indexing
-
+        self.spawn_index = player_spawn_index

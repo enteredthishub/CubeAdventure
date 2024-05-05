@@ -29,6 +29,8 @@ class Level4(Level):
                 Bar(0, 850, 50, 50, (255, 0, 0), Bar.TYPE_DANGER),
                 Bar(1150, 850, 50, 50, (255, 0, 0), Bar.TYPE_DANGER),
                 Bar(575, 850, 50, 50, (40, 10, 255), Bar.TYPE_FINISH),
+                Bar(100, 750, 25, 50, (0, 0, 0), Bar.TYPE_SPAWN_1),
+                Bar(1075, 750, 25, 50, (255, 0, 0), Bar.TYPE_SPAWN_0),
                 ]
 
     def restart(self, player):
