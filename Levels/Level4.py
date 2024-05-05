@@ -50,3 +50,4 @@ class Level4(Level):
     # def get_next_level(self):
     #     level3 = Level3()
     #     return level3
+    # TODO: do a capture point, that player is supposed to hold for some period of time to win.
