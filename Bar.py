@@ -8,6 +8,7 @@ class Bar:
     TYPE_FINISH = 6
     TYPE_SPAWN_0 = 7
     TYPE_SPAWN_1 = 8
+    TYPE_ZONE = 9
     bar_x = 0
     bar_y = 0
     bar_width = 0

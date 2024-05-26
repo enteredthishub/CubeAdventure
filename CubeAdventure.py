@@ -1,6 +1,7 @@
 import time
 import pygame
 
+from Bar import Bar
 from Game import Game
 from Levels.Level1 import Level1
 from Levels.Level2 import Level2
@@ -42,7 +43,12 @@ class CubeAdventure:
 
             # Draw bars
             for b in Game.curr_level.bar_list:
-                pygame.draw.rect(surface, b.bar_color, pygame.Rect((b.bar_x, b.bar_y), (b.bar_width, b.bar_height)))
+                if b.bar_type == Bar.TYPE_ZONE:
+                    s = pygame.Surface((b.bar_width, b.bar_height), pygame.SRCALPHA)  # per-pixel alpha
+                    s.fill(b.bar_color)  # notice the alpha value in the color
+                    surface.blit(s, (b.bar_x, b.bar_y))
+                else:
+                    pygame.draw.rect(surface, b.bar_color, pygame.Rect((b.bar_x, b.bar_y), (b.bar_width, b.bar_height)))
 
             # Draw bullet
             for b in Game.curr_level.bullet_list:

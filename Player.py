@@ -213,6 +213,8 @@ class Player:
             return False
         if bar.bar_type == Bar.TYPE_SPAWN_1 and self.spawn_index == 1:
             return False
+        if bar.bar_type == Bar.TYPE_ZONE:
+            return False
         return True
 
     def damage(self, damage_points):
