@@ -15,9 +15,9 @@ class MachineGunTheWeapon(Weapon):
     def __init__(self, player):
         self.weapon_bullet_speed = 15
         self.weapon_action = None
-        self.weapon_shoot_delay = 0.07
+        self.weapon_shoot_delay = 0.0001
         self.weapon_type = Weapon.MACHINE_GUN
-        self.weapon_ammo = 30
+        self.weapon_ammo = 120
         self.current_ammo = self.weapon_ammo
         self.reload_time = 3
         super().__init__(player, self.weapon_bullet_speed, self.weapon_action, self.weapon_shoot_delay, self.weapon_type)

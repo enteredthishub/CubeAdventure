@@ -186,7 +186,9 @@ class Player:
 
         # print(str(time.time()) + ": " + str(int(self.player_x)) + ", " + str(int(self.player_y)) + ", " + str(int(self.player_y_speed)))
 
-
+    enter_zone = False
+    enter_zone_time = 0
+    last_zone_time = 0
     def process_bar_collision(self, bar):
         if bar.bar_type == Bar.TYPE_DANGER:
             Game.curr_level.restart(self)
@@ -214,7 +216,17 @@ class Player:
         if bar.bar_type == Bar.TYPE_SPAWN_1 and self.spawn_index == 1:
             return False
         if bar.bar_type == Bar.TYPE_ZONE:
+            if time.time() - self.last_zone_time > 0.5:
+                self.enter_zone = False
+                print('BRUUUUH')
+            self.last_zone_time = time.time()
+            if not self.enter_zone:
+                self.enter_zone_time = time.time()
+                self.enter_zone = True
+            if time.time() - self.enter_zone_time > 7:
+                print('LMAO LOOOOOOOL')
             return False
+
         return True
 
     def damage(self, damage_points):
