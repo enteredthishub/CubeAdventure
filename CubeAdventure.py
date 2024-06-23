@@ -21,7 +21,7 @@ class CubeAdventure:
 
         Game.curr_level = self.levels[3]
 
-        player1 = Player(0, 0, 50, 50, (0, 0, 0), Player.CONTROL_TYPE_KEYBOARD, pygame.K_UP, pygame.K_LEFT, pygame.K_RIGHT)
+        player1 = Player(0, 0, 50, 50, (50, 50, 200), Player.CONTROL_TYPE_KEYBOARD, pygame.K_UP, pygame.K_LEFT, pygame.K_RIGHT)
         player1.weapon_list.append(PistolTheWeapon(player1))
         player1.weapon_list.append(MachineGunTheWeapon(player1))
         player1.weapon_list.append(ShotgunTheWeapon(player1))

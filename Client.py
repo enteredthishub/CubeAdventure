@@ -26,6 +26,8 @@ class Client:
             data = s.recv(2)
             number_of_players = int.from_bytes(data, "big")
             if not self.initialized:
+                p = Game.players[0]
+                p.player_color = (200, 50, 50)
                 for n in range(0, number_of_players):
                     player = Player(0, 0, 50, 50, (0, 0, 0), Player.CONTROL_TYPE_INTERNET, None, None, None)
                     Game.players = Game.players + [player]
@@ -33,14 +35,10 @@ class Client:
                 self.initialized = True
 
             for ip in self.internet_players:
-                data = s.recv(2)
-                player_x = int.from_bytes(data, "big")
-                ip.player_x = player_x
-                data = s.recv(2)
-                player_y = int.from_bytes(data, "big")
-                ip.player_y = player_y
-                data = s.recv(2)
-                bullets_amount = int.from_bytes(data, "big")
+                ip.player_x = self.get_int(s)
+                ip.player_y = self.get_int(s)
+                ip.player_color = (self.get_int(s), self.get_int(s), self.get_int(s))
+                bullets_amount = self.get_int(s)
                 if bullets_amount > 0:
                     for i in range(0, bullets_amount):
                         bullet = Bullet(bullet_originator=ip,
@@ -64,6 +62,9 @@ class Client:
         while True:
             s.sendall(int(p.player_x).to_bytes(2, 'big'))
             s.sendall(int(p.player_y).to_bytes(2, 'big'))
+            s.sendall(int(p.player_color[0]).to_bytes(2, 'big'))
+            s.sendall(int(p.player_color[1]).to_bytes(2, 'big'))
+            s.sendall(int(p.player_color[2]).to_bytes(2, 'big'))
             bullets = self.get_unsent_bullets(p)
             if bullets != None:
                 # print("x: " + str(bullet.bullet_x) + " y: " + str(bullet.bullet_y))

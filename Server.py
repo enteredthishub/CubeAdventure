@@ -35,6 +35,9 @@ class Server:
                 if p.control_type != Player.CONTROL_TYPE_INTERNET:
                     conn.sendall(int(p.player_x).to_bytes(2, 'big'))
                     conn.sendall(int(p.player_y).to_bytes(2, 'big'))
+                    conn.sendall(int(p.player_color[0]).to_bytes(2, 'big'))
+                    conn.sendall(int(p.player_color[1]).to_bytes(2, 'big'))
+                    conn.sendall(int(p.player_color[2]).to_bytes(2, 'big'))
                     bullets = self.get_unsent_bullets(p)
                     if bullets != None: # FIXME
                         #print("x: " + str(bullet.bullet_x) + " y: " + str(bullet.bullet_y))
@@ -83,14 +86,10 @@ class Server:
 
     def receive_player_coords(self, s):
         while True:
-            data = s.recv(2)
-            player_x = int.from_bytes(data, "big")
-            self.client_player.player_x = player_x
-            data = s.recv(2)
-            player_y = int.from_bytes(data, "big")
-            self.client_player.player_y = player_y
-            data = s.recv(2)
-            bullets_amount = int.from_bytes(data, "big")
+            self.client_player.player_x = self.get_int(s)
+            self.client_player.player_y = self.get_int(s)
+            self.client_player.player_color = (self.get_int(s), self.get_int(s), self.get_int(s))
+            bullets_amount = self.get_int(s)
             if bullets_amount > 0:
                 for i in range(0, bullets_amount):
                     bullet = Bullet(bullet_originator=self.client_player,
