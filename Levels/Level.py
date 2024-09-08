@@ -7,6 +7,7 @@ class Level:
     bar_list = []
     bullet_list = []
     spawns_list = []
+    zone_list = []
 
     def restartAll(self):
         for p in Game.players:

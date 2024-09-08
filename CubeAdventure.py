@@ -50,6 +50,8 @@ class CubeAdventure:
                 else:
                     pygame.draw.rect(surface, b.bar_color, pygame.Rect((b.bar_x, b.bar_y), (b.bar_width, b.bar_height)))
 
+            # TODO: Make a double loop to draw zones bars
+
             # Draw bullet
             for b in Game.curr_level.bullet_list:
                 b.draw_bullet(pygame, surface)

@@ -1,4 +1,5 @@
 from Bar import Bar
+from CaptureZone import CaptureZone
 from Levels.Level import Level
 
 
@@ -17,6 +18,7 @@ class Level3(Level):
                 teleport_to1,
                 Bar(750, 50, 50, 300, (105, 104, 153)),
                 ]
+
 
     def restart(self, player):
         super().restart(player)

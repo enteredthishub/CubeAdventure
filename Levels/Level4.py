@@ -1,6 +1,7 @@
 import random
 
 from Bar import Bar
+from CaptureZone import CaptureZone
 from Levels.Level import Level
 
 
@@ -30,8 +31,11 @@ class Level4(Level):
                 Bar(1150, 850, 50, 50, (255, 0, 0), Bar.TYPE_DANGER),
                 Bar(100, 750, 25, 50, (0, 0, 0), Bar.TYPE_SPAWN_1),
                 Bar(1075, 750, 25, 50, (255, 0, 0), Bar.TYPE_SPAWN_0),
-                Bar(525, 500, 150, 150, (150, 162, 255, 145), Bar.TYPE_ZONE)
                 ]
+
+    zone_list = [CaptureZone([
+                Bar(525, 500, 150, 150, (150, 162, 255, 145), Bar.TYPE_ZONE)
+    ])]
 
     def restart(self, player):
         super().restart(player)
