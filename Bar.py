@@ -16,6 +16,7 @@ class Bar:
     bar_color = (200, 0, 0)
     bar_type = TYPE_NORMAL
     teleport_to = None
+    capture_zone = None
 
     def __init__(self, bar_x, bar_y, bar_width, bar_height, bar_color, bar_type=TYPE_NORMAL, teleport_to=None):
         self.bar_x = bar_x

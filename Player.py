@@ -152,6 +152,12 @@ class Player:
                     if delta_x < 0:
                         self.player_x = b1.bar_x + b1.bar_width
 
+        for zone in Game.curr_level.zone_list:
+            for b1 in zone.bar_list:
+                self.is_collided_x = b1.bar_x - self.player_width < self.player_x < b1.bar_x + b1.bar_width and b1.bar_y - self.player_height < self.player_y < b1.bar_y + b1.bar_height
+                if self.is_collided_x:
+                    self.process_bar_collision(b1)
+
         self.player_y = self.player_y + delta_y
         for b1 in Game.curr_level.bar_list:
             self.is_collided_y = b1.bar_x - self.player_width < self.player_x < b1.bar_x + b1.bar_width and b1.bar_y - self.player_height < self.player_y < b1.bar_y + b1.bar_height
@@ -163,6 +169,12 @@ class Player:
                     if delta_y < 0:
                         self.player_y = b1.bar_y + b1.bar_height
                         self.process_hit()
+
+        for zone in Game.curr_level.zone_list:
+            for b1 in zone.bar_list:
+                self.is_collided_y = b1.bar_x - self.player_width < self.player_x < b1.bar_x + b1.bar_width and b1.bar_y - self.player_height < self.player_y < b1.bar_y + b1.bar_height
+                if self.is_collided_y:
+                    self.process_bar_collision(b1)
 
         self.player_y_speed = self.player_y_speed + self.ACCELERATION
 
@@ -225,6 +237,7 @@ class Player:
                 self.enter_zone = True
             if time.time() - self.enter_zone_time > 7:
                 print('LMAO LOOOOOOOL')
+                bar.capture_zone.zone_color = (self.player_color[0], self.player_color[1], self.player_color[2], 145)
             return False
 
         return True

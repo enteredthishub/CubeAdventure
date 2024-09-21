@@ -34,8 +34,8 @@ class Level4(Level):
                 ]
 
     zone_list = [CaptureZone([
-                Bar(525, 500, 150, 150, (150, 162, 255, 145), Bar.TYPE_ZONE)
-    ])]
+                Bar(525, 500, 150, 150, (0, 0, 0), Bar.TYPE_ZONE)
+    ], (100, 100, 100, 145))]
 
     def restart(self, player):
         super().restart(player)

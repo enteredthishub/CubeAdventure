@@ -43,14 +43,14 @@ class CubeAdventure:
 
             # Draw bars
             for b in Game.curr_level.bar_list:
-                if b.bar_type == Bar.TYPE_ZONE:
-                    s = pygame.Surface((b.bar_width, b.bar_height), pygame.SRCALPHA)  # per-pixel alpha
-                    s.fill(b.bar_color)  # notice the alpha value in the color
-                    surface.blit(s, (b.bar_x, b.bar_y))
-                else:
-                    pygame.draw.rect(surface, b.bar_color, pygame.Rect((b.bar_x, b.bar_y), (b.bar_width, b.bar_height)))
+                pygame.draw.rect(surface, b.bar_color, pygame.Rect((b.bar_x, b.bar_y), (b.bar_width, b.bar_height)))
 
-            # TODO: Make a double loop to draw zones bars
+
+            for zone in Game.curr_level.zone_list:
+                for b in zone.bar_list:
+                    s = pygame.Surface((b.bar_width, b.bar_height), pygame.SRCALPHA)  # per-pixel alpha
+                    s.fill(zone.zone_color)  # notice the alpha value in the color
+                    surface.blit(s, (b.bar_x, b.bar_y))
 
             # Draw bullet
             for b in Game.curr_level.bullet_list:
