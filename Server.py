@@ -44,6 +44,8 @@ class Server:
                         #print("x: " + str(bullet.bullet_x) + " y: " + str(bullet.bullet_y))
                         conn.sendall(int(len(bullets)).to_bytes(2, 'big'))
                         for bullet in bullets:
+                            if bullet.bullet_x < 0 or bullet.bullet_y < 0:
+                                continue
                             conn.sendall(int(bullet.bullet_x).to_bytes(2, 'big'))
                             conn.sendall(int(bullet.bullet_y).to_bytes(2, 'big'))
                             conn.sendall(int(bullet.bullet_target_x).to_bytes(2, 'big'))
