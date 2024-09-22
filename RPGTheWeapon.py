@@ -16,7 +16,7 @@ class RPGTheWeapon(Weapon):
         self.weapon_type = Weapon.PISTOL
         self.weapon_ammo = 1
         self.current_ammo = self.weapon_ammo
-        self.reload_time = 3
+        self.reload_time = 5
         super().__init__(player, self.weapon_bullet_speed, self.weapon_action, self.weapon_shoot_delay, self.weapon_type)
 
     def shoot(self, weapon_target_x, weapon_target_y):
@@ -27,7 +27,7 @@ class RPGTheWeapon(Weapon):
         Game.curr_level.bullet_list.append(bullet)
         self.player.bullet_list.append(bullet)
 
-
+        #TODO: Do a shrapnel explosive for RPG
 
 
 

@@ -34,6 +34,8 @@ class Server:
             conn.sendall((len(Game.players)-1).to_bytes(2, 'big'))
             for p in Game.players:
                 if p.control_type != Player.CONTROL_TYPE_INTERNET:
+                    if p.player_x < 0: p.player_x = 0
+                    if p.player_y < 0: p.player_y = 0
                     conn.sendall(int(p.player_x).to_bytes(2, 'big'))
                     conn.sendall(int(p.player_y).to_bytes(2, 'big'))
                     conn.sendall(int(p.player_color[0]).to_bytes(2, 'big'))

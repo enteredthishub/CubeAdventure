@@ -64,6 +64,8 @@ class Client:
         p = Game.players[0]
         while True:
             # Players data
+            if p.player_x < 0: p.player_x = 0
+            if p.player_y < 0: p.player_y = 0
             s.sendall(int(p.player_x).to_bytes(2, 'big'))
             s.sendall(int(p.player_y).to_bytes(2, 'big'))
             s.sendall(int(p.player_color[0]).to_bytes(2, 'big'))
