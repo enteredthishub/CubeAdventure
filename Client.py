@@ -15,13 +15,13 @@ class Client:
         data = s.recv(2)
         print("Current level: " + str(data))
         Game.curr_level = CubeAdventure.levels[int.from_bytes(data, "big")]
-        self.send_player_coords_thread(s)
-        self.send_and_receive_player_coords(s)
+        self.send_data_thread(s)
+        self.send_and_receive_data(s)
         #s.sendall(b"hello")
 
     initialized = False
     internet_players = []
-    def send_and_receive_player_coords(self, s):
+    def send_and_receive_data(self, s):
         while True:
             data = s.recv(2)
             number_of_players = int.from_bytes(data, "big")
@@ -53,13 +53,17 @@ class Client:
                         Game.curr_level.bullet_list.append(bullet)
                         ip.bullet_list.append(bullet)
 
+            for z in Game.curr_level.zone_list:
+                z.zone_color = (self.get_int(s), self.get_int(s), self.get_int(s), self.get_int(s))
+
     def get_int(self, s):
         data = s.recv(2)
         return int.from_bytes(data, "big")
 
-    def send_player_coords(self, s):
+    def send_data(self, s):
         p = Game.players[0]
         while True:
+            # Players data
             s.sendall(int(p.player_x).to_bytes(2, 'big'))
             s.sendall(int(p.player_y).to_bytes(2, 'big'))
             s.sendall(int(p.player_color[0]).to_bytes(2, 'big'))
@@ -82,6 +86,13 @@ class Client:
                     s.sendall(int(bullet.bullet_damage).to_bytes(2, 'big'))
             else:
                 s.sendall(int(0).to_bytes(2, 'big'))
+
+            # Zones data
+            for z in Game.curr_level.zone_list:
+                s.sendall(int(z.zone_color[0]).to_bytes(2, 'big'))
+                s.sendall(int(z.zone_color[1]).to_bytes(2, 'big'))
+                s.sendall(int(z.zone_color[2]).to_bytes(2, 'big'))
+                s.sendall(int(z.zone_color[3]).to_bytes(2, 'big'))
             time.sleep(0.01)
 
     prev_bullet = None
@@ -110,12 +121,14 @@ class Client:
         else:
             return None
 
+
+
     def __init__(self):
         thread = Thread(target=self.create_client, args=[])
         thread.start()
 
-    def send_player_coords_thread(self, s):
-        thread = Thread(target=self.send_player_coords, args=[s])
+    def send_data_thread(self, s):
+        thread = Thread(target=self.send_data, args=[s])
         thread.start()
 
 

@@ -23,13 +23,14 @@ class Server:
         self.client_player = Player(0, 0, 50, 50, (0, 0, 0), Player.CONTROL_TYPE_INTERNET, None, None, None)
         Game.players = Game.players + [self.client_player]
         conn.sendall(Game.curr_level.levelNumber.to_bytes(2, 'big'))
-        self.receive_player_coords_thread(conn)
-        self.send_player_coords(conn)
+        self.receive_data_thread(conn)
+        self.send_data(conn)
         #data = conn.recv(1024)
         #print("New data from client " + str(data))
 
-    def send_player_coords(self, conn):
+    def send_data(self, conn):
         while True:
+            #Players data
             conn.sendall((len(Game.players)-1).to_bytes(2, 'big'))
             for p in Game.players:
                 if p.control_type != Player.CONTROL_TYPE_INTERNET:
@@ -55,6 +56,13 @@ class Server:
                             conn.sendall(int(bullet.bullet_damage).to_bytes(2, 'big'))
                     else:
                         conn.sendall(int(0).to_bytes(2, 'big'))
+
+            #Zones data
+            for z in Game.curr_level.zone_list:
+                conn.sendall(int(z.zone_color[0]).to_bytes(2, 'big'))
+                conn.sendall(int(z.zone_color[1]).to_bytes(2, 'big'))
+                conn.sendall(int(z.zone_color[2]).to_bytes(2, 'big'))
+                conn.sendall(int(z.zone_color[3]).to_bytes(2, 'big'))
             time.sleep(0.01)
 
     prev_bullet = None
@@ -84,7 +92,7 @@ class Server:
             return None
 
 
-    def receive_player_coords(self, s):
+    def receive_data(self, s):
         while True:
             self.client_player.player_x = self.get_int(s)
             self.client_player.player_y = self.get_int(s)
@@ -103,6 +111,8 @@ class Server:
                                     bullet_damage=self.get_int(s))
                     Game.curr_level.bullet_list.append(bullet)
                     self.client_player.bullet_list.append(bullet)
+            for z in Game.curr_level.zone_list:
+                z.zone_color = (self.get_int(s), self.get_int(s), self.get_int(s), self.get_int(s))
 
             #print(str(time.time()) + ": " + str(player_x) + ", " + str(player_y))
 
@@ -110,8 +120,8 @@ class Server:
         thread = Thread(target=self.create_server, args=[])
         thread.start()
 
-    def receive_player_coords_thread(self, s):
-        thread = Thread(target=self.receive_player_coords, args=[s])
+    def receive_data_thread(self, s):
+        thread = Thread(target=self.receive_data, args=[s])
         thread.start()
 
     def get_int(self, s):
