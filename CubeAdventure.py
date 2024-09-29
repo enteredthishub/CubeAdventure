@@ -3,6 +3,7 @@ import pygame
 
 from Bar import Bar
 from Game import Game
+from GameInterface import GameInterface
 from Levels.Level1 import Level1
 from Levels.Level2 import Level2
 from Levels.Level3 import Level3
@@ -19,6 +20,7 @@ class CubeAdventure:
     def start_game(self):
         pygame.init()
 
+        Game.game_interface = GameInterface()
         Game.curr_level = self.levels[3]
 
         player1 = Player(0, 0, 50, 50, (50, 50, 200), Player.CONTROL_TYPE_KEYBOARD, pygame.K_UP, pygame.K_LEFT, pygame.K_RIGHT)
@@ -61,6 +63,8 @@ class CubeAdventure:
             for p in Game.players:
                 p.process_key_events(events)
                 p.update_player_position()
+
+            Game.game_interface.draw(surface)
 
             pygame.display.flip()
             time.sleep(1 / 60)
