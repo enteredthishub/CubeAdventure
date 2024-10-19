@@ -53,6 +53,7 @@ class CubeAdventure:
                     s = pygame.Surface((b.bar_width, b.bar_height), pygame.SRCALPHA)  # per-pixel alpha
                     s.fill(zone.zone_color)  # notice the alpha value in the color
                     surface.blit(s, (b.bar_x, b.bar_y))
+                zone.update()
 
             # Draw bullet
             for b in Game.curr_level.bullet_list:

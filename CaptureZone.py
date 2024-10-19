@@ -1,6 +1,9 @@
 import time
 import pygame
 
+from Game import Game
+
+
 class CaptureZone:
     capture_player = None
     bar_list = []
@@ -12,4 +15,7 @@ class CaptureZone:
         for b in self.bar_list:
             b.capture_zone = self
 
-
+    def update(self):
+        for p in Game.players:
+            if p != self.capture_player and self.capture_player != None  :
+                p.score -= 1

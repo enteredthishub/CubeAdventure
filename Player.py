@@ -41,6 +41,8 @@ class Player:
     health_now = HEALTH_POINTS
     spawn_index = -1                            #WTF
 
+    score = 200
+
     def __init__(self, player_x, player_y, player_width, player_height, player_color, control_type, button_gravity, button_left, button_right):
         self.player_x = player_x
         self.player_y = player_y
@@ -238,6 +240,7 @@ class Player:
             if time.time() - self.enter_zone_time > 7:
                 print('LMAO LOOOOOOOL')
                 bar.capture_zone.zone_color = (self.player_color[0], self.player_color[1], self.player_color[2], 145)
+                bar.capture_zone.capture_player = self
             return False
 
         return True
