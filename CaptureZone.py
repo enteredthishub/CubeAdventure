@@ -2,6 +2,7 @@ import time
 import pygame
 
 from Game import Game
+from GameInterface import GameInterface
 
 
 class CaptureZone:
@@ -15,7 +16,13 @@ class CaptureZone:
         for b in self.bar_list:
             b.capture_zone = self
 
+    prev_time = 0
     def update(self):
-        for p in Game.players:
-            if p != self.capture_player and self.capture_player != None  :
-                p.score -= 1
+        if not Game.gameover and time.time() - self.prev_time > 1:
+            self.prev_time = time.time()
+            for p in Game.players:
+                if p != self.capture_player and self.capture_player != None  :
+                    p.score -= 1
+                    if p.score == 0:
+                        Game.game_interface.gameover(p)
+                        Game.gameover = True

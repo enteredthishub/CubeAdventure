@@ -237,7 +237,7 @@ class Player:
             if not self.enter_zone:
                 self.enter_zone_time = time.time()
                 self.enter_zone = True
-            if time.time() - self.enter_zone_time > 7:
+            if time.time() - self.enter_zone_time > 5:
                 print('LMAO LOOOOOOOL')
                 bar.capture_zone.zone_color = (self.player_color[0], self.player_color[1], self.player_color[2], 145)
                 bar.capture_zone.capture_player = self

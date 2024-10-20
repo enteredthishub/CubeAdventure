@@ -7,4 +7,5 @@ class Game:
     curr_level = None
     players = None
     game_interface = None
+    gameover = False
     # TODO: Form teams if in the lobby we have a lot of players

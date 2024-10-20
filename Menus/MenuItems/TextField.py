@@ -11,7 +11,7 @@ class TextField(MenuItem):
     font_size = 30
     text = 'text'
 
-    def __init__(self, text, text_x, text_y, text_color=(0, 0, 0), font_name='dejavuserif', font_size=30):
+    def __init__(self, text, text_x, text_y, text_color=(0, 0, 0), font_size=30, font_name='dejavuserif'):
         self.text = text
         self.text_x = text_x
         self.text_y = text_y

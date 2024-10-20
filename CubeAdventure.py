@@ -47,7 +47,6 @@ class CubeAdventure:
             for b in Game.curr_level.bar_list:
                 pygame.draw.rect(surface, b.bar_color, pygame.Rect((b.bar_x, b.bar_y), (b.bar_width, b.bar_height)))
 
-
             for zone in Game.curr_level.zone_list:
                 for b in zone.bar_list:
                     s = pygame.Surface((b.bar_width, b.bar_height), pygame.SRCALPHA)  # per-pixel alpha
@@ -55,15 +54,16 @@ class CubeAdventure:
                     surface.blit(s, (b.bar_x, b.bar_y))
                 zone.update()
 
-            # Draw bullet
-            for b in Game.curr_level.bullet_list:
-                b.draw_bullet(pygame, surface)
+            if Game.gameover == False:
+                # Draw bullet
+                for b in Game.curr_level.bullet_list:
+                    b.draw_bullet(pygame, surface)
 
-            # Update players
-            events = pygame.event.get()
-            for p in Game.players:
-                p.process_key_events(events)
-                p.update_player_position()
+                # Update players
+                events = pygame.event.get()
+                for p in Game.players:
+                    p.process_key_events(events)
+                    p.update_player_position()
 
             Game.game_interface.draw(surface)
 
