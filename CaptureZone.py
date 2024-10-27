@@ -1,9 +1,6 @@
 import time
-import pygame
 
 from Game import Game
-from GameInterface import GameInterface
-
 
 class CaptureZone:
     capture_player = None

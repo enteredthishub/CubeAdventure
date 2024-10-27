@@ -241,6 +241,7 @@ class Player:
                 print('LMAO LOOOOOOOL')
                 bar.capture_zone.zone_color = (self.player_color[0], self.player_color[1], self.player_color[2], 145)
                 bar.capture_zone.capture_player = self
+
             return False
 
         return True

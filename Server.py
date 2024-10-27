@@ -117,6 +117,9 @@ class Server:
                     self.client_player.bullet_list.append(bullet)
             for z in Game.curr_level.zone_list:
                 z.zone_color = (self.get_int(s), self.get_int(s), self.get_int(s), self.get_int(s))
+                for p in Game.players:
+                    if z.zone_color[0] == p.player_color[0] and z.zone_color[1] == p.player_color[1] and z.zone_color[2] == p.player_color[2]:
+                        z.capture_player = p
 
             #print(str(time.time()) + ": " + str(player_x) + ", " + str(player_y))
 
