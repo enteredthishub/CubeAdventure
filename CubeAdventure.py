@@ -17,22 +17,23 @@ from ShotgunTheWeapon import ShotgunTheWeapon
 
 
 class CubeAdventure:
-    levels = [Level1(), Level2(), Level3(), Level4(), Level5()]
+    levels = None
     def start_game(self):
         pygame.init()
 
         Game.game_interface = GameInterface()
-        Game.curr_level = self.levels[4]
 
         player1 = Player(0, 0, 50, 50, (50, 50, 200), Player.CONTROL_TYPE_KEYBOARD, pygame.K_UP, pygame.K_LEFT, pygame.K_RIGHT)
         player1.weapon_list.append(PistolTheWeapon(player1))
         player1.weapon_list.append(MachineGunTheWeapon(player1))
         player1.weapon_list.append(ShotgunTheWeapon(player1))
         player1.weapon_list.append(RPGTheWeapon(player1))
-        Game.curr_level.restart(player1)
         #player2 = Player(0, 0, 50, 50, (0, 0, 200), Player.CONTROL_TYPE_KEYBOARD, pygame.K_w, pygame.K_a, pygame.K_d)
         #player3 = Player(0, 0, 50, 50, (200, 0, 0), pygame.K_u, pygame.K_h, pygame.K_k)
         Game.players = [player1]#, player2]
+        self.levels = [Level1(), Level2(), Level3(), Level4(), Level5()]
+        Game.curr_level = self.levels[4]
+        Game.curr_level.restart(player1)
 
 
         frames = 0

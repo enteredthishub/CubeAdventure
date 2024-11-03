@@ -1,4 +1,5 @@
 import time
+import random
 
 import pygame
 
@@ -10,6 +11,7 @@ class Player:
     CONTROL_TYPE_KEYBOARD = 0
     CONTROL_TYPE_MOUSE = 1
     CONTROL_TYPE_INTERNET = 2
+    CONTROL_TYPE_TURRET = 3
     ACCELERATION = 0.8
     X_SPEED = 6
     JUMP_SPEED = 10
@@ -43,7 +45,7 @@ class Player:
 
     score = 200
 
-    def __init__(self, player_x, player_y, player_width, player_height, player_color, control_type, button_gravity, button_left, button_right):
+    def __init__(self, player_x, player_y, player_width, player_height, player_color, control_type, button_gravity=None, button_left=None, button_right=None):
         self.player_x = player_x
         self.player_y = player_y
         self.player_width = player_width
@@ -129,7 +131,18 @@ class Player:
     def draw_player(self, draw_surface):
         pygame.draw.rect(draw_surface, self.player_color, pygame.Rect((self.player_x, self.player_y), (self.player_width, self.player_height)))
 
+    def update_turret(self):
+        target = -1
+        while target == -1 or Game.players[target].control_type == Player.CONTROL_TYPE_TURRET:
+            target = random.randint(0, len(Game.players) - 1)
+        target_player = Game.players[target]
+        self.shoot(target_player.player_x, target_player.player_y)
+
+
     def update_player_position(self):
+        if self.control_type == Player.CONTROL_TYPE_TURRET:
+            self.update_turret()
+            return
         if self.control_type == Player.CONTROL_TYPE_INTERNET:
             return
         delta_x = 0

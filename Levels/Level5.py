@@ -2,7 +2,11 @@ import random
 
 from Bar import Bar
 from CaptureZone import CaptureZone
+from Game import Game
 from Levels.Level import Level
+from MachineGunTheWeapon import MachineGunTheWeapon
+from PistolTheWeapon import PistolTheWeapon
+from Player import Player
 
 
 class Level5(Level):
@@ -60,6 +64,7 @@ class Level5(Level):
             Bar(1050, 650, 150, 150, (0, 0, 0), Bar.TYPE_ZONE)
         ], (100, 100, 100, 145))
     ]
+    turret_list = [Player(500, 600, 50, 50, (200, 200, 0), Player.CONTROL_TYPE_TURRET)]
 
     def restart(self, player):
         super().restart(player)
@@ -75,8 +80,17 @@ class Level5(Level):
         self.spawns_list = [[0, 0], [1150, 0],]
         return self.spawns_list
 
+    def __init__(self):
+        self.turret_list[0].weapon_list.append(PistolTheWeapon(self.turret_list[0]))
+        Game.players += self.turret_list
+
     # def get_next_level(self):
     #     level3 = Level3()
     #     return level3
     #
     #
+
+    #Turret:
+    #Don't fire at WALLS
+    #DO IT DONT SO STUPID
+    #Edit it spawn
