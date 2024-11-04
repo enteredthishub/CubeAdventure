@@ -44,7 +44,7 @@ class Level1(Level):
             Bar(900, 25, 200, 200, (0, 0, 0), Bar.TYPE_ZONE)
         ], (100, 100, 100, 145))]
 
-    turret_list = [Player(300, 500, 50, 50, (0, 0, 0), Player.CONTROL_TYPE_TURRET)]
+    #turret_list = [Player(300, 500, 50, 50, (0, 0, 0), Player.CONTROL_TYPE_TURRET)]
 
     def restart(self, player):
         super().restart(player)
@@ -55,9 +55,9 @@ class Level1(Level):
         player.player_y = spawn[1]
         player.player_gravity = False
 
-    def __init__(self):
-        self.turret_list[0].weapon_list.append(PistolTheWeapon(self.turret_list[0]))
-        Game.players += self.turret_list
+    #def __init__(self):
+        #self.turret_list[0].weapon_list.append(PistolTheWeapon(self.turret_list[0]))
+        #Game.players += self.turret_list
 
     def get_next_level(self):
         level2 = Level2()
