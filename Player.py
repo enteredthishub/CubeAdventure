@@ -12,6 +12,8 @@ class Player:
     CONTROL_TYPE_MOUSE = 1
     CONTROL_TYPE_INTERNET = 2
     CONTROL_TYPE_TURRET = 3
+    CONTROL_TYPE_AI = 4
+
     ACCELERATION = 0.8
     X_SPEED = 6
     JUMP_SPEED = 10
@@ -138,10 +140,156 @@ class Player:
         target_player = Game.players[target]
         self.shoot(target_player.player_x, target_player.player_y)
 
+    prev_jump_time = 0
+    def update_ai(self):
+        target = -1
+        if self.player_moving_left:
+            delta_x = -self.X_SPEED
+        if self.player_moving_right:
+            delta_x = self.X_SPEED
+        while target == -1 or Game.players[target].control_type == Player.CONTROL_TYPE_TURRET and Player.CONTROL_TYPE_AI:
+            target = random.randint(0, len(Game.players) - 1)
+        target_player = Game.players[target]
+        self.shoot(target_player.player_x, target_player.player_y)
+        if target_player.player_x > self.player_x:
+            self.player_x += 6
+        if target_player.player_x < self.player_x:
+            self.player_x -= 6
+        if target_player.player_y < self.player_y:
+            if time.time() - self.prev_jump_time > 0.2:
+                self.prev_jump_time = time.time()
+                self.jump()
+
+        delta_x = 0
+        delta_y = 0
+
+        if self.player_gravity:
+            delta_y = -self.player_y_speed
+        else:
+            delta_y = self.player_y_speed
+
+        self.player_x = self.player_x + delta_x
+        for b1 in Game.curr_level.bar_list:
+            self.is_collided_x = b1.bar_x - self.player_width < self.player_x < b1.bar_x + b1.bar_width and b1.bar_y - self.player_height < self.player_y < b1.bar_y + b1.bar_height
+            if self.is_collided_x:
+                if self.process_bar_collision(b1):
+                    if delta_x > 0:
+                        self.player_x = b1.bar_x - self.player_width
+                    if delta_x < 0:
+                        self.player_x = b1.bar_x + b1.bar_width
+
+        for zone in Game.curr_level.zone_list:
+            for b1 in zone.bar_list:
+                self.is_collided_x = b1.bar_x - self.player_width < self.player_x < b1.bar_x + b1.bar_width and b1.bar_y - self.player_height < self.player_y < b1.bar_y + b1.bar_height
+                if self.is_collided_x:
+                    self.process_bar_collision(b1)
+
+        self.player_y = self.player_y + delta_y
+        for b1 in Game.curr_level.bar_list:
+            self.is_collided_y = b1.bar_x - self.player_width < self.player_x < b1.bar_x + b1.bar_width and b1.bar_y - self.player_height < self.player_y < b1.bar_y + b1.bar_height
+            if self.is_collided_y:
+                if self.process_bar_collision(b1):
+                    if delta_y > 0:
+                        self.player_y = b1.bar_y - self.player_height
+                        self.process_hit()
+                    if delta_y < 0:
+                        self.player_y = b1.bar_y + b1.bar_height
+                        self.process_hit()
+
+        for zone in Game.curr_level.zone_list:
+            for b1 in zone.bar_list:
+                self.is_collided_y = b1.bar_x - self.player_width < self.player_x < b1.bar_x + b1.bar_width and b1.bar_y - self.player_height < self.player_y < b1.bar_y + b1.bar_height
+                if self.is_collided_y:
+                    self.process_bar_collision(b1)
+
+        self.player_y_speed = self.player_y_speed + self.ACCELERATION
+
+        # Hit bottom
+        if self.player_y + self.player_height > Game.SCREEN_HEIGHT:
+            self.player_y = Game.SCREEN_HEIGHT - self.player_height
+            self.process_hit()
+
+        # Hit ceiling
+        if self.player_y < 0:
+            self.player_y = 0
+            self.process_hit()
+
+        # Limit right
+        if self.player_x + self.player_width > Game.SCREEN_WIDTH:
+            self.player_x = Game.SCREEN_WIDTH - self.player_width
+
+        # Limit left
+        if self.player_x < 0:
+            self.player_x = 0
+
+        # print(str(time.time()) + ": " + str(int(self.player_x)) + ", " + str(int(self.player_y)) + ", " + str(int(self.player_y_speed)))
+
+    enter_zone = False
+    enter_zone_time = 0
+    last_zone_time = 0
+
+    def process_bar_collision(self, bar):
+        if bar.bar_type == Bar.TYPE_DANGER:
+            Game.curr_level.restart(self)
+            return False
+        if bar.bar_type == Bar.TYPE_SPHERE:
+            self.player_y_speed = self.player_y_speed * 1.5
+            if self.player_y_speed > 10:
+                self.player_y_speed = 10
+            if self.player_y_speed < -10:
+                self.player_y_speed = -10
+            return True
+        if bar.bar_type == Bar.TYPE_BLUE_SPHERE:
+            self.change_gravity()
+            return True
+        if bar.bar_type == Bar.TYPE_PORTAL_1:
+            self.player_x = bar.teleport_to.bar_x
+            self.player_y = bar.teleport_to.bar_y
+            return False
+        if bar.bar_type == Bar.TYPE_FINISH:
+            Game.curr_level = Game.curr_level.get_next_level()
+            Game.curr_level.restartAll()
+            return False
+        if bar.bar_type == Bar.TYPE_SPAWN_0 and self.spawn_index == 0:
+            return False
+        if bar.bar_type == Bar.TYPE_SPAWN_1 and self.spawn_index == 1:
+            return False
+        if bar.bar_type == Bar.TYPE_ZONE:
+            if time.time() - self.last_zone_time > 0.5:
+                self.enter_zone = False
+                print('BRUUUUH')
+            self.last_zone_time = time.time()
+            if not self.enter_zone:
+                self.enter_zone_time = time.time()
+                self.enter_zone = True
+            if time.time() - self.enter_zone_time > 5:
+                print('LMAO LOOOOOOOL')
+                bar.capture_zone.zone_color = (self.player_color[0], self.player_color[1], self.player_color[2], 145)
+                bar.capture_zone.capture_player = self
+
+            return False
+
+        return True
+
+    def damage(self, damage_points):
+        self.health_now -= damage_points
+        if self.health_now <= 0:
+            Game.curr_level.restart(self)
+        print("Player " + str(self.control_type) + " health: " + str(self.health_now))
+
+    def set_spawn_index(self, player_spawn_index):
+        self.spawn_index = player_spawn_index
+        print('sus')
+
+
+
 
     def update_player_position(self):
         if self.control_type == Player.CONTROL_TYPE_TURRET:
             self.update_turret()
+            return
+        if self.control_type == Player.CONTROL_TYPE_AI:
+            self.update_ai()
             return
         if self.control_type == Player.CONTROL_TYPE_INTERNET:
             return
@@ -234,7 +382,7 @@ class Player:
             self.player_x = bar.teleport_to.bar_x
             self.player_y = bar.teleport_to.bar_y
             return False
-        if Game.gameover == True:
+        if bar.bar_type == Bar.TYPE_FINISH:
             Game.curr_level = Game.curr_level.get_next_level()
             Game.curr_level.restartAll()
             return False

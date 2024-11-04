@@ -15,7 +15,8 @@ class Level6(Level):
     bar_list = []
 
     zone_list = []
-    turret_list = [Player(750, 500, 50, 50, (0, 0, 0), Player.CONTROL_TYPE_TURRET)]
+    #turret_list = [Player(750, 500, 50, 50, (0, 0, 0), Player.CONTROL_TYPE_TURRET)]
+    ai_list = [Player(750, 500, 50, 50, (0, 0, 0), Player.CONTROL_TYPE_AI)]
 
     def restart(self, player):
         super().restart(player)
@@ -36,6 +37,10 @@ class Level6(Level):
         #Game.players += self.turret_list
         #self.turret_list[1].weapon_list.append(PistolTheWeapon(self.turret_list[1]))
         #Game.players += self.turret_list
+
+    def __init__(self):
+        self.ai_list[0].weapon_list.append(MachineGunTheWeapon(self.ai_list[0]))
+        Game.players += self.ai_list
 
     # def get_next_level(self):
     #     level3 = Level3()
