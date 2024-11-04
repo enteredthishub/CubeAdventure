@@ -64,7 +64,7 @@ class Level5(Level):
             Bar(1050, 650, 150, 150, (0, 0, 0), Bar.TYPE_ZONE)
         ], (100, 100, 100, 145))
     ]
-    turret_list = [Player(500, 600, 50, 50, (200, 200, 0), Player.CONTROL_TYPE_TURRET)]
+    turret_list = [Player(400, 500, 50, 50, (0, 0, 0), Player.CONTROL_TYPE_TURRET)]
 
     def restart(self, player):
         super().restart(player)
@@ -92,5 +92,5 @@ class Level5(Level):
 
     #Turret:
     #Don't fire at WALLS
-    #DO IT DONT SO STUPID
+    #DO IT NOT SO STUPID
     #Edit it spawn

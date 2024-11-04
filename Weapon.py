@@ -9,6 +9,7 @@ class Weapon:
     MACHINE_GUN = 1
     RPG = 2
     SHOTGUN = 3
+    SNIPER_RIFLE = 4
 
     STATE_READY = 0
     STATE_RELOADING = 1
