@@ -234,7 +234,7 @@ class Player:
             self.player_x = bar.teleport_to.bar_x
             self.player_y = bar.teleport_to.bar_y
             return False
-        if bar.bar_type == Bar.TYPE_FINISH:
+        if Game.gameover == True:
             Game.curr_level = Game.curr_level.get_next_level()
             Game.curr_level.restartAll()
             return False

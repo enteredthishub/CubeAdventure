@@ -31,9 +31,9 @@ class Level6(Level):
         self.spawns_list = [[0, 0], [1150, 0],]
         return self.spawns_list
 
-    def __init__(self):
-        self.turret_list[0].weapon_list.append(MachineGunTheWeapon(self.turret_list[0]))
-        Game.players += self.turret_list
+    #def __init__(self):
+        #self.turret_list[0].weapon_list.append(MachineGunTheWeapon(self.turret_list[0]))
+        #Game.players += self.turret_list
         #self.turret_list[1].weapon_list.append(PistolTheWeapon(self.turret_list[1]))
         #Game.players += self.turret_list
 

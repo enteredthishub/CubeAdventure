@@ -64,7 +64,10 @@ class Level5(Level):
             Bar(1050, 650, 150, 150, (0, 0, 0), Bar.TYPE_ZONE)
         ], (100, 100, 100, 145))
     ]
-    turret_list = [Player(400, 500, 50, 50, (0, 0, 0), Player.CONTROL_TYPE_TURRET)]
+    turret_list = [#Player(400, 500, 50, 50, (0, 0, 0), Player.CONTROL_TYPE_TURRET),
+                   #Player(750, 500, 50, 50, (0, 0, 0), Player.CONTROL_TYPE_TURRET)
+    ]
+
 
     def restart(self, player):
         super().restart(player)
@@ -80,9 +83,11 @@ class Level5(Level):
         self.spawns_list = [[0, 0], [1150, 0],]
         return self.spawns_list
 
-    def __init__(self):
-        self.turret_list[0].weapon_list.append(PistolTheWeapon(self.turret_list[0]))
-        Game.players += self.turret_list
+    #def __init__(self):
+        #self.turret_list[0].weapon_list.append(PistolTheWeapon(self.turret_list[0]))
+        #Game.players += self.turret_list
+        #self.turret_list[1].weapon_list.append(PistolTheWeapon(self.turret_list[0]))
+        #Game.players += self.turret_list
 
     # def get_next_level(self):
     #     level3 = Level3()
