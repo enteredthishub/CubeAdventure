@@ -10,7 +10,7 @@ class SniperRifleTheWeapon(Weapon):
 
 
     def __init__(self, player):
-        self.weapon_bullet_speed = 4
+        self.weapon_bullet_speed = 7
         self.weapon_action = None
         self.weapon_shoot_delay = 1
         self.weapon_type = Weapon.SNIPER_RIFLE

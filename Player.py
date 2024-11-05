@@ -1,5 +1,6 @@
 import time
 import random
+from logging.config import listen
 
 import pygame
 
@@ -143,86 +144,24 @@ class Player:
     prev_jump_time = 0
     def update_ai(self):
         target = -1
-        if self.player_moving_left:
-            delta_x = -self.X_SPEED
-        if self.player_moving_right:
-            delta_x = self.X_SPEED
+        #if self.player_moving_left:
+            #delta_x = -self.X_SPEED
+        #if self.player_moving_right:
+            #delta_x = self.X_SPEED
         while target == -1 or Game.players[target].control_type == Player.CONTROL_TYPE_TURRET and Player.CONTROL_TYPE_AI:
             target = random.randint(0, len(Game.players) - 1)
         target_player = Game.players[target]
         self.shoot(target_player.player_x, target_player.player_y)
         if target_player.player_x > self.player_x:
-            self.player_x += 6
+            self.player_moving_right = True
+            self.player_moving_left = False
         if target_player.player_x < self.player_x:
-            self.player_x -= 6
+            self.player_moving_right = False
+            self.player_moving_left = True
         if target_player.player_y < self.player_y:
             if time.time() - self.prev_jump_time > 0.2:
                 self.prev_jump_time = time.time()
                 self.jump()
-
-        delta_x = 0
-        delta_y = 0
-
-        if self.player_gravity:
-            delta_y = -self.player_y_speed
-        else:
-            delta_y = self.player_y_speed
-
-        self.player_x = self.player_x + delta_x
-        for b1 in Game.curr_level.bar_list:
-            self.is_collided_x = b1.bar_x - self.player_width < self.player_x < b1.bar_x + b1.bar_width and b1.bar_y - self.player_height < self.player_y < b1.bar_y + b1.bar_height
-            if self.is_collided_x:
-                if self.process_bar_collision(b1):
-                    if delta_x > 0:
-                        self.player_x = b1.bar_x - self.player_width
-                    if delta_x < 0:
-                        self.player_x = b1.bar_x + b1.bar_width
-
-        for zone in Game.curr_level.zone_list:
-            for b1 in zone.bar_list:
-                self.is_collided_x = b1.bar_x - self.player_width < self.player_x < b1.bar_x + b1.bar_width and b1.bar_y - self.player_height < self.player_y < b1.bar_y + b1.bar_height
-                if self.is_collided_x:
-                    self.process_bar_collision(b1)
-
-        self.player_y = self.player_y + delta_y
-        for b1 in Game.curr_level.bar_list:
-            self.is_collided_y = b1.bar_x - self.player_width < self.player_x < b1.bar_x + b1.bar_width and b1.bar_y - self.player_height < self.player_y < b1.bar_y + b1.bar_height
-            if self.is_collided_y:
-                if self.process_bar_collision(b1):
-                    if delta_y > 0:
-                        self.player_y = b1.bar_y - self.player_height
-                        self.process_hit()
-                    if delta_y < 0:
-                        self.player_y = b1.bar_y + b1.bar_height
-                        self.process_hit()
-
-        for zone in Game.curr_level.zone_list:
-            for b1 in zone.bar_list:
-                self.is_collided_y = b1.bar_x - self.player_width < self.player_x < b1.bar_x + b1.bar_width and b1.bar_y - self.player_height < self.player_y < b1.bar_y + b1.bar_height
-                if self.is_collided_y:
-                    self.process_bar_collision(b1)
-
-        self.player_y_speed = self.player_y_speed + self.ACCELERATION
-
-        # Hit bottom
-        if self.player_y + self.player_height > Game.SCREEN_HEIGHT:
-            self.player_y = Game.SCREEN_HEIGHT - self.player_height
-            self.process_hit()
-
-        # Hit ceiling
-        if self.player_y < 0:
-            self.player_y = 0
-            self.process_hit()
-
-        # Limit right
-        if self.player_x + self.player_width > Game.SCREEN_WIDTH:
-            self.player_x = Game.SCREEN_WIDTH - self.player_width
-
-        # Limit left
-        if self.player_x < 0:
-            self.player_x = 0
-
-        # print(str(time.time()) + ": " + str(int(self.player_x)) + ", " + str(int(self.player_y)) + ", " + str(int(self.player_y_speed)))
 
     enter_zone = False
     enter_zone_time = 0
@@ -290,7 +229,7 @@ class Player:
             return
         if self.control_type == Player.CONTROL_TYPE_AI:
             self.update_ai()
-            return
+            #return
         if self.control_type == Player.CONTROL_TYPE_INTERNET:
             return
         delta_x = 0
