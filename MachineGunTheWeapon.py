@@ -32,4 +32,3 @@ class MachineGunTheWeapon(Weapon):
         self.player.bullet_list.append(bullet)
 
 
-

@@ -63,11 +63,17 @@ class Player:
         self.selected_weapon = 0
 
     prev_gravity_change_time = 0
+    spawn_time = 0
 
     def change_gravity(self):
         if time.time() - self.prev_gravity_change_time > 1:
             self.player_gravity = not self.player_gravity
             self.prev_gravity_change_time = time.time()
+
+    def respawn(self):
+        self.spawn_time = time.time()
+        if self.control_type == Player.CONTROL_TYPE_TURRET:
+            self.player_color = (100, 100, 100)
 
     def process_key_events(self, events):
         if self.control_type == Player.CONTROL_TYPE_KEYBOARD:
@@ -124,8 +130,7 @@ class Player:
 
     def jump(self):
         self.player_y_speed = -Player.JUMP_SPEED
-
-
+        
     def process_hit(self):
         #self.player_y_speed = self.player_y_speed - 2
         #self.player_y_speed = -self.player_y_speed
@@ -139,8 +144,12 @@ class Player:
         while target == -1 or Game.players[target].control_type == Player.CONTROL_TYPE_TURRET:
             target = random.randint(0, len(Game.players) - 1)
         target_player = Game.players[target]
-        self.shoot(target_player.player_x, target_player.player_y)
+        if time.time() - self.spawn_time > 10:
+            self.player_color = (0, 0, 0)
+            self.shoot(target_player.player_x, target_player.player_y)
 
+
+    prev_collide = 0
     prev_jump_time = 0
     def update_ai(self):
         target = -1
@@ -152,13 +161,18 @@ class Player:
             target = random.randint(0, len(Game.players) - 1)
         target_player = Game.players[target]
         self.shoot(target_player.player_x, target_player.player_y)
-        if target_player.player_x > self.player_x:
+        if target_player.player_x > self.player_x + 50:
             self.player_moving_right = True
             self.player_moving_left = False
-        if target_player.player_x < self.player_x:
+        if target_player.player_x < self.player_x - 50:
             self.player_moving_right = False
             self.player_moving_left = True
         if target_player.player_y < self.player_y:
+            if time.time() - self.prev_jump_time > 0.2:
+                self.prev_jump_time = time.time()
+                self.jump()
+        if time.time() - self.prev_collide > 2:
+            self.prev_collide = time.time()
             if time.time() - self.prev_jump_time > 0.2:
                 self.prev_jump_time = time.time()
                 self.jump()

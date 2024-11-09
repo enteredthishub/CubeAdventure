@@ -15,6 +15,7 @@ class Level:
 
     def restart(self, player):
         player.health_now = Player.HEALTH_POINTS
+        player.respawn()
 
     def get_next_level(self):
         pass
@@ -22,3 +23,6 @@ class Level:
     def get_spawns_list(self):
         self.spawns_list = [[0, 0]]
         return self.spawns_list
+
+    def start(self):
+        pass

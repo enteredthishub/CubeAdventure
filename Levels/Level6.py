@@ -28,6 +28,11 @@ class Level6(Level):
         player.player_gravity = False
         player.set_spawn_index(spawn_index)
 
+
+    def start(self):
+        self.ai_list[0].weapon_list.append(MachineGunTheWeapon(self.ai_list[0]))
+        Game.players += self.ai_list
+
     def get_spawns_list(self):
         self.spawns_list = [[0, 0], [1150, 0],]
         return self.spawns_list
@@ -38,9 +43,6 @@ class Level6(Level):
         #self.turret_list[1].weapon_list.append(PistolTheWeapon(self.turret_list[1]))
         #Game.players += self.turret_list
 
-    def __init__(self):
-        self.ai_list[0].weapon_list.append(MachineGunTheWeapon(self.ai_list[0]))
-        Game.players += self.ai_list
 
     # def get_next_level(self):
     #     level3 = Level3()
