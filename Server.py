@@ -48,6 +48,7 @@ class Server:
                         for bullet in bullets:
                             if bullet.bullet_x < 0 or bullet.bullet_y < 0:
                                 continue
+                            conn.sendall(int(p.weapon_list.index(bullet.bullet_weapon)).to_bytes(2, 'big'))
                             conn.sendall(int(bullet.bullet_x).to_bytes(2, 'big'))
                             conn.sendall(int(bullet.bullet_y).to_bytes(2, 'big'))
                             conn.sendall(int(bullet.bullet_target_x).to_bytes(2, 'big'))
@@ -105,6 +106,7 @@ class Server:
             if bullets_amount > 0:
                 for i in range(0, bullets_amount):
                     bullet = Bullet(bullet_originator=self.client_player,
+                                    bullet_weapon=self.client_player.weapon_list[self.get_int(s)],
                                     bullet_x=self.get_int(s),
                                     bullet_y=self.get_int(s),
                                     bullet_target_x=self.get_int(s),

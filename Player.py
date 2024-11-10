@@ -66,6 +66,7 @@ class Player:
     spawn_time = 0
 
     def change_gravity(self):
+        self.ACCELERATION = 0.8
         if time.time() - self.prev_gravity_change_time > 1:
             self.player_gravity = not self.player_gravity
             self.prev_gravity_change_time = time.time()
@@ -87,6 +88,10 @@ class Player:
                         self.player_moving_right = True
                     if event.key == pygame.K_SPACE:
                         self.jump()
+                    if event.key == pygame.K_s:
+                        self.ACCELERATION -= 0.1
+                    if event.key == pygame.K_f:
+                        self.ACCELERATION += 0.1
                     if event.key == pygame.K_1:
                         self.selected_weapon = 0
                     if event.key == pygame.K_2:

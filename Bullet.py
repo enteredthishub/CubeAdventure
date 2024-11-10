@@ -6,6 +6,7 @@ from Game import Game
 class Bullet:
     BULLET_ACTION_GRAVITY = 0
     bullet_originator = None
+    bullet_weapon = None
     bullet_x = 0.0
     bullet_y = 0.0
     bullet_radius = 0
@@ -16,8 +17,9 @@ class Bullet:
     bullet_speed = 20
     bullet_damage = 0
 
-    def __init__(self, bullet_originator, bullet_x, bullet_y, bullet_target_x, bullet_target_y, bullet_speed, bullet_color, bullet_radius=5, bullet_action=BULLET_ACTION_GRAVITY, bullet_damage=10):
+    def __init__(self, bullet_originator, bullet_weapon, bullet_x, bullet_y, bullet_target_x, bullet_target_y, bullet_speed, bullet_color, bullet_radius=5, bullet_action=BULLET_ACTION_GRAVITY, bullet_damage=10):
         self.bullet_originator = bullet_originator
+        self.bullet_weapon = bullet_weapon
         self.bullet_x = bullet_x
         self.bullet_y = bullet_y
         self.bullet_color = bullet_color
@@ -70,9 +72,13 @@ class Bullet:
                 if self in Game.curr_level.bullet_list:
                     Game.curr_level.bullet_list.remove(self)
                 #self.bullet_originator.bullet_list.remove(self)
-                p.damage(self.bullet_damage)
+                self.bullet_weapon.perform_weapon_action(p, self.bullet_x, self.bullet_y, self.bullet_damage)
+
         for b in Game.curr_level.bar_list:
             is_collided = b.bar_x - (self.bullet_radius * 2) < self.bullet_x < b.bar_x + b.bar_width and b.bar_y - (self.bullet_radius * 2) < self.bullet_y < b.bar_y + b.bar_height
             if is_collided:
                 if self in Game.curr_level.bullet_list:
                     Game.curr_level.bullet_list.remove(self)
+
+
+

@@ -42,6 +42,7 @@ class Client:
                 if bullets_amount > 0:
                     for i in range(0, bullets_amount):
                         bullet = Bullet(bullet_originator=ip,
+                                        bullet_weapon=ip.weapon_list[self.get_int(s)],
                                         bullet_x=self.get_int(s),
                                         bullet_y=self.get_int(s),
                                         bullet_target_x=self.get_int(s),
@@ -81,6 +82,7 @@ class Client:
                 for bullet in bullets:
                     if bullet.bullet_x < 0 or bullet.bullet_y < 0:
                         continue
+                    s.sendall(int(p.weapon_list.index(bullet.bullet_weapon)).to_bytes(2, 'big'))
                     s.sendall(int(bullet.bullet_x).to_bytes(2, 'big'))
                     s.sendall(int(bullet.bullet_y).to_bytes(2, 'big'))
                     s.sendall(int(bullet.bullet_target_x).to_bytes(2, 'big'))
