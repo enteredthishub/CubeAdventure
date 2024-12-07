@@ -35,7 +35,7 @@ class CubeAdventure:
         #player3 = Player(0, 0, 50, 50, (200, 0, 0), pygame.K_u, pygame.K_h, pygame.K_k)
         Game.players = [player1]#, player2]
         self.levels = [Level1(), Level2(), Level3(), Level4(), Level5(), Level6()]
-        Game.curr_level = self.levels[5]
+        Game.curr_level = self.levels[4]
         Game.curr_level.start()
         Game.curr_level.restart(player1)
 

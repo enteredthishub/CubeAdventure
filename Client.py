@@ -120,7 +120,7 @@ class Client:
                 self.prev_bullet = p.bullet_list[-1]
                 return p.bullet_list
             while True:
-                if p.bullet_list[i] == self.prev_bullet:
+                if p.bullet_list[i] == p.bullet_list[0] or p.bullet_list[i] == self.prev_bullet:
                     break
                 else:
                     bullet_list_to_send.append(p.bullet_list[i])
