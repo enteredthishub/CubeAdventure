@@ -28,11 +28,11 @@ class GameInterface:
 
     def draw(self, screen):
         if len(Game.players) > 0:
-            self.gravity_textfield.text = 'Gravity:' + str(Player.ACCELERATION)
+            self.gravity_textfield.text = 'Gravity:' + str(Game.players[0].ACCELERATION)
             self.gravity_textfield.text_color = Game.players[0].player_color
             self.gravity_textfield.draw(screen)
         if len(Game.players) > 0:
-            self.HP_textfield.text = 'HP:' + str(Player.health_now)
+            self.HP_textfield.text = 'HP:' + str(Game.players[0].health_now)
             self.HP_textfield.text_color = Game.players[0].player_color
             self.HP_textfield.draw(screen)
         if len(Game.players) > 0:
