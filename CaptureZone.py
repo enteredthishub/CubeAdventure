@@ -17,7 +17,7 @@ class CaptureZone:
     def update(self):
         if not Game.gameover and time.time() - self.prev_time > 1:
             self.prev_time = time.time()
-            for p in Game.players:
+            for p in Game.real_players:
                 if p != self.capture_player and self.capture_player != None  :
                     p.score -= 1
                     if p.score == 0:
