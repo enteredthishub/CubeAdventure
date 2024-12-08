@@ -22,6 +22,7 @@ class Server:
         print("New client from " + addr[0])
         self.client_player = Player(0, 0, 50, 50, (0, 0, 0), Player.CONTROL_TYPE_INTERNET, None, None, None)
         Game.players = Game.players + [self.client_player]
+        Game.real_players += [self.client_player]
         conn.sendall(Game.curr_level.levelNumber.to_bytes(2, 'big'))
         self.receive_data_thread(conn)
         self.send_data(conn)
@@ -118,7 +119,7 @@ class Server:
                     self.client_player.bullet_list.append(bullet)
             for z in Game.curr_level.zone_list:
                 z.zone_color = (self.get_int(s), self.get_int(s), self.get_int(s), self.get_int(s))
-                for p in Game.players:
+                for p in Game.real_players:
                     if z.zone_color[0] == p.player_color[0] and z.zone_color[1] == p.player_color[1] and z.zone_color[2] == p.player_color[2]:
                         z.capture_player = p
 

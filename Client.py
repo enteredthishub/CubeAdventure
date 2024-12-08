@@ -34,6 +34,7 @@ class Client:
                 for n in range(0, number_of_players):
                     player = Player(0, 0, 50, 50, (0, 0, 0), Player.CONTROL_TYPE_INTERNET, None, None, None)
                     Game.players = Game.players + [player]
+                    Game.real_players += [player]
                     self.internet_players = self.internet_players + [player]
                 self.initialized = True
 
@@ -59,7 +60,7 @@ class Client:
 
             for z in Game.curr_level.zone_list:
                 z.zone_color = (self.get_int(s), self.get_int(s), self.get_int(s), self.get_int(s))
-                for p in Game.players:
+                for p in Game.real_players:
                     if z.zone_color[0] == p.player_color[0] and z.zone_color[1] == p.player_color[1] and z.zone_color[2] == p.player_color[2]:
                         z.capture_player = p
 

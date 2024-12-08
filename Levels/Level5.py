@@ -64,8 +64,8 @@ class Level5(Level):
             Bar(1050, 650, 150, 150, (0, 0, 0), Bar.TYPE_ZONE)
         ], (100, 100, 100, 145))
     ]
-    turret_list = [Player(400, 500, 50, 50, (100, 100, 100), Player.CONTROL_TYPE_TURRET),
-                   Player(750, 500, 50, 50, (100, 100, 100), Player.CONTROL_TYPE_TURRET)
+    turret_list = [Player(400, 500, 50, 50, (105, 105, 105), Player.CONTROL_TYPE_TURRET),
+                   Player(750, 500, 50, 50, (105, 105, 105), Player.CONTROL_TYPE_TURRET)
     ]
 
 
