@@ -16,6 +16,11 @@ class CubeAdventure:
     levels = None
     def start_game(self):
         pygame.init()
+        file = 'Music/little-big_-_hypnodancer.mp3'
+        pygame.mixer.init()
+        pygame.mixer.music.load(file)
+        pygame.mixer.music.play()
+        pygame.event.wait()
 
         Game.game_interface = GameInterface()
 
