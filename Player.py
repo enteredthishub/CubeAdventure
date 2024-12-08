@@ -6,6 +6,11 @@ import pygame
 
 from Bar import Bar
 from Game import Game
+from MachineGunTheWeapon import MachineGunTheWeapon
+from PistolTheWeapon import PistolTheWeapon
+from RPGTheWeapon import RPGTheWeapon
+from ShotgunTheWeapon import ShotgunTheWeapon
+from SniperRifleTheWeapon import SniperRifleTheWeapon
 
 
 class Player:
@@ -39,6 +44,7 @@ class Player:
     player_gravity = False
 
     bullet_list = None
+    prev_bullet = None
     weapon_list = None
     selected_weapon = 0
     is_collided_x = False
@@ -61,6 +67,11 @@ class Player:
         self.bullet_list = []
         self.weapon_list = []
         self.selected_weapon = 0
+        self.weapon_list.append(PistolTheWeapon(self))
+        self.weapon_list.append(MachineGunTheWeapon(self))
+        self.weapon_list.append(ShotgunTheWeapon(self))
+        self.weapon_list.append(RPGTheWeapon(self))
+        self.weapon_list.append(SniperRifleTheWeapon(self))
 
     prev_gravity_change_time = 0
     spawn_time = 0

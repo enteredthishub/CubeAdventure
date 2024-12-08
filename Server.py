@@ -33,7 +33,7 @@ class Server:
             #Players data
             conn.sendall((len(Game.players)-1).to_bytes(2, 'big'))
             for p in Game.players:
-                if p.control_type != Player.CONTROL_TYPE_INTERNET and p.control_type != Player.CONTROL_TYPE_TURRET:
+                if p.control_type != Player.CONTROL_TYPE_INTERNET:
                     if p.player_x < 0: p.player_x = 0
                     if p.player_y < 0: p.player_y = 0
                     conn.sendall(int(p.player_x).to_bytes(2, 'big'))
@@ -70,28 +70,27 @@ class Server:
                 conn.sendall(int(z.zone_color[3]).to_bytes(2, 'big'))
             time.sleep(0.01)
 
-    prev_bullet = None
     def get_last_bullet(self, p):
-        if len(p.bullet_list) > 0 and p.bullet_list[-1] != self.prev_bullet:
-            self.prev_bullet = p.bullet_list[-1]
+        if len(p.bullet_list) > 0 and p.bullet_list[-1] != p.prev_bullet:
+            p.prev_bullet = p.bullet_list[-1]
             return p.bullet_list[-1]
         else:
             return None
 
     def get_unsent_bullets(self, p):
-        if len(p.bullet_list) > 0 and p.bullet_list[-1] != self.prev_bullet:
+        if len(p.bullet_list) > 0 and p.bullet_list[-1] != p.prev_bullet:
             i = -1
             bullet_list_to_send = []
-            if self.prev_bullet is None:
-                self.prev_bullet = p.bullet_list[-1]
+            if p.prev_bullet is None:
+                p.prev_bullet = p.bullet_list[-1]
                 return p.bullet_list
             while True:
-                if p.bullet_list[i] == p.bullet_list[0] or p.bullet_list[i] == self.prev_bullet:
+                if p.bullet_list[i] == p.prev_bullet:
                     break
                 else:
                     bullet_list_to_send.append(p.bullet_list[i])
                 i -= 1
-            self.prev_bullet = p.bullet_list[-1]
+            p.prev_bullet = p.bullet_list[-1]
             return bullet_list_to_send
         else:
             return None

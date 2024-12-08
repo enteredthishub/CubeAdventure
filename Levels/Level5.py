@@ -81,9 +81,6 @@ class Level5(Level):
             player.set_spawn_index(spawn_index)
 
     def start(self):
-        self.turret_list[0].weapon_list.append(PistolTheWeapon(self.turret_list[0]))
-        Game.players += self.turret_list
-        self.turret_list[1].weapon_list.append(PistolTheWeapon(self.turret_list[1]))
         Game.players += self.turret_list
 
     def get_spawns_list(self):
@@ -102,4 +99,4 @@ class Level5(Level):
     #Turret:
     #Don't fire at WALLS
     #DO IT NOT SO STUPID
-    #Edit it spawn
+    #Edit it spawn....

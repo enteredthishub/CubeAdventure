@@ -1,7 +1,6 @@
 import time
 import pygame
 
-from Bar import Bar
 from Game import Game
 from GameInterface import GameInterface
 from Levels.Level1 import Level1
@@ -10,12 +9,7 @@ from Levels.Level3 import Level3
 from Levels.Level4 import Level4
 from Levels.Level5 import Level5
 from Levels.Level6 import Level6
-from MachineGunTheWeapon import MachineGunTheWeapon
-from PistolTheWeapon import PistolTheWeapon
 from Player import Player
-from RPGTheWeapon import RPGTheWeapon
-from ShotgunTheWeapon import ShotgunTheWeapon
-from SniperRifleTheWeapon import SniperRifleTheWeapon
 
 
 class CubeAdventure:
@@ -26,16 +20,12 @@ class CubeAdventure:
         Game.game_interface = GameInterface()
 
         player1 = Player(0, 0, 50, 50, (50, 50, 200), Player.CONTROL_TYPE_KEYBOARD, pygame.K_UP, pygame.K_LEFT, pygame.K_RIGHT)
-        player1.weapon_list.append(PistolTheWeapon(player1))
-        player1.weapon_list.append(MachineGunTheWeapon(player1))
-        player1.weapon_list.append(ShotgunTheWeapon(player1))
-        player1.weapon_list.append(RPGTheWeapon(player1))
-        player1.weapon_list.append(SniperRifleTheWeapon(player1))
+
         #player2 = Player(0, 0, 50, 50, (0, 0, 200), Player.CONTROL_TYPE_KEYBOARD, pygame.K_w, pygame.K_a, pygame.K_d)
         #player3 = Player(0, 0, 50, 50, (200, 0, 0), pygame.K_u, pygame.K_h, pygame.K_k)
         Game.players = [player1]#, player2]
-        self.levels = [Level1(), Level2(), Level3(), Level4(), Level5(), Level6()]
-        Game.curr_level = self.levels[4]
+        CubeAdventure.levels = [Level1(), Level2(), Level3(), Level4(), Level5(), Level6()]
+        Game.curr_level = CubeAdventure.levels[4]
         Game.curr_level.start()
         Game.curr_level.restart(player1)
 

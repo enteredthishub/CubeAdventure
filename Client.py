@@ -15,6 +15,9 @@ class Client:
         data = s.recv(2)
         print("Current level: " + str(data))
         Game.curr_level = CubeAdventure.levels[int.from_bytes(data, "big")]
+        for p in Game.players:
+            if p.control_type != Player.CONTROL_TYPE_KEYBOARD:
+                Game.players.remove(p)
         self.send_data_thread(s)
         self.send_and_receive_data(s)
         #s.sendall(b"hello")
@@ -104,28 +107,27 @@ class Client:
                 s.sendall(int(z.zone_color[3]).to_bytes(2, 'big'))
             time.sleep(0.01)
 
-    prev_bullet = None
     def get_last_bullet(self, p):
-        if len(p.bullet_list) > 0 and p.bullet_list[-1] != self.prev_bullet:
-            self.prev_bullet = p.bullet_list[-1]
+        if len(p.bullet_list) > 0 and p.bullet_list[-1] != p.prev_bullet:
+            p.prev_bullet = p.bullet_list[-1]
             return p.bullet_list[-1]
         else:
             return None
 
     def get_unsent_bullets(self, p):
-        if len(p.bullet_list) > 0 and p.bullet_list[-1] != self.prev_bullet:
+        if len(p.bullet_list) > 0 and p.bullet_list[-1] != p.prev_bullet:
             i = -1
             bullet_list_to_send = []
-            if self.prev_bullet is None:
-                self.prev_bullet = p.bullet_list[-1]
+            if p.prev_bullet is None:
+                p.prev_bullet = p.bullet_list[-1]
                 return p.bullet_list
             while True:
-                if p.bullet_list[i] == p.bullet_list[0] or p.bullet_list[i] == self.prev_bullet:
+                if p.bullet_list[i] == p.prev_bullet:
                     break
                 else:
                     bullet_list_to_send.append(p.bullet_list[i])
                 i -= 1
-            self.prev_bullet = p.bullet_list[-1]
+            p.prev_bullet = p.bullet_list[-1]
             return bullet_list_to_send
         else:
             return None
