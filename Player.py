@@ -52,6 +52,7 @@ class Player:
     health_now = HEALTH_POINTS
     spawn_index = -1                            #WTF
     kills = 0
+    kills_streak = 0
 
     score = 200
 
@@ -246,7 +247,9 @@ class Player:
         if self.health_now <= 0:
             Game.curr_level.restart(self)
             bullet_originator.kills += 1
-        print("Player " + str(self.control_type) + " health: " + str(self.health_now))
+            bullet_originator.kills_streak += 1
+            self.kills_streak = 0
+        print("Player " + str(self.control_type) + ", health: " + str(self.health_now) + ', killstreak:' + str(self.kills_streak))
 
     def set_spawn_index(self, player_spawn_index):
         self.spawn_index = player_spawn_index
