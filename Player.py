@@ -51,6 +51,7 @@ class Player:
     is_collided_y = False
     health_now = HEALTH_POINTS
     spawn_index = -1                            #WTF
+    kills = 0
 
     score = 200
 
@@ -240,10 +241,11 @@ class Player:
 
         return True
 
-    def damage(self, damage_points):
+    def damage(self, damage_points, bullet_originator):
         self.health_now -= damage_points
         if self.health_now <= 0:
             Game.curr_level.restart(self)
+            bullet_originator.kills += 1
         print("Player " + str(self.control_type) + " health: " + str(self.health_now))
 
     def set_spawn_index(self, player_spawn_index):
@@ -330,57 +332,3 @@ class Player:
 
         # print(str(time.time()) + ": " + str(int(self.player_x)) + ", " + str(int(self.player_y)) + ", " + str(int(self.player_y_speed)))
 
-    enter_zone = False
-    enter_zone_time = 0
-    last_zone_time = 0
-    def process_bar_collision(self, bar):
-        if bar.bar_type == Bar.TYPE_DANGER:
-            Game.curr_level.restart(self)
-            return False
-        if bar.bar_type == Bar.TYPE_SPHERE:
-            self.player_y_speed = self.player_y_speed * 1.5
-            if self.player_y_speed > 10:
-                self.player_y_speed = 10
-            if self.player_y_speed < -10:
-                self.player_y_speed = -10
-            return True
-        if bar.bar_type == Bar.TYPE_BLUE_SPHERE:
-            self.change_gravity()
-            return True
-        if bar.bar_type == Bar.TYPE_PORTAL_1:
-            self.player_x = bar.teleport_to.bar_x
-            self.player_y = bar.teleport_to.bar_y
-            return False
-        if bar.bar_type == Bar.TYPE_FINISH:
-            Game.curr_level = Game.curr_level.get_next_level()
-            Game.curr_level.restartAll()
-            return False
-        if bar.bar_type == Bar.TYPE_SPAWN_0 and self.spawn_index == 0:
-            return False
-        if bar.bar_type == Bar.TYPE_SPAWN_1 and self.spawn_index == 1:
-            return False
-        if bar.bar_type == Bar.TYPE_ZONE:
-            if time.time() - self.last_zone_time > 0.5:
-                self.enter_zone = False
-                print('BRUUUUH')
-            self.last_zone_time = time.time()
-            if not self.enter_zone:
-                self.enter_zone_time = time.time()
-                self.enter_zone = True
-            if time.time() - self.enter_zone_time > 5:
-                print('LMAO LOOOOOOOL')
-                bar.capture_zone.zone_color = (self.player_color[0], self.player_color[1], self.player_color[2], 145)
-                bar.capture_zone.capture_player = self
-
-            return False
-
-        return True
-
-    def damage(self, damage_points):
-        self.health_now -= damage_points
-        if self.health_now <= 0:
-            Game.curr_level.restart(self)
-        print("Player " + str(self.control_type) + " health: " + str(self.health_now))
-
-    def set_spawn_index(self, player_spawn_index):
-        self.spawn_index = player_spawn_index

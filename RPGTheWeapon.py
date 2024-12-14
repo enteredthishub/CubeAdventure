@@ -29,7 +29,7 @@ class RPGTheWeapon(Weapon):
 
         #TODO: Do a shrapnel explosive for RPG
 
-    def perform_weapon_action(self, player, bullet_x, bullet_y, damage):
+    def perform_weapon_action(self, player, bullet_originator, bullet_x, bullet_y, damage):
         print('sus')
 
 

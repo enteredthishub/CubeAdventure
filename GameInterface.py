@@ -9,6 +9,7 @@ class GameInterface:
     gravity_textfield = None
     gameover_textfield = None
     gameover_player = None
+    kills_textfield = None
 
 
     def __init__(self):
@@ -17,6 +18,7 @@ class GameInterface:
         self.HP_textfield = TextField("", 1000, 50, (0, 0, 255))
         self.gravity_textfield = TextField("", 1000, 100, (0, 0, 255))
         self.gameover_textfield = TextField("", 450, 200, (100, 100, 100), 45)
+        self.kills_textfield = TextField("", 1000, 150, (255, 0 , 0))
 
     def draw(self, screen):
         if len(Game.real_players) > 0:
@@ -27,6 +29,10 @@ class GameInterface:
             self.HP_textfield.text = 'HP:' + str(Game.real_players[0].health_now)
             self.HP_textfield.text_color = Game.real_players[0].player_color
             self.HP_textfield.draw(screen)
+        if len(Game.real_players) > 0:
+            self.kills_textfield.text = 'Kills:' + str(Game.real_players[0].kills)
+            self.kills_textfield.text_color = Game.real_players[0].player_color
+            self.kills_textfield.draw(screen)
         if len(Game.real_players) > 0:
             self.player1_score_textfield.text = str(Game.real_players[0].score)
             self.player1_score_textfield.text_color = Game.real_players[0].player_color

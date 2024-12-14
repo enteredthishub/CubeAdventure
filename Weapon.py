@@ -52,5 +52,5 @@ class Weapon:
             self.weapon_reload_start_time = time.time()
         return True
 
-    def perform_weapon_action(self, player, bullet_x, bullet_y, damage):
-        player.damage(damage)
+    def perform_weapon_action(self, player, bullet_originator, bullet_x, bullet_y, damage):
+        player.damage(damage, bullet_originator)
