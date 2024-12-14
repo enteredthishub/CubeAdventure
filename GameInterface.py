@@ -1,5 +1,6 @@
 from Game import Game
 from Menus.MenuItems.TextField import TextField
+from Player import Player
 
 
 class GameInterface:
@@ -10,6 +11,7 @@ class GameInterface:
     gameover_textfield = None
     gameover_player = None
     kills_textfield = None
+    killstreak_textfield = None
 
 
     def __init__(self):
@@ -19,6 +21,7 @@ class GameInterface:
         self.gravity_textfield = TextField("", 1000, 100, (0, 0, 255))
         self.gameover_textfield = TextField("", 450, 200, (100, 100, 100), 45)
         self.kills_textfield = TextField("", 1000, 150, (255, 0 , 0))
+        self.killstreak_textfield = TextField("", 1000, 10, (255, 0, 0))
 
     def draw(self, screen):
         if len(Game.real_players) > 0:
@@ -33,6 +36,10 @@ class GameInterface:
             self.kills_textfield.text = 'Kills:' + str(Game.real_players[0].kills)
             self.kills_textfield.text_color = Game.real_players[0].player_color
             self.kills_textfield.draw(screen)
+        if len(Game.real_players) > 0:
+            self.killstreak_textfield.text = 'Killstreak:' + str(Game.real_players[0].kills_streak)
+            self.killstreak_textfield.text_color = Game.real_players[0].player_color
+            self.killstreak_textfield.draw(screen)
         if len(Game.real_players) > 0:
             self.player1_score_textfield.text = str(Game.real_players[0].score)
             self.player1_score_textfield.text_color = Game.real_players[0].player_color

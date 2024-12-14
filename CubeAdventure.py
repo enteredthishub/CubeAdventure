@@ -16,11 +16,7 @@ class CubeAdventure:
     levels = None
     def start_game(self):
         pygame.init()
-        #file = 'Music/little-big_-_hypnodancer.mp3'
-        #pygame.mixer.init()
-        #pygame.mixer.music.load(file)
-        #pygame.mixer.music.play()
-        #pygame.event.wait()
+        pygame.mixer.init()
 
         Game.game_interface = GameInterface()
 
@@ -31,7 +27,7 @@ class CubeAdventure:
         Game.players = [player1]#, player2]
         Game.real_players = [player1]
         CubeAdventure.levels = [Level1(), Level2(), Level3(), Level4(), Level5(), Level6()]
-        Game.curr_level = CubeAdventure.levels[4]
+        Game.curr_level = CubeAdventure.levels[5]
         Game.curr_level.start()
         Game.curr_level.restart(player1)
 

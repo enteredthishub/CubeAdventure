@@ -201,7 +201,7 @@ class Player:
 
     def process_bar_collision(self, bar):
         if bar.bar_type == Bar.TYPE_DANGER:
-            Game.curr_level.restart(self)
+            self.HEALTH_POINTS -= 70
             return False
         if bar.bar_type == Bar.TYPE_SPHERE:
             self.player_y_speed = self.player_y_speed * 1.5
@@ -241,20 +241,38 @@ class Player:
             return False
 
         return True
-
+    phase_3_time = 0
     def damage(self, damage_points, bullet_originator):
         self.health_now -= damage_points
         if self.health_now <= 0:
             Game.curr_level.restart(self)
             bullet_originator.kills += 1
             bullet_originator.kills_streak += 1
+            bullet_originator.X_SPEED += 0.5
             self.kills_streak = 0
+            self.X_SPEED = 6
+            pygame.mixer.music.stop()
+            if bullet_originator.kills_streak >= 3 and bullet_originator.kills_streak < 10:
+                file = 'Music/undertale_080. Finale.mp3'
+                pygame.mixer.music.load(file)
+                pygame.mixer.music.play()
+                pygame.event.wait()
+            if bullet_originator.kills_streak >= 10 and bullet_originator.kills_streak < 30:
+                file = 'Music/793091_Scourge-of-The-Universe.mp3'
+                pygame.mixer.music.load(file)
+                pygame.mixer.music.play()
+                pygame.event.wait()
+            if bullet_originator.kills_streak >= 30 and bullet_originator.kills_streak < 45:
+                file = 'Music/Goukisan - Betrayal_of_Fear.ogg'
+                pygame.mixer.music.load(file)
+                pygame.mixer.music.play()
+                pygame.event.wait()
+
         print("Player " + str(self.control_type) + ", health: " + str(self.health_now) + ', killstreak:' + str(self.kills_streak))
 
     def set_spawn_index(self, player_spawn_index):
         self.spawn_index = player_spawn_index
         print('sus')
-
 
 
 

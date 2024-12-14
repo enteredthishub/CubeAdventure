@@ -15,7 +15,7 @@ class Level6(Level):
     bar_list = []
 
     zone_list = []
-    #turret_list = [Player(750, 500, 50, 50, (0, 0, 0), Player.CONTROL_TYPE_TURRET)]
+    turret_list = [Player(750, 500, 50, 50, (0, 0, 0), Player.CONTROL_TYPE_TURRET)]
     #ai_list = [Player(750, 500, 50, 50, (0, 0, 0), Player.CONTROL_TYPE_AI)]
 
     def restart(self, player):
@@ -30,11 +30,11 @@ class Level6(Level):
 
 
     def start(self):
-        self.ai_list[0].weapon_list.append(MachineGunTheWeapon(self.ai_list[0]))
-        Game.players += self.ai_list
+        self.turret_list[0].weapon_list.append(MachineGunTheWeapon(self.turret_list[0]))
+        Game.players += self.turret_list
 
     def get_spawns_list(self):
-        self.spawns_list = [[0, 0], [1150, 0],]
+        self.spawns_list = [[0, 0],]
         return self.spawns_list
 
     #def __init__(self):
