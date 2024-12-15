@@ -56,6 +56,11 @@ class Player:
 
     score = 200
 
+    #Explosion
+    push_force_x = 0
+    push_force_y = 0
+    reduction_rate = 0
+
     def __init__(self, player_x, player_y, player_width, player_height, player_color, control_type, button_gravity=None, button_left=None, button_right=None):
         self.player_x = player_x
         self.player_y = player_y
@@ -295,6 +300,10 @@ class Player:
         self.spawn_index = player_spawn_index
         print('sus')
 
+    def set_push_force(self, push_force_x, push_force_y, reduction_rate):
+        self.push_force_x = push_force_x
+        self.push_force_y = push_force_y
+        self.reduction_rate = reduction_rate
 
 
     def update_player_position(self):
@@ -318,6 +327,17 @@ class Player:
             delta_y = -self.player_y_speed
         else:
             delta_y = self.player_y_speed
+
+        if self.reduction_rate != 0:
+            delta_x += self.push_force_x
+            delta_y += self.push_force_y
+            self.push_force_x -= self.reduction_rate
+            self.push_force_y -= self.reduction_rate
+            if self.push_force_x <= 0 or self.push_force_y <= 0:
+                self.reduction_rate = 0
+                self.push_force_x = 0
+                self.push_force_y = 0
+
 
         self.player_x = self.player_x + delta_x
         for b1 in Game.curr_level.bar_list:
