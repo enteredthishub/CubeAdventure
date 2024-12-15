@@ -251,26 +251,37 @@ class Player:
             self.X_SPEED = 6
             pygame.mixer.music.stop()
             if bullet_originator.kills_streak >= 3 and bullet_originator.kills_streak < 10:
-                self.HEALTH_POINTS = 125
+                bullet_originator.health_now = 125
                 bullet_originator.X_SPEED += 2
                 file = 'Music/undertale_080. Finale.mp3'
                 pygame.mixer.music.load(file)
                 pygame.mixer.music.play()
                 pygame.event.wait()
+
             if bullet_originator.kills_streak >= 10 and bullet_originator.kills_streak < 30:
-                self.HEALTH_POINTS = 150
-                bullet_originator.X_SPEED += 4
+                bullet_originator.health_now = 150
+                bullet_originator.X_SPEED += 2
                 file = 'Music/793091_Scourge-of-The-Universe.mp3'
                 pygame.mixer.music.load(file)
                 pygame.mixer.music.play()
                 pygame.event.wait()
             if bullet_originator.kills_streak >= 30 and bullet_originator.kills_streak < 45:
-                self.HEALTH_POINTS = 175
-                bullet_originator.X_SPEED += 4
+                bullet_originator.health_now = 175
+                bullet_originator.X_SPEED += 2
                 file = 'Music/Goukisan - Betrayal_of_Fear.ogg'
                 pygame.mixer.music.load(file)
                 pygame.mixer.music.play()
                 pygame.event.wait()
+            if bullet_originator.kills_streak >= 45 and bullet_originator.kills_streak < 70:
+                bullet_originator.health_now = 100
+                bullet_originator.X_SPEED -= 36
+                file = 'Music/792912_The-Filthy-Mind-ft-Sixteen.mp3'
+                pygame.mixer.music.load(file)
+                pygame.mixer.music.play()
+                pygame.event.wait()
+                if bullet_originator.X_SPEED < 10:
+                    bullet_originator.X_SPEED = 10
+
             print("Player " + str(self.control_type) + ", health: " + str(self.health_now) + ', killstreak:' + str(self.kills_streak))
 
     prev_regen_time = 0
