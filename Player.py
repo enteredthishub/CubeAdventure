@@ -93,8 +93,6 @@ class Player:
         if self.control_type == Player.CONTROL_TYPE_KEYBOARD:
             for event in events:
                 if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_w:
-                        self.change_gravity()
                     if event.key == pygame.K_a:
                         self.player_moving_left = True
                     if event.key == pygame.K_d:
@@ -103,7 +101,7 @@ class Player:
                         self.jump()
                     if event.key == pygame.K_s:
                         self.ACCELERATION -= 0.1
-                    if event.key == pygame.K_f:
+                    if event.key == pygame.K_w:
                         self.ACCELERATION += 0.1
                     if event.key == pygame.K_1:
                         self.selected_weapon = 0
@@ -253,25 +251,33 @@ class Player:
             self.X_SPEED = 6
             pygame.mixer.music.stop()
             if bullet_originator.kills_streak >= 3 and bullet_originator.kills_streak < 10:
+                self.HEALTH_POINTS = 125
                 bullet_originator.X_SPEED += 2
                 file = 'Music/undertale_080. Finale.mp3'
                 pygame.mixer.music.load(file)
                 pygame.mixer.music.play()
                 pygame.event.wait()
             if bullet_originator.kills_streak >= 10 and bullet_originator.kills_streak < 30:
+                self.HEALTH_POINTS = 150
                 bullet_originator.X_SPEED += 4
                 file = 'Music/793091_Scourge-of-The-Universe.mp3'
                 pygame.mixer.music.load(file)
                 pygame.mixer.music.play()
                 pygame.event.wait()
             if bullet_originator.kills_streak >= 30 and bullet_originator.kills_streak < 45:
+                self.HEALTH_POINTS = 175
                 bullet_originator.X_SPEED += 4
                 file = 'Music/Goukisan - Betrayal_of_Fear.ogg'
                 pygame.mixer.music.load(file)
                 pygame.mixer.music.play()
                 pygame.event.wait()
+            print("Player " + str(self.control_type) + ", health: " + str(self.health_now) + ', killstreak:' + str(self.kills_streak))
 
-        print("Player " + str(self.control_type) + ", health: " + str(self.health_now) + ', killstreak:' + str(self.kills_streak))
+    prev_regen_time = 0
+    def regen(self):
+        if time.time() - self.prev_regen_time > 2:
+            self.prev_regen_time = time.time()
+            self.HEALTH_POINTS += 5
 
     def set_spawn_index(self, player_spawn_index):
         self.spawn_index = player_spawn_index
