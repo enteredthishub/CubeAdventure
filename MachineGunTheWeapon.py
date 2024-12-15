@@ -28,6 +28,12 @@ class MachineGunTheWeapon(Weapon):
             return
 
         bullet = Bullet(bullet_originator=self.player, bullet_weapon=self,  bullet_x=self.player.player_x, bullet_y=self.player.player_y, bullet_target_x=weapon_target_x, bullet_target_y=weapon_target_y, bullet_speed=self.weapon_bullet_speed, bullet_color=(200, 0, 10), bullet_radius=4, bullet_damage=5)
+        if Game.real_players[0].kills_streak >= 5 and Game.real_players[0].kills_streak < 10:
+            bullet.bullet_damage = bullet.bullet_damage + bullet.bullet_damage / 2
+        if Game.real_players[0].kills_streak >= 10 and Game.real_players[0].kills_streak < 30:
+            bullet.bullet_damage = bullet.bullet_damage + bullet.bullet_damage
+        if Game.real_players[0].kills_streak >= 30 and Game.real_players[0].kills_streak < 45:
+            bullet.bullet_damage = bullet.bullet_damage + bullet.bullet_damage * 1.5
         Game.curr_level.bullet_list.append(bullet)
         self.player.bullet_list.append(bullet)
 

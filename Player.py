@@ -179,10 +179,10 @@ class Player:
             target = random.randint(0, len(Game.players) - 1)
         target_player = Game.players[target]
         self.shoot(target_player.player_x, target_player.player_y)
-        if target_player.player_x > self.player_x + 50:
+        if target_player.player_x > self.player_x + 100:
             self.player_moving_right = True
             self.player_moving_left = False
-        if target_player.player_x < self.player_x - 50:
+        if target_player.player_x < self.player_x - 100:
             self.player_moving_right = False
             self.player_moving_left = True
         if target_player.player_y < self.player_y:
@@ -253,16 +253,19 @@ class Player:
             self.X_SPEED = 6
             pygame.mixer.music.stop()
             if bullet_originator.kills_streak >= 3 and bullet_originator.kills_streak < 10:
+                bullet_originator.X_SPEED += 2
                 file = 'Music/undertale_080. Finale.mp3'
                 pygame.mixer.music.load(file)
                 pygame.mixer.music.play()
                 pygame.event.wait()
             if bullet_originator.kills_streak >= 10 and bullet_originator.kills_streak < 30:
+                bullet_originator.X_SPEED += 4
                 file = 'Music/793091_Scourge-of-The-Universe.mp3'
                 pygame.mixer.music.load(file)
                 pygame.mixer.music.play()
                 pygame.event.wait()
             if bullet_originator.kills_streak >= 30 and bullet_originator.kills_streak < 45:
+                bullet_originator.X_SPEED += 4
                 file = 'Music/Goukisan - Betrayal_of_Fear.ogg'
                 pygame.mixer.music.load(file)
                 pygame.mixer.music.play()
