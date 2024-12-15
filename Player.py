@@ -153,7 +153,21 @@ class Player:
         self.player_y_speed = 0
 
     def draw_player(self, draw_surface):
+        if self.kills_streak >= 3 and self.kills_streak < 10:
+            self.draw_aura(draw_surface, (200, 50, 0, 100))
+        if self.kills_streak >= 10 and self.kills_streak < 30:
+            self.draw_aura(draw_surface, (250, 0, 0, 100))
+        if self.kills_streak >= 30 and self.kills_streak < 45:
+            self.draw_aura(draw_surface, (30, 30, 30, 100))
+        if self.kills_streak >= 45 and self.kills_streak < 70:
+            self.draw_aura(draw_surface, (100, 50, 50, 100))
+            #pygame.draw.rect(draw_surface, (200, 50, 0, 100), pygame.Rect((self.player_x - 25, self.player_y - 25), (self.player_width + 50, self.player_height + 50)))
         pygame.draw.rect(draw_surface, self.player_color, pygame.Rect((self.player_x, self.player_y), (self.player_width, self.player_height)))
+
+    def draw_aura(self, draw_surface, aura_color):
+        s = pygame.Surface((self.player_width + 50, self.player_height + 50), pygame.SRCALPHA)  # per-pixel alpha
+        s.fill(aura_color)  # notice the alpha value in the color
+        draw_surface.blit(s, (self.player_x - 25, self.player_y - 25))
 
     def update_turret(self):
         target = -1
@@ -246,39 +260,26 @@ class Player:
             Game.curr_level.restart(self)
             bullet_originator.kills += 1
             bullet_originator.kills_streak += 1
-            bullet_originator.X_SPEED += 0.5
+            bullet_originator.X_SPEED += 0.3
             self.kills_streak = 0
             self.X_SPEED = 6
-            pygame.mixer.music.stop()
-            if bullet_originator.kills_streak >= 3 and bullet_originator.kills_streak < 10:
+
+            if bullet_originator.kills_streak == 3:
+                Game.play_music('Music/undertale_080. Finale.mp3')
                 bullet_originator.health_now = 125
                 bullet_originator.X_SPEED += 2
-                file = 'Music/undertale_080. Finale.mp3'
-                pygame.mixer.music.load(file)
-                pygame.mixer.music.play()
-                pygame.event.wait()
-
-            if bullet_originator.kills_streak >= 10 and bullet_originator.kills_streak < 30:
+            if bullet_originator.kills_streak == 10:
                 bullet_originator.health_now = 150
                 bullet_originator.X_SPEED += 2
-                file = 'Music/793091_Scourge-of-The-Universe.mp3'
-                pygame.mixer.music.load(file)
-                pygame.mixer.music.play()
-                pygame.event.wait()
-            if bullet_originator.kills_streak >= 30 and bullet_originator.kills_streak < 45:
+                Game.play_music('Music/793091_Scourge-of-The-Universe.mp3')
+            if bullet_originator.kills_streak == 30:
                 bullet_originator.health_now = 175
                 bullet_originator.X_SPEED += 2
-                file = 'Music/Goukisan - Betrayal_of_Fear.ogg'
-                pygame.mixer.music.load(file)
-                pygame.mixer.music.play()
-                pygame.event.wait()
-            if bullet_originator.kills_streak >= 45 and bullet_originator.kills_streak < 70:
+                Game.play_music('Music/Goukisan - Betrayal_of_Fear.ogg')
+            if bullet_originator.kills_streak == 45:
                 bullet_originator.health_now = 100
                 bullet_originator.X_SPEED -= 36
-                file = 'Music/792912_The-Filthy-Mind-ft-Sixteen.mp3'
-                pygame.mixer.music.load(file)
-                pygame.mixer.music.play()
-                pygame.event.wait()
+                Game.play_music('Music/792912_The-Filthy-Mind-ft-Sixteen.mp3')
                 if bullet_originator.X_SPEED < 10:
                     bullet_originator.X_SPEED = 10
 
@@ -286,9 +287,9 @@ class Player:
 
     prev_regen_time = 0
     def regen(self):
-        if time.time() - self.prev_regen_time > 2:
+        if time.time() - self.prev_regen_time > 4:
             self.prev_regen_time = time.time()
-            self.HEALTH_POINTS += 5
+            self.health_now += 5
 
     def set_spawn_index(self, player_spawn_index):
         self.spawn_index = player_spawn_index
@@ -297,6 +298,7 @@ class Player:
 
 
     def update_player_position(self):
+        self.regen()
         if self.control_type == Player.CONTROL_TYPE_TURRET:
             self.update_turret()
             return
