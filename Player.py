@@ -287,6 +287,11 @@ class Player:
                 Game.play_music('Music/792912_The-Filthy-Mind-ft-Sixteen.mp3')
                 if bullet_originator.X_SPEED < 10:
                     bullet_originator.X_SPEED = 10
+            if self.kills_streak == 70:
+                bullet_originator.health_now = 100
+                bullet_originator.X_SPEED -= 36
+                Game.play_music('Music/mixkit-gun-explosion-with-long-echo-1700.mp3')
+                Game.play_music('Music/1278993_Stained-Brutal-Calamity-Re.mp3')
 
             print("Player " + str(self.control_type) + ", health: " + str(self.health_now) + ', killstreak:' + str(self.kills_streak))
 
@@ -295,6 +300,21 @@ class Player:
         if time.time() - self.prev_regen_time > 4:
             self.prev_regen_time = time.time()
             self.health_now += 5
+            if self.kills_streak < 3:
+                if self.health_now >= 100:
+                    self.health_now = 100
+            if self.kills_streak >= 3 and self.kills_streak < 10:
+                if self.health_now >= 125:
+                    self.health_now = 125
+            if self.kills_streak >= 10 and self.kills_streak < 30:
+                if self.health_now >= 150:
+                    self.health_now = 150
+            if self.kills_streak >= 30 and self.kills_streak < 45:
+                if self.health_now >= 175:
+                    self.health_now = 175
+            if self.kills_streak >= 45:
+                if self.health_now >= 200:
+                    self.health_now = 200
 
     def set_spawn_index(self, player_spawn_index):
         self.spawn_index = player_spawn_index

@@ -30,7 +30,7 @@ class RPGTheWeapon(Weapon):
         #TODO: Do a shrapnel explosive for RPG
 
     def perform_weapon_action(self, player, bullet_originator, bullet, damage):
-        player.set_push_force(bullet.x_diff * 10, bullet.y_diff * 10, 3)
+        player.set_push_force(bullet.x_diff * 50, bullet.y_diff * 50, 3)
         print('sus')
 
 
