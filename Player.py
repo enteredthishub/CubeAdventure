@@ -165,14 +165,20 @@ class Player:
         if self.kills_streak >= 30 and self.kills_streak < 45:
             self.draw_aura(draw_surface, (30, 30, 30, 100))
         if self.kills_streak >= 45 and self.kills_streak < 70:
-            self.draw_aura(draw_surface, (100, 50, 50, 100))
+                self.draw_aura(draw_surface, (100, 50, 50, 100))
             #pygame.draw.rect(draw_surface, (200, 50, 0, 100), pygame.Rect((self.player_x - 25, self.player_y - 25), (self.player_width + 50, self.player_height + 50)))
         pygame.draw.rect(draw_surface, self.player_color, pygame.Rect((self.player_x, self.player_y), (self.player_width, self.player_height)))
+        if self.kills_streak >= 70 and self.kills_streak < 100:
+            self.draw_aura(draw_surface, (250, 0, 0, 100))
 
     def draw_aura(self, draw_surface, aura_color):
         s = pygame.Surface((self.player_width + 50, self.player_height + 50), pygame.SRCALPHA)  # per-pixel alpha
         s.fill(aura_color)  # notice the alpha value in the color
         draw_surface.blit(s, (self.player_x - 25, self.player_y - 25))
+        if self.kills_streak >= 70 and self.kills_streak < 100:
+            s = pygame.Surface((self.player_width + 2000, self.player_height + 2000), pygame.SRCALPHA)  # per-pixel alpha
+            s.fill(aura_color)  # notice the alpha value in the color
+            draw_surface.blit(s, (self.player_x - 1000, self.player_y - 1000))
 
     def update_turret(self):
         target = -1
@@ -218,8 +224,10 @@ class Player:
 
     def process_bar_collision(self, bar):
         if bar.bar_type == Bar.TYPE_DANGER:
-            self.HEALTH_POINTS -= 70
-            return False
+            self.kills_streak = 0
+            pygame.mixer.music.stop()
+            self.X_SPEED = 6
+            Game.curr_level.restart(self)
         if bar.bar_type == Bar.TYPE_SPHERE:
             self.player_y_speed = self.player_y_speed * 1.5
             if self.player_y_speed > 10:
@@ -288,8 +296,8 @@ class Player:
                 if bullet_originator.X_SPEED < 10:
                     bullet_originator.X_SPEED = 10
             if self.kills_streak == 70:
-                bullet_originator.health_now = 100
-                bullet_originator.X_SPEED -= 36
+                bullet_originator.health_now = 225
+                bullet_originator.X_SPEED = 17
                 Game.play_music('Music/mixkit-gun-explosion-with-long-echo-1700.mp3')
                 Game.play_music('Music/1278993_Stained-Brutal-Calamity-Re.mp3')
 
