@@ -20,8 +20,8 @@ class GameInterface:
         self.HP_textfield = TextField("", 1000, 50, (0, 0, 255))
         self.gravity_textfield = TextField("", 1000, 100, (0, 0, 255))
         self.gameover_textfield = TextField("", 450, 200, (100, 100, 100), 45)
-        self.kills_textfield = TextField("", 1000, 150, (255, 0 , 0))
-        self.killstreak_textfield = TextField("", 1000, 10, (255, 0, 0))
+        self.kills_textfield = TextField("", 1050, 150, (255, 0 , 0))
+        self.killstreak_textfield = TextField("", 950, 10, (255, 0, 0))
 
     def draw(self, screen):
         if len(Game.real_players) > 0:

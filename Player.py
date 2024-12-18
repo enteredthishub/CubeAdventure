@@ -157,6 +157,8 @@ class Player:
         #self.player_y_speed = -self.player_y_speed
         self.player_y_speed = 0
 
+    lol = 0
+
     def draw_player(self, draw_surface):
         if self.kills_streak >= 3 and self.kills_streak < 10:
             self.draw_aura(draw_surface, (200, 50, 0, 100))
@@ -169,16 +171,14 @@ class Player:
             #pygame.draw.rect(draw_surface, (200, 50, 0, 100), pygame.Rect((self.player_x - 25, self.player_y - 25), (self.player_width + 50, self.player_height + 50)))
         pygame.draw.rect(draw_surface, self.player_color, pygame.Rect((self.player_x, self.player_y), (self.player_width, self.player_height)))
         if self.kills_streak >= 70 and self.kills_streak < 100:
-            self.draw_aura(draw_surface, (250, 0, 0, 100))
+            self.draw_aura(draw_surface, (250, 0, 0, 200))
+        if self.kills_streak >= 100 and self.kills_streak < 300:
+            self.draw_aura(draw_surface, (224, 210, 0, 200))
 
     def draw_aura(self, draw_surface, aura_color):
         s = pygame.Surface((self.player_width + 50, self.player_height + 50), pygame.SRCALPHA)  # per-pixel alpha
         s.fill(aura_color)  # notice the alpha value in the color
         draw_surface.blit(s, (self.player_x - 25, self.player_y - 25))
-        if self.kills_streak >= 70 and self.kills_streak < 100:
-            s = pygame.Surface((self.player_width + 2000, self.player_height + 2000), pygame.SRCALPHA)  # per-pixel alpha
-            s.fill(aura_color)  # notice the alpha value in the color
-            draw_surface.blit(s, (self.player_x - 1000, self.player_y - 1000))
 
     def update_turret(self):
         target = -1
@@ -266,7 +266,8 @@ class Player:
             return False
 
         return True
-    phase_3_time = 0
+    phase_5_time = 0
+    phase_5_time_time = 0
     def damage(self, damage_points, bullet_originator):
         self.health_now -= damage_points
         if self.health_now <= 0:
@@ -295,11 +296,15 @@ class Player:
                 Game.play_music('Music/792912_The-Filthy-Mind-ft-Sixteen.mp3')
                 if bullet_originator.X_SPEED < 10:
                     bullet_originator.X_SPEED = 10
-            if self.kills_streak == 70:
+            if bullet_originator.kills_streak == 70:
                 bullet_originator.health_now = 225
-                bullet_originator.X_SPEED = 17
-                Game.play_music('Music/mixkit-gun-explosion-with-long-echo-1700.mp3')
+                bullet_originator.X_SPEED = 10
                 Game.play_music('Music/1278993_Stained-Brutal-Calamity-Re.mp3')
+            if bullet_originator.kills_streak == 100:
+                bullet_originator.health_now = 300
+                bullet_originator.X_SPEED = 40
+                Game.play_music('Music/1278993_Stained-Brutal-Calamity-Re.mp3')
+
 
             print("Player " + str(self.control_type) + ", health: " + str(self.health_now) + ', killstreak:' + str(self.kills_streak))
 
