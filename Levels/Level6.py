@@ -30,7 +30,8 @@ class Level6(Level):
 
 
     def start(self):
-        self.ai_list[0].weapon_list.append(MachineGunTheWeapon(self.ai_list[0]))
+        #self.ai_list[0].weapon_list.append(MachineGunTheWeapon(self.ai_list[0]))
+        self.ai_list[0].selected_weapon = 0
         Game.players += self.ai_list
 
     def get_spawns_list(self):
