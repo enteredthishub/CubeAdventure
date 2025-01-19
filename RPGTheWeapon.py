@@ -7,7 +7,7 @@ from Weapon import Weapon
 
 #His name is Pistol
 class RPGTheWeapon(Weapon):
-    EXPLOSION_FORCE = 100
+    EXPLOSION_FORCE = 10
     EXPLOSION_DISTANCE = 100
 
     def __init__(self, player):
@@ -41,9 +41,9 @@ class RPGTheWeapon(Weapon):
             distance = y_diff*y_diff + x_diff*x_diff
             distance = math.sqrt(distance)
             if distance < self.EXPLOSION_DISTANCE:
-                current_explosion_force = self.EXPLOSION_FORCE - distance
+                current_explosion_force = (self.EXPLOSION_DISTANCE-distance)/self.EXPLOSION_DISTANCE * self.EXPLOSION_FORCE
                 y_diff /= abs(x_diff)
                 x_diff /= abs(x_diff)
                 current_explosion_force_x = x_diff * current_explosion_force
                 current_explosion_force_y = y_diff * current_explosion_force
-                p.set_push_force(current_explosion_force_x,current_explosion_force_y, 5)
+                p.set_push_force(current_explosion_force_x,current_explosion_force_y, 0.2)
