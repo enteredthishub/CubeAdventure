@@ -69,16 +69,18 @@ class Bullet:
             is_collided = p.player_x - (self.bullet_radius *2) < self.bullet_x < p.player_x + p.player_width and p.player_y - (self.bullet_radius * 2) < self.bullet_y < p.player_y + p.player_height
             if is_collided:
                 #print('Get ' + str(p.player_color))
+                self.bullet_weapon.perform_weapon_action(p, self.bullet_originator, self, self.bullet_damage)
                 if self in Game.curr_level.bullet_list:
                     Game.curr_level.bullet_list.remove(self)
                 #self.bullet_originator.bullet_list.remove(self)
-                self.bullet_weapon.perform_weapon_action(p, self.bullet_originator, self, self.bullet_damage)
 
         for b in Game.curr_level.bar_list:
             is_collided = b.bar_x - (self.bullet_radius * 2) < self.bullet_x < b.bar_x + b.bar_width and b.bar_y - (self.bullet_radius * 2) < self.bullet_y < b.bar_y + b.bar_height
             if is_collided:
+                self.bullet_weapon.perform_weapon_bar_action(b, self.bullet_originator, self, self.bullet_damage)
                 if self in Game.curr_level.bullet_list:
                     Game.curr_level.bullet_list.remove(self)
+
 
 
 

@@ -201,22 +201,22 @@ class Player:
         while target == -1 or Game.players[target].control_type == Player.CONTROL_TYPE_TURRET and Player.CONTROL_TYPE_AI:
             target = random.randint(0, len(Game.players) - 1)
         target_player = Game.players[target]
-        # self.shoot(target_player.player_x, target_player.player_y)
-        # if target_player.player_x > self.player_x + 100:
-        #     self.player_moving_right = True
-        #     self.player_moving_left = False
-        # if target_player.player_x < self.player_x - 100:
-        #     self.player_moving_right = False
-        #     self.player_moving_left = True
-        # if target_player.player_y < self.player_y:
-        #     if time.time() - self.prev_jump_time > 0.2:
-        #         self.prev_jump_time = time.time()
-        #         self.jump()
-        # if time.time() - self.prev_collide > 2:
-        #     self.prev_collide = time.time()
-        #     if time.time() - self.prev_jump_time > 0.2:
-        #         self.prev_jump_time = time.time()
-        #         self.jump()
+        self.shoot(target_player.player_x, target_player.player_y)
+        if target_player.player_x > self.player_x + 100:
+           self.player_moving_right = True
+           self.player_moving_left = False
+        if target_player.player_x < self.player_x - 100:
+           self.player_moving_right = False
+           self.player_moving_left = True
+        if target_player.player_y < self.player_y:
+           if time.time() - self.prev_jump_time > 0.2:
+                 self.prev_jump_time = time.time()
+                 self.jump()
+        if time.time() - self.prev_collide > 2:
+           self.prev_collide = time.time()
+           if time.time() - self.prev_jump_time > 0.2:
+               self.prev_jump_time = time.time()
+               self.jump()
 
     enter_zone = False
     enter_zone_time = 0

@@ -12,7 +12,7 @@ from Player import Player
 class Level6(Level):
     levelNumber = 5
 
-    bar_list = []
+    bar_list = [Bar(600, 0, 50, 1000, (255, 0, 0),)]
 
     zone_list = []
     #turret_list = [Player(750, 500, 50, 50, (0, 0, 0), Player.CONTROL_TYPE_TURRET)]

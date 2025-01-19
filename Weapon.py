@@ -54,3 +54,6 @@ class Weapon:
 
     def perform_weapon_action(self, player, bullet_originator, bullet, damage):
         player.damage(damage, bullet_originator)
+
+    def perform_weapon_bar_action(self, bar, bullet_originator, bullet, damage):
+        pass

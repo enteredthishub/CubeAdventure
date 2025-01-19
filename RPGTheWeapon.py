@@ -7,7 +7,8 @@ from Weapon import Weapon
 
 #His name is Pistol
 class RPGTheWeapon(Weapon):
-
+    EXPLOSION_FORCE = 100
+    EXPLOSION_DISTANCE = 100
 
     def __init__(self, player):
         self.weapon_bullet_speed = 6
@@ -30,7 +31,19 @@ class RPGTheWeapon(Weapon):
         #TODO: Do a shrapnel explosive for RPG
 
     def perform_weapon_action(self, player, bullet_originator, bullet, damage):
-        player.set_push_force(bullet.x_diff * 2.5, bullet.y_diff * 2.5, 0.5)
+        player.set_push_force(bullet.x_diff * 5, bullet.y_diff * 5, 0.5)
         print('sus')
 
-
+    def perform_weapon_bar_action(self, bar, bullet_originator, bullet, damage):
+        for p in Game.players:
+            y_diff = p.player_y - bullet.bullet_y
+            x_diff = p.player_x - bullet.bullet_x
+            distance = y_diff*y_diff + x_diff*x_diff
+            distance = math.sqrt(distance)
+            if distance < self.EXPLOSION_DISTANCE:
+                current_explosion_force = self.EXPLOSION_FORCE - distance
+                y_diff /= abs(x_diff)
+                x_diff /= abs(x_diff)
+                current_explosion_force_x = x_diff * current_explosion_force
+                current_explosion_force_y = y_diff * current_explosion_force
+                p.set_push_force(current_explosion_force_x,current_explosion_force_y, 5)
