@@ -41,7 +41,7 @@ class Player:
     player_y_speed = 0
     player_moving_left = False
     player_moving_right = False
-    player_gravity = False
+    current_acceleration = ACCELERATION
 
     bullet_list = None
     prev_bullet = None
@@ -83,10 +83,9 @@ class Player:
     prev_gravity_change_time = 0
     spawn_time = 0
 
-    def change_gravity(self):
-        self.ACCELERATION = 0.8
-        if time.time() - self.prev_gravity_change_time > 1:
-            self.player_gravity = not self.player_gravity
+    def change_gravity(self, value):
+        if time.time() - self.prev_gravity_change_time > 2:
+            self.current_acceleration = value
             self.prev_gravity_change_time = time.time()
 
     def respawn(self):
@@ -105,9 +104,9 @@ class Player:
                     if event.key == pygame.K_SPACE:
                         self.jump()
                     if event.key == pygame.K_s:
-                        self.ACCELERATION -= 0.1
+                        self.change_gravity(self.ACCELERATION)
                     if event.key == pygame.K_w:
-                        self.ACCELERATION += 0.1
+                        self.change_gravity(-self.ACCELERATION)
                     if event.key == pygame.K_1:
                         self.selected_weapon = 0
                     if event.key == pygame.K_2:
@@ -150,7 +149,10 @@ class Player:
         weapon.shoot(x, y)
 
     def jump(self):
-        self.player_y_speed = -Player.JUMP_SPEED
+        if self.current_acceleration > 0:
+            self.player_y_speed = Player.JUMP_SPEED
+        else:
+            self.player_y_speed = -Player.JUMP_SPEED
         
     def process_hit(self):
         #self.player_y_speed = self.player_y_speed - 2
@@ -355,10 +357,7 @@ class Player:
         if self.player_moving_right:
             delta_x = self.X_SPEED
 
-        if self.player_gravity:
-            delta_y = -self.player_y_speed
-        else:
-            delta_y = self.player_y_speed
+        delta_y = -self.player_y_speed
 
         if self.reduction_rate != 0:
             delta_x += self.push_force_x
@@ -418,7 +417,7 @@ class Player:
                 if self.is_collided_y:
                     self.process_bar_collision(b1)
 
-        self.player_y_speed = self.player_y_speed + self.ACCELERATION
+        self.player_y_speed = self.player_y_speed - self.current_acceleration
 
         # Hit bottom
         if self.player_y + self.player_height > Game.SCREEN_HEIGHT:
