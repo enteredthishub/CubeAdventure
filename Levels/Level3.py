@@ -1,5 +1,6 @@
 from Bar import Bar
 from CaptureZone import CaptureZone
+from Game import Game
 from Levels.Level import Level
 
 
@@ -17,6 +18,10 @@ class Level3(Level):
                 Bar(650, 200, 50, 50, (20, 125, 255), Bar.TYPE_PORTAL_1, teleport_to=teleport_to1),
                 teleport_to1,
                 Bar(750, 50, 50, 300, (105, 104, 153)),
+                Bar(0, -50, Game.SCREEN_WIDTH, 50, (5, 50, 150)),
+                Bar(0, Game.SCREEN_HEIGHT, Game.SCREEN_WIDTH, 50, (5, 50, 150)),
+                Bar(-50, 0, 50, Game.SCREEN_HEIGHT, (5, 50, 150)),
+                Bar(Game.SCREEN_WIDTH, 0, 50, Game.SCREEN_HEIGHT, (5, 50, 150)),
                 ]
 
 

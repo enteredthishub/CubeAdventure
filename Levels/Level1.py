@@ -33,6 +33,10 @@ class Level1(Level):
                 Bar(1150, 0, 50, 900, (20, 50, 15)),
                 Bar(150, 500, 50, 50, (20, 123, 150)),
                 Bar(210, 350, 50, 50, (200, 0, 0), Bar.TYPE_DANGER),
+                Bar(0, -50, Game.SCREEN_WIDTH, 50, (5, 50, 150)),
+                Bar(0, Game.SCREEN_HEIGHT, Game.SCREEN_WIDTH, 50, (5, 50, 150)),
+                Bar(-50, 0, 50, Game.SCREEN_HEIGHT, (5, 50, 150)),
+                Bar(Game.SCREEN_WIDTH, 0, 50, Game.SCREEN_HEIGHT, (5, 50, 150)),
                 Bar(1000, 600, 50, 50, (5, 50, 150)),
                 Bar(50, 400, 50, 50, (5, 50, 150))
                 ]

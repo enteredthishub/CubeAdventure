@@ -22,7 +22,7 @@ class Player:
 
     ACCELERATION = 0.8
     X_SPEED = 6
-    JUMP_SPEED = 10
+    JUMP_SPEED = 13
     HEALTH_POINTS = 100
 
     player_color = (0, 0, 0)
@@ -42,6 +42,10 @@ class Player:
     player_moving_left = False
     player_moving_right = False
     current_acceleration = ACCELERATION
+    touch_down = False
+    touch_up = False
+    touch_left = False
+    touch_right = False
 
     bullet_list = None
     prev_bullet = None
@@ -83,10 +87,11 @@ class Player:
     prev_gravity_change_time = 0
     spawn_time = 0
 
-    def change_gravity(self, value):
-        if time.time() - self.prev_gravity_change_time > 2:
+    def change_gravity(self, value, ignore_cd):
+        if ignore_cd or time.time() - self.prev_gravity_change_time > 2:
             self.current_acceleration = value
-            self.prev_gravity_change_time = time.time()
+            if not ignore_cd:
+                self.prev_gravity_change_time = time.time()
 
     def respawn(self):
         self.spawn_time = time.time()
@@ -104,9 +109,9 @@ class Player:
                     if event.key == pygame.K_SPACE:
                         self.jump()
                     if event.key == pygame.K_s:
-                        self.change_gravity(self.ACCELERATION)
+                        self.change_gravity(self.ACCELERATION, False)
                     if event.key == pygame.K_w:
-                        self.change_gravity(-self.ACCELERATION)
+                        self.change_gravity(-self.ACCELERATION, False)
                     if event.key == pygame.K_1:
                         self.selected_weapon = 0
                     if event.key == pygame.K_2:
@@ -141,7 +146,7 @@ class Player:
                 self.player_moving_right = False
             for event in events:
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    self.change_gravity()
+                    self.change_gravity(self.ACCELERATION, False)
         #print(pygame.mouse.get_pos())
 
     def shoot(self, x, y):
@@ -149,9 +154,9 @@ class Player:
         weapon.shoot(x, y)
 
     def jump(self):
-        if self.current_acceleration > 0:
+        if self.current_acceleration > 0 and self.touch_down:
             self.player_y_speed = Player.JUMP_SPEED
-        else:
+        if self.current_acceleration < 0 and self.touch_up:
             self.player_y_speed = -Player.JUMP_SPEED
         
     def process_hit(self):
@@ -238,7 +243,7 @@ class Player:
                 self.player_y_speed = -10
             return True
         if bar.bar_type == Bar.TYPE_BLUE_SPHERE:
-            self.change_gravity()
+            self.change_gravity(-self.current_acceleration, True)
             return True
         if bar.bar_type == Bar.TYPE_PORTAL_1:
             self.player_x = bar.teleport_to.bar_x
@@ -382,15 +387,20 @@ class Player:
                 self.reduction_rate = 0
 
 
-
+        self.touch_down = False
+        self.touch_up = False
+        self.touch_left = False
+        self.touch_right = False
         self.player_x = self.player_x + delta_x
         for b1 in Game.curr_level.bar_list:
             self.is_collided_x = b1.bar_x - self.player_width < self.player_x < b1.bar_x + b1.bar_width and b1.bar_y - self.player_height < self.player_y < b1.bar_y + b1.bar_height
             if self.is_collided_x:
                 if self.process_bar_collision(b1):
                     if delta_x > 0:
+                        self.touch_right = True
                         self.player_x = b1.bar_x - self.player_width
                     if delta_x < 0:
+                        self.touch_left = True
                         self.player_x = b1.bar_x + b1.bar_width
 
         for zone in Game.curr_level.zone_list:
@@ -405,9 +415,11 @@ class Player:
             if self.is_collided_y:
                 if self.process_bar_collision(b1):
                     if delta_y > 0:
+                        self.touch_down = True
                         self.player_y = b1.bar_y - self.player_height
                         self.process_hit()
                     if delta_y < 0:
+                        self.touch_up = True
                         self.player_y = b1.bar_y + b1.bar_height
                         self.process_hit()
 
