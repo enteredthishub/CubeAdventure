@@ -231,8 +231,7 @@ class Player:
 
     def process_bar_collision(self, bar):
         if bar.bar_type == Bar.TYPE_DANGER:
-            self.health_now -= 30
-            Game.curr_level.restart(self)
+            self.health_now -= 1
         if bar.bar_type == Bar.TYPE_SPHERE:
             self.player_y_speed = self.player_y_speed * 1.5
             if self.player_y_speed > 10:
