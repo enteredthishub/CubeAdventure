@@ -231,7 +231,7 @@ class Player:
 
     def process_bar_collision(self, bar):
         if bar.bar_type == Bar.TYPE_DANGER:
-            self.health_now -= 1
+            self.damage(1, None)
         if bar.bar_type == Bar.TYPE_SPHERE:
             self.player_y_speed = self.player_y_speed * 1.5
             if self.player_y_speed > 10:
@@ -276,41 +276,42 @@ class Player:
         self.health_now -= damage_points
         if self.health_now <= 0:
             Game.curr_level.restart(self)
-            bullet_originator.kills += 1
-            bullet_originator.kills_streak += 1
-            bullet_originator.X_SPEED += 0.3
-            self.kills_streak = 0
-            self.X_SPEED = 6
+            if bullet_originator is not None:
+                bullet_originator.kills += 1
+                bullet_originator.kills_streak += 1
+                bullet_originator.X_SPEED += 0.3
+                self.kills_streak = 0
+                self.X_SPEED = 6
 
-            if bullet_originator.kills_streak == 3:
-                Game.play_music('Music/undertale_080. Finale.mp3')
-                bullet_originator.health_now = 125
-                bullet_originator.X_SPEED += 2
-            if bullet_originator.kills_streak == 10:
-                bullet_originator.health_now = 150
-                bullet_originator.X_SPEED += 2
-                Game.play_music('Music/793091_Scourge-of-The-Universe.mp3')
-            if bullet_originator.kills_streak == 30:
-                bullet_originator.health_now = 175
-                bullet_originator.X_SPEED += 2
-                Game.play_music('Music/Goukisan - Betrayal_of_Fear.ogg')
-            if bullet_originator.kills_streak == 45:
-                bullet_originator.health_now = 100
-                bullet_originator.X_SPEED -= 36
-                Game.play_music('Music/792912_The-Filthy-Mind-ft-Sixteen.mp3')
-                if bullet_originator.X_SPEED < 10:
+                if bullet_originator.kills_streak == 3:
+                    Game.play_music('Music/undertale_080. Finale.mp3')
+                    bullet_originator.health_now = 125
+                    bullet_originator.X_SPEED += 2
+                if bullet_originator.kills_streak == 10:
+                    bullet_originator.health_now = 150
+                    bullet_originator.X_SPEED += 2
+                    Game.play_music('Music/793091_Scourge-of-The-Universe.mp3')
+                if bullet_originator.kills_streak == 30:
+                    bullet_originator.health_now = 175
+                    bullet_originator.X_SPEED += 2
+                    Game.play_music('Music/Goukisan - Betrayal_of_Fear.ogg')
+                if bullet_originator.kills_streak == 45:
+                    bullet_originator.health_now = 100
+                    bullet_originator.X_SPEED -= 36
+                    Game.play_music('Music/792912_The-Filthy-Mind-ft-Sixteen.mp3')
+                    if bullet_originator.X_SPEED < 10:
+                        bullet_originator.X_SPEED = 10
+                if bullet_originator.kills_streak == 70:
+                    bullet_originator.health_now = 225
                     bullet_originator.X_SPEED = 10
-            if bullet_originator.kills_streak == 70:
-                bullet_originator.health_now = 225
-                bullet_originator.X_SPEED = 10
-                Game.play_music('Music/1278993_Stained-Brutal-Calamity-Re.mp3')
-            if bullet_originator.kills_streak == 100:
-                bullet_originator.health_now = 300
-                bullet_originator.X_SPEED = 40
-                Game.play_music('Music/1278993_Stained-Brutal-Calamity-Re.mp3')
+                    Game.play_music('Music/1278993_Stained-Brutal-Calamity-Re.mp3')
+                if bullet_originator.kills_streak == 100:
+                    bullet_originator.health_now = 300
+                    bullet_originator.X_SPEED = 40
+                    Game.play_music('Music/1278993_Stained-Brutal-Calamity-Re.mp3')
 
 
-            print("Player " + str(self.control_type) + ", health: " + str(self.health_now) + ', killstreak:' + str(self.kills_streak))
+                print("Player " + str(self.control_type) + ", health: " + str(self.health_now) + ', killstreak:' + str(self.kills_streak))
 
     prev_regen_time = 0
     def regen(self):
