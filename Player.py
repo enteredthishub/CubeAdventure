@@ -283,25 +283,25 @@ class Player:
                 self.kills_streak = 0
                 self.X_SPEED = 6
 
-                if bullet_originator.kills_streak == 3:
+                if bullet_originator.kills_streak == 1:
                     Game.play_music('Music/undertale_080. Finale.mp3')
                     bullet_originator.health_now = 125
                     bullet_originator.X_SPEED += 2
-                if bullet_originator.kills_streak == 10:
+                if bullet_originator.kills_streak == 5:
                     bullet_originator.health_now = 150
                     bullet_originator.X_SPEED += 2
                     Game.play_music('Music/793091_Scourge-of-The-Universe.mp3')
-                if bullet_originator.kills_streak == 30:
+                if bullet_originator.kills_streak == 20:
                     bullet_originator.health_now = 175
                     bullet_originator.X_SPEED += 2
                     Game.play_music('Music/Goukisan - Betrayal_of_Fear.ogg')
-                if bullet_originator.kills_streak == 45:
+                if bullet_originator.kills_streak == 40:
                     bullet_originator.health_now = 100
                     bullet_originator.X_SPEED -= 36
                     Game.play_music('Music/792912_The-Filthy-Mind-ft-Sixteen.mp3')
                     if bullet_originator.X_SPEED < 10:
                         bullet_originator.X_SPEED = 10
-                if bullet_originator.kills_streak == 70:
+                if bullet_originator.kills_streak == 60:
                     bullet_originator.health_now = 225
                     bullet_originator.X_SPEED = 10
                     Game.play_music('Music/1278993_Stained-Brutal-Calamity-Re.mp3')
