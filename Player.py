@@ -88,7 +88,7 @@ class Player:
     spawn_time = 0
 
     def change_gravity(self, value, ignore_cd):
-        if ignore_cd or time.time() - self.prev_gravity_change_time > 0.5:
+        if ignore_cd or time.time() - self.prev_gravity_change_time > 0.2:
             self.current_acceleration = value
             if not ignore_cd:
                 self.prev_gravity_change_time = time.time()
