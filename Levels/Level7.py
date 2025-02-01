@@ -10,7 +10,7 @@ from Player import Player
 
 
 class Level7(Level):
-    levelNumber = 5
+    levelNumber = 6
 
     bar_list = [Bar(0, -50, Game.SCREEN_WIDTH, 50, (5, 50, 150)),
                 Bar(0, Game.SCREEN_HEIGHT, Game.SCREEN_WIDTH, 50, (5, 50, 150)),
