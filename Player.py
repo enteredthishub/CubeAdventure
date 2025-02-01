@@ -167,17 +167,17 @@ class Player:
     lol = 0
 
     def draw_player(self, draw_surface):
-        if self.kills_streak >= 3 and self.kills_streak < 10:
+        if self.kills_streak >= 1 and self.kills_streak < 5:
             self.draw_aura(draw_surface, (200, 50, 0, 100))
-        if self.kills_streak >= 10 and self.kills_streak < 30:
+        if self.kills_streak >= 5 and self.kills_streak < 20:
             self.draw_aura(draw_surface, (250, 0, 0, 100))
-        if self.kills_streak >= 30 and self.kills_streak < 45:
+        if self.kills_streak >= 20 and self.kills_streak < 40:
             self.draw_aura(draw_surface, (30, 30, 30, 100))
-        if self.kills_streak >= 45 and self.kills_streak < 70:
+        if self.kills_streak >= 40 and self.kills_streak < 60:
                 self.draw_aura(draw_surface, (100, 50, 50, 100))
             #pygame.draw.rect(draw_surface, (200, 50, 0, 100), pygame.Rect((self.player_x - 25, self.player_y - 25), (self.player_width + 50, self.player_height + 50)))
         pygame.draw.rect(draw_surface, self.player_color, pygame.Rect((self.player_x, self.player_y), (self.player_width, self.player_height)))
-        if self.kills_streak >= 70 and self.kills_streak < 100:
+        if self.kills_streak >= 60 and self.kills_streak < 100:
             self.draw_aura(draw_surface, (250, 0, 0, 200))
         if self.kills_streak >= 100 and self.kills_streak < 300:
             self.draw_aura(draw_surface, (224, 210, 0, 200))
@@ -231,9 +231,7 @@ class Player:
 
     def process_bar_collision(self, bar):
         if bar.bar_type == Bar.TYPE_DANGER:
-            self.kills_streak = 0
-            pygame.mixer.music.stop()
-            self.X_SPEED = 6
+            self.health_now -= 30
             Game.curr_level.restart(self)
         if bar.bar_type == Bar.TYPE_SPHERE:
             self.player_y_speed = self.player_y_speed * 1.5
